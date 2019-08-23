@@ -52,25 +52,29 @@
                 </div>
                 <div class="row">
                     <form class="col s10 offset-s1 card-panel z-depth-5" action="registro.do" method="post">
-                        <div class="row" style="margin-top: 15px;">
-                            <div class="input-field col s10">
-                                <i class="material-icons prefix">assignment_ind</i>
-                                <input id="rut" type="text" class="validate" maxlength="12" placeholder="Ingrese el rut sin puntos ni guión"
-                                       name="txtRut" onblur="limpiar_rut(this.value);formato_rut(this.value);"/>
-                                <label for="rut">Rut</label>
+                        <div class="col s8 offset-s2" style="margin-top: 50px;">
+                            <div class="row" style="margin-top: 15px;">          
+                                <div class="input-field">
+                                    <i class="material-icons prefix">assignment_ind</i>
+                                    <input id="rut" type="text" class="validate" maxlength="12" placeholder="Ingrese el rut sin puntos ni guión"
+                                           name="txtRut" onblur="limpiar_rut(this.value);formato_rut(this.value);"/>
+                                    <label for="rut">Rut</label>
+                                </div>  
                             </div>
-                            <div class="input-field col s10">
-                                <i class="material-icons prefix">lock_outline</i>
-                                <input id="txtClave" type="text" class="validate" maxlength="20" placeholder="Ingrese una clave abrir a la sesión" name="txtClave"/>
-                                <label for="txtClave">Clave</label>
+                            <div class="row">
+                                <div class="input-field">
+                                    <i class="material-icons prefix">lock_outline</i>
+                                    <input id="clave" type="text" class="validate" maxlength="20" placeholder="Ingrese una clave para abrir a la sesión" name="txtClave"/>
+                                    <label for="clave">Clave</label>
+                                </div>
                             </div>
-                            <br>
-                            <br>
-                            <div class="center" style="position: relative; margin: 10px;">    
-                                <button style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return validandoRegistro();">Crear
-                                    <i class="material-icons right">send</i>
-                                </button>
-                            </div>    
+                            <div class="row">
+                                <div class="center" style="position: relative; margin: 10px;">    
+                                    <button style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return validandoRegistro();">Crear
+                                        <i class="material-icons right">send</i>
+                                    </button>
+                                </div>  
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -122,15 +126,15 @@
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="js/materialize.min.js"></script>
         <script>
-                                    $(function () {
+                                        $(function () {
 
-                                        $(".button-collapse").sideNav();
-                                    });
+                                            $(".button-collapse").sideNav();
+                                        });
         </script>
         <script>
             function validandoRegistro()
             {
-                var campoClave = document.getElementById("txtClave").value;
+                var campoClave = document.getElementById("clave").value;
                 var campoRut = document.getElementById("rut").value;
 
                 if (campoRut == null || campoRut.length == 0 || /^\s+$/.test(campoRut)) {
@@ -306,10 +310,10 @@
 
             function agregarBotonSesion(id_sesion) {
                 var contenedor = document.getElementById('sesionesDocentes');
-                contenedor.innerHTML += "<button style='margin: 10px auto;' class='btn waves-effect blue lighten-1' onclick='redireccionDocente("+id_sesion+")'>Sesión " + id_sesion + "<i class='material-icons right'>send</i></button><br>";
+                contenedor.innerHTML += "<button style='margin: 10px auto;' class='btn waves-effect blue lighten-1' onclick='redireccionDocente(" + id_sesion + ")'>Sesión " + id_sesion + "<i class='material-icons right'>send</i></button><br>";
 
                 var contenedorDos = document.getElementById('sesionesEstudiantes');
-                contenedorDos.innerHTML += "<button style='margin: 10px auto;' class='btn waves-effect blue lighten-1' onclick='redireccionEstudiante("+id_sesion+")'>Sesión " + id_sesion + "<i class='material-icons right'>send</i></button><br>";
+                contenedorDos.innerHTML += "<button style='margin: 10px auto;' class='btn waves-effect blue lighten-1' onclick='redireccionEstudiante(" + id_sesion + ")'>Sesión " + id_sesion + "<i class='material-icons right'>send</i></button><br>";
             }
 
             function noHaySesiones() {
@@ -319,15 +323,15 @@
                 var contenedorDos = document.getElementById('sesionesEstudiantes');
                 contenedorDos.innerHTML = "<p><b>Aún no se han creado sesiones</b></p>";
             }
-            
+
             function redireccionDocente(id_sesion) {
                 //alert('Sesión ' + id_sesion);
-                window.location='cartografia-profesor.jsp?sesion=' + id_sesion;
+                window.location = 'cartografia-profesor.jsp?sesion=' + id_sesion;
             }
-            
+
             function redireccionEstudiante(id_sesion) {
                 //alert('Sesión ' + id_sesion);
-                window.location='entrar.do?sesion=' + id_sesion;
+                window.location = 'entrar.do?sesion=' + id_sesion;
             }
         </script>
     </body>

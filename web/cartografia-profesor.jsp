@@ -62,16 +62,31 @@
                         });
         </script>
         <script>
+            var primerLanzamiento = true;
+
             function centrarMapa() {
-                document.getElementById("myDiv").style.backgroundPosition = "center 37%";
+                document.getElementById("myDiv").style.backgroundPosition = "left top";
             }
 
             function lanzarDado()
             {
                 document.getElementById("dado").style.height = "150px";
-                setTimeout(function () {
-                    cargarMapa()
-                }, 5000); // 5000ms = 5s
+
+                if (primerLanzamiento) {
+                    primerLanzamiento = false;
+                    setTimeout(function () {
+                        cargarMapa()
+                    }, 5000); // 5000ms = 5s
+                } else {
+                    setTimeout(function () {
+                        cargarSubtematica()
+                    }, 5000); // 5000ms = 5s
+                }
+            }
+            
+            function cargarSubtematica() {
+                alert('Carga de subtemática');
+                document.getElementById("dado").style.height = "0px";
             }
 
             function cargarMapa() {
@@ -79,13 +94,13 @@
                 var posicion = Math.floor((Math.random() * (5 - 1)) + 1);
                 // alert(posicion);
                 if (posicion === 4) {
-                    document.getElementById("myDiv").style.backgroundPosition = "left top";
-                } else if (posicion === 3) {
-                    document.getElementById("myDiv").style.backgroundPosition = "right top";
-                } else if (posicion === 2) {
-                    document.getElementById("myDiv").style.backgroundPosition = "left 70%";
-                } else {
                     document.getElementById("myDiv").style.backgroundPosition = "right 70%";
+                } else if (posicion === 3) {
+                    document.getElementById("myDiv").style.backgroundPosition = "left 70%";
+                } else if (posicion === 2) {
+                    document.getElementById("myDiv").style.backgroundPosition = "right top";
+                } else {
+                    document.getElementById("myDiv").style.backgroundPosition = "center 37%";
                 }
             }
 
