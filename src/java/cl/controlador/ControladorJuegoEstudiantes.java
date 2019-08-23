@@ -50,7 +50,7 @@ public class ControladorJuegoEstudiantes extends HttpServlet {
         if (userPath.equals("/entrar.do")) {
 
             //Se recupera la id de la sesión
-            int id_sesion = Integer.parseInt(request.getParameter("sesion"));
+            int id_sesion = Integer.parseInt(request.getParameter("hiddenFieldDos"));
 
             int cantFilas = 0;
             //Asignacion de equipo en base de datos
@@ -177,7 +177,7 @@ public class ControladorJuegoEstudiantes extends HttpServlet {
 //                } else {
 //                    msg = "Error en el ingreso de la encuesta";
 //                }
-
+//
 //                request.setAttribute("msg", msg);
 //
 //            } else {
@@ -189,9 +189,9 @@ public class ControladorJuegoEstudiantes extends HttpServlet {
             request.getRequestDispatcher("encuesta.do").forward(request, response);
         } else if (userPath.equals("/modificar.do")) {
 
-            String rut = String.valueOf(request.getParameter("rut"));
-            boolean confirmacion = false;
-
+//            String rut = String.valueOf(request.getParameter("rut"));
+//            boolean confirmacion = false;
+//
 //            if (dao.verificarEncuesta(rut)) {
 //                Busqueda_encuesta busqueda_encuesta = new Busqueda_encuesta();
 //
@@ -415,19 +415,19 @@ public class ControladorJuegoEstudiantes extends HttpServlet {
 //                }
 //
 //                request.setAttribute("encuesta_buscada", encuesta_buscada);
-//
+
 //            } else {
 //                confirmacion = true;
 //                msg = "Usted aún no ha contestado una encuesta; debe contestarla para acceder a la sección 'Modificar o eliminar encuesta'";
 //                request.setAttribute("msg", msg);
 //            }
-
-            if (confirmacion) {
-
-                request.getRequestDispatcher("encuesta.do").forward(request, response);
-
-            } else {
-
+//
+//            if (confirmacion) {
+//
+//                request.getRequestDispatcher("encuesta.do").forward(request, response);
+//
+//            } else {
+//
 //                //Se recuperan los registros de los comboBox.
 //                listaCentroMedico = dao.listarCentroMedico();
 //                listaComuna = dao.listarComuna();
@@ -446,14 +446,14 @@ public class ControladorJuegoEstudiantes extends HttpServlet {
 //                request.setAttribute("listaCargo", listaCargo);
 //                request.setAttribute("listaFuncion", listaFuncion);
 //                request.getRequestDispatcher("modificarEncuesta.jsp").forward(request, response);
-
-            }
+//
+//            }
 
         } else if (userPath.equals("/manipular.do")) {
 
-            String rut = String.valueOf(request.getParameter("rut"));
-            boolean confirmacion = false;
-
+//            String rut = String.valueOf(request.getParameter("rut"));
+//            boolean confirmacion = false;
+//
 //            if (dao.verificarEncuesta(rut)) {
 //
 //                String operacion = String.valueOf(request.getParameter("action"));
@@ -573,7 +573,7 @@ public class ControladorJuegoEstudiantes extends HttpServlet {
 //                msg = "Usted aún no ha contestado una encuesta; debe contestarla para modificarla o eliminarla";
 //                request.setAttribute("msg", msg);
 //            }
-
+//
 //            if (confirmacion) {
 //                request.getRequestDispatcher("encuesta.do").forward(request, response);
 //            } else {

@@ -86,7 +86,7 @@
             <div class="col s6 offset-s4">
                 <div class="row">
                     <div class="col s10 offset-s1 card-panel z-depth-5">
-                        <div class="center" id="sesionesDocentes">
+                        <div class="center" id="sesionesDocentes" style="margin-top: 45px; margin-bottom: 45px;">
 
                         </div>
                     </div>
@@ -99,10 +99,54 @@
             <div class="col s6 offset-s4">
                 <div class="row">
                     <div class="col s10 offset-s1 card-panel z-depth-5">
-                        <div class="center" id="sesionesEstudiantes">
+                        <div class="center" id="sesionesEstudiantes" style="margin-top: 45px; margin-bottom: 45px;">
 
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Modal Structure -->
+            <div id="modal1" class="modal">
+                <div class="modal-content">
+                    <h4>Datos de ingreso necesarios</h4>
+                    <p>Ingrese su rut y la contraseña.</p>
+                    <form class="cols10" action="cartografia-profesor.jsp">
+                        <input type="hidden" id="hiddenField" name="hiddenField"/> 
+                        <input placeholder="Ingrese su rut" id="rutIngreso" type="text" class="validate" onblur="limpiar_rutDos(this.value); formato_rutDos(this.value)">
+                        <label for="rutIngreso">Rut</label>
+                        <input placeholder="Ingrese su clave" id="claveIngreso" type="text" class="validate">
+                        <label for="claveIngreso">Clave</label>
+                        <div class="row" style="margin-top: 40px;">
+                            <button class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="validandoIngreso();">Ingresar
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+                </div>
+            </div>
+
+            <!-- Modal Structure -->
+            <div id="modal2" class="modal">
+                <div class="modal-content">
+                    <h4>Datos de ingreso necesarios</h4>
+                    <p>Ingrese la contraseña de la sesión.</p>
+                    <form class="cols10" action="entrar.do">
+                        <input type="hidden" id="hiddenFieldDos" name="hiddenFieldDos"/> 
+                        <input placeholder="Ingrese la clave de la sesion" id="claveIngresoDos" type="text" class="validate">
+                        <label for="claveIngresoDos">Clave</label>
+                        <div class="row" style="margin-top: 40px;">
+                            <button class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="validandoIngresoDos();">Ingresar
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
                 </div>
             </div>
 
@@ -126,12 +170,18 @@
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="js/materialize.min.js"></script>
         <script>
-                                        $(function () {
-
-                                            $(".button-collapse").sideNav();
-                                        });
+                                $(function () {
+                                    $(".button-collapse").sideNav();
+                                });
         </script>
         <script>
+            $(document).ready(function () {
+                $('.modal').modal();
+            });
+        </script>
+        <script>
+            var array = '';
+            
             function validandoRegistro()
             {
                 var campoClave = document.getElementById("clave").value;
@@ -158,23 +208,74 @@
 
             function validandoIngreso()
             {
-                var campoCorreoIngreso = document.getElementById("correoIngreso").value;
-                var campoClaveIngreso = document.getElementById("claveIngreso").value;
+                var rutIngreso = document.getElementById("rutIngreso").value;
+                var claveIngreso = document.getElementById("claveIngreso").value;
+                var id_sesion = document.getElementById("hiddenField").value;
+                // alert(id_sesion + rutIngreso + claveIngreso);
+                if (rutIngreso == null || rutIngreso.length == 0 || /^\s+$/.test(rutIngreso)) {
+                    Materialize.toast('El campo que indica su rut no puede estar vacío', 4000);
+                } else if (rutIngreso.length < 11) {
+                    Materialize.toast('El campo que indica su rut no puede tener menos de 11 caracteres', 4000);
+                } else if (rutIngreso.length > 12) {
+                    Materialize.toast('El campo que indica su rut no puede tener más de 12 caracteres', 4000);
+                } else if (valrut(rutIngreso) == false) {
+                    Materialize.toast('El rut ingresado no es válido', 4000);
+                } else if (claveIngreso == null || claveIngreso.length == 0 || /^\s+$/.test(claveIngreso)) {
+                    Materialize.toast('El campo que indica la clave no puede estar vacío', 4000);
+                } else {
+                    var i;
+                    var igualdad = false;
 
-                if (campoCorreoIngreso == null || campoCorreoIngreso.length == 0 || /^\s+$/.test(campoCorreoIngreso)) {
-                    Materialize.toast('El campo que indica su correo no puede estar vacío', 4000);
-                    return false;
-                } else if (valCorreo(campoCorreoIngreso) === false) {
-                    Materialize.toast('El correo ingresado no es válido', 4000);
-                    return false;
-                } else if (campoClaveIngreso == null || campoClaveIngreso.length == 0 || /^\s+$/.test(campoClaveIngreso)) {
-                    Materialize.toast('El campo que indica su clave no puede estar vacío', 4000);
-                    return false;
-                } else if (campoClaveIngreso.length > 20) {
-                    Materialize.toast('El campo que indica su clave no puede tener más de 20 caracteres', 4000);
-                    return false;
+                    if (array.length > 0) {
+                        //alert('paso al for')
+                        //alert(array);
+                        for (i = 0; i < array.length; i++) {
+                            if (array[i].ID_SESION == id_sesion && array[i].RUT == rutIngreso && array[i].CLAVE == claveIngreso) {
+                                igualdad = true;
+                            }
+                        }
+                        //alert(igualdad);
+                    } else {
+                        Materialize.toast('Problema al cargar los datos de las sesiones', 4000);
+                    }
+                    
+                    if(igualdad) {
+                        redireccionDocente(id_sesion);
+                    } else {
+                        Materialize.toast('Los datos ingresados no coinciden', 4000);
+                    }
+                } 
+            }
+            
+            function validandoIngresoDos() {
+                var claveIngreso = document.getElementById("claveIngresoDos").value;
+                var id_sesion = document.getElementById("hiddenFieldDos").value;
+                
+                if (claveIngreso == null || claveIngreso.length == 0 || /^\s+$/.test(claveIngreso)) {
+                    Materialize.toast('El campo que indica la clave no puede estar vacío', 4000);
+                } else {
+                    var i;
+                    var igualdad = false;
+
+                    if (array.length > 0) {
+                        //alert('paso al for')
+                        //alert(array);
+                        for (i = 0; i < array.length; i++) {
+                            if (array[i].ID_SESION == id_sesion && array[i].CLAVE == claveIngreso) {
+                                igualdad = true;
+                            }
+                        }
+                        //alert(igualdad);
+                    } else {
+                        Materialize.toast('Problema al cargar los datos de las sesiones', 4000);
+                    }
+                    
+                    if(igualdad) {
+                        redireccionEstudiante(id_sesion);
+                    } else {
+                        Materialize.toast('Los datos ingresados no coinciden', 4000);
+                    }
                 }
-                return true;
             }
 
             function valrut(campoRut) {
@@ -282,6 +383,45 @@
                 //Pasamos al campo el valor formateado
                 document.getElementById("rut").value = sRut.toUpperCase();
             }
+            
+            function limpiar_rutDos(rut)
+            {
+                var rutLimpio = rut;
+                //Definimos los caracteres a eliminar
+                var eliminar = ".-";
+                //Los eliminamos
+                for (var i = 0; i < eliminar.length; i++) {
+                    rutLimpio = rutLimpio.replace(new RegExp("\\" + eliminar[i], 'gi'), '');
+                }
+                //Pasamos al campo el valor limpio
+                document.getElementById("rutIngreso").value = rutLimpio.toUpperCase();
+            }
+
+            function formato_rutDos(rut) {
+                var sRut1 = rut; //Contador de posición
+                var nPos = 0; //Guarda el rut invertido con los puntos y el guión agregado
+                var sInvertido = ""; //Guarda el resultado final del rut como debe ser
+                var sRut = "";
+                for (var i = sRut1.length - 1; i >= 0; i--) {
+                    sInvertido += sRut1.charAt(i);
+                    if (i == sRut1.length - 1) {
+                        sInvertido += "-";
+                    } else if (nPos == 3) {
+                        sInvertido += ".";
+                        nPos = 0;
+                    }
+                    nPos++;
+                }
+                for (var j = sInvertido.length - 1; j >= 0; j--) {
+                    if (sInvertido.charAt(sInvertido.length - 1) != ".") {
+                        sRut += sInvertido.charAt(j);
+                    } else if (j != sInvertido.length - 1) {
+                        sRut += sInvertido.charAt(j);
+                    }
+                }
+                //Pasamos al campo el valor formateado
+                document.getElementById("rutIngreso").value = sRut.toUpperCase();
+            }
 
             function cargarSesiones() {
                 // alert('cargando sesiones');
@@ -291,7 +431,7 @@
 
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                        var array = JSON.parse(xmlhttp.responseText);
+                        array = JSON.parse(xmlhttp.responseText);
                         var i;
 
                         if (array.length > 0) {
@@ -310,10 +450,18 @@
 
             function agregarBotonSesion(id_sesion) {
                 var contenedor = document.getElementById('sesionesDocentes');
-                contenedor.innerHTML += "<button style='margin: 10px auto;' class='btn waves-effect blue lighten-1' onclick='redireccionDocente(" + id_sesion + ")'>Sesión " + id_sesion + "<i class='material-icons right'>send</i></button><br>";
+                contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect blue lighten-1 modal-trigger' onclick='enviarSesion("+ id_sesion + ")' href='#modal1'>Sesión " + id_sesion + "<i class='material-icons right'>perm_identity</i></button></div>";
 
                 var contenedorDos = document.getElementById('sesionesEstudiantes');
-                contenedorDos.innerHTML += "<button style='margin: 10px auto;' class='btn waves-effect blue lighten-1' onclick='redireccionEstudiante(" + id_sesion + ")'>Sesión " + id_sesion + "<i class='material-icons right'>send</i></button><br>";
+                contenedorDos.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect blue lighten-1 modal-trigger' onclick='enviarSesionDos("+ id_sesion + ")' href='#modal2'>Sesión " + id_sesion + "<i class='material-icons right'>people_outline</i></button></div>";
+            }
+            
+            function enviarSesion(id_sesion) {
+                document.getElementById("hiddenField").value = id_sesion;
+            }
+            
+            function enviarSesionDos(id_sesion) {
+                document.getElementById("hiddenFieldDos").value = id_sesion;
             }
 
             function noHaySesiones() {
@@ -330,7 +478,6 @@
             }
 
             function redireccionEstudiante(id_sesion) {
-                //alert('Sesión ' + id_sesion);
                 window.location = 'entrar.do?sesion=' + id_sesion;
             }
         </script>

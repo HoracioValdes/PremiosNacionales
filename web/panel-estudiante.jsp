@@ -21,7 +21,7 @@
         <title>Juego de Premios Nacionales</title>
     </head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <body onload="recibirSesion()">
+    <body>
         <div class="container">
 
             <nav>
@@ -260,12 +260,6 @@
                 }
                 xmlhttp.open("GET", url, true);
                 xmlhttp.send();
-            }
-
-            function recibirSesion() {
-                var sesionSucia = window.location.search.substring(1);
-                var sesion = sesionSucia.substring(7);
-                //alert(sesion);
             }
         </script>
     </body>

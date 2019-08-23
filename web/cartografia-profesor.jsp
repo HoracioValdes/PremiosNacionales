@@ -131,8 +131,9 @@
 
             function recibirSesion() {
                 var sesionSucia = window.location.search.substring(1);
-                var sesion = sesionSucia.substring(7);
-                //alert(sesion);
+                var sesionSuciaDos = sesionSucia.split('&',1);
+                var sesion = sesionSuciaDos[0].substring(12);
+                alert(sesion);
             }
         </script>
     </body>
