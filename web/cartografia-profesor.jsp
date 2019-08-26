@@ -36,7 +36,21 @@
 
             <div class="row">
                 <div class="col s10 offset-s1"> 
-                    <p class="flow-text" align="justify" style="background-color: white; opacity: 0.5;">La o el docente debe tirar el dado para seleccionar un área de la cartografía de los Premios Nacionales.</p>
+                    <p class="flow-text" align="justify">La o el docente debe tirar el dado para seleccionar un Premio Nacional y luego una Subtemática del premio seleccionado.</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s10 offset-s1"> 
+                    <h4 id="subtematica" align="justify"></h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s10 offset-s1">
+                    <div class="center" id="artistas" style="margin-top: 45px; margin-bottom: 45px;">
+
+                    </div>
                 </div>
             </div>
 
@@ -46,7 +60,7 @@
 
             <div class="col s6 offset-s4">
                 <div class="blue-text center-align" style="position:fixed; bottom:0; margin-bottom: 50px; margin-left: 50px;">
-                    <button style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return lanzarDado();">Lanzar dado
+                    <button id="botonLanzar" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return lanzarDado();">Lanzar dado
                         <i class="material-icons right">loop</i>
                     </button>
                 </div>
@@ -63,6 +77,8 @@
         </script>
         <script>
             var primerLanzamiento = true;
+            var segundoLanzamiento = true;
+            var premio = 0;
 
             function centrarMapa() {
                 document.getElementById("myDiv").style.backgroundPosition = "left top";
@@ -77,16 +93,19 @@
                     setTimeout(function () {
                         cargarMapa()
                     }, 5000); // 5000ms = 5s
-                } else {
+                } else if (segundoLanzamiento) {
+                    segundoLanzamiento = false;
+                    document.getElementById("botonLanzar").disabled = true;
                     setTimeout(function () {
                         cargarSubtematica()
                     }, 5000); // 5000ms = 5s
                 }
             }
-            
+
             function cargarSubtematica() {
-                alert('Carga de subtemática');
+                //alert('Carga de subtemática');
                 document.getElementById("dado").style.height = "0px";
+                obtenerSubtematicas(premio);
             }
 
             function cargarMapa() {
@@ -95,45 +114,77 @@
                 // alert(posicion);
                 if (posicion === 4) {
                     document.getElementById("myDiv").style.backgroundPosition = "right 70%";
+                    premio = posicion;
                 } else if (posicion === 3) {
                     document.getElementById("myDiv").style.backgroundPosition = "left 70%";
+                    premio = posicion;
                 } else if (posicion === 2) {
                     document.getElementById("myDiv").style.backgroundPosition = "right top";
+                    premio = posicion;
                 } else {
                     document.getElementById("myDiv").style.backgroundPosition = "center 37%";
+                    premio = 1;
                 }
             }
 
-            function cargarSesiones() {
-                // alert('cargando sesiones');
+            function obtenerSubtematicas(premio) {
+                //alert('obteniendo subtemáticas');
+                //alert('premio: ' + premio);
 
                 var xmlhttp = new XMLHttpRequest();
-                var url = 'http://www.premiosNacionales.escuela-fundacion-sol.cl/juego/registroJuego.php/?opcion=1';
+                var url = 'http://www.premiosNacionales.escuela-fundacion-sol.cl/juego/registroJuego.php/?opcion=2&id_premio=' + premio;
 
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                         var array = JSON.parse(xmlhttp.responseText);
-                        var i;
+                        //alert(array);
 
-                        if (array.length > 0) {
-                            for (i = 0; i < array.length; i++) {
-                                // alert('Sesión ' + array[i].ID_SESION);
-                                agregarBotonSesion(array[i].ID_SESION);
-                            }
-                        } else {
-                            noHaySesiones();
-                        }
+                        //Elección aleatoria de subtemática
+                        var subtematicaAzar = Math.floor((Math.random() * (array.length - 1)) + 1);
+                        //alert(subtematicaAzar);
+                        //alert(array[subtematicaAzar - 1].DESCRIPCION_SUBTEMATICA);
+                        document.getElementById('subtematica').innerHTML = array[subtematicaAzar - 1].DESCRIPCION_SUBTEMATICA;
+                        obtenerArtistas(array[subtematicaAzar - 1].ID_SUBTEMATICA)
                     }
                 }
                 xmlhttp.open("GET", url, true);
                 xmlhttp.send();
             }
 
+            function obtenerArtistas(id_subtematica) {
+                alert('obteniendo artistas');
+                alert('id subtematica: ' + id_subtematica);
+
+                var xmlhttp = new XMLHttpRequest();
+                var url = 'http://www.premiosNacionales.escuela-fundacion-sol.cl/juego/registroJuego.php/?opcion=3&id_subtematica=' + id_subtematica;
+
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        var array = JSON.parse(xmlhttp.responseText);
+                        alert(array);
+
+                        if (array.length > 0) {
+                            for (i = 0; i < array.length; i++) {
+                                agregarBotonArtista(array[i].ID_ARTISTA, array[i].NOMBRE_ARTISTA);
+                            }
+                            Materialize.toast('¿Cuál artista escogerás?', 4000);
+                        }
+                    }
+                }
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
+            }
+            
+            function agregarBotonArtista(id_artista, nombre_artista) {
+                var contenedor = document.getElementById('artistas');
+                contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect blue lighten-1 modal-trigger' onclick='enviarSesion("+ id_artista + ")'>" + nombre_artista + "<i class='material-icons right'>assignment_ind</i></button></div>";
+            }
+
             function recibirSesion() {
                 var sesionSucia = window.location.search.substring(1);
-                var sesionSuciaDos = sesionSucia.split('&',1);
+                var sesionSuciaDos = sesionSucia.split('&', 1);
                 var sesion = sesionSuciaDos[0].substring(12);
-                alert(sesion);
+                //alert(sesion);
             }
         </script>
     </body>
