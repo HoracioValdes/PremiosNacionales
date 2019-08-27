@@ -21,7 +21,60 @@
         <title>Juego de Premios Nacionales</title>
     </head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <body onload="cargarSesiones()">
+    <script>
+        var array = '';
+        var rutRegistrado = '';
+        var claveRegistrada = '';
+        var numeroSesion = '';
+
+        function recibirData() {
+            var dataSucia = '${msg}';
+            var data = dataSucia.substring(36);
+            rutRegistrado = '${rut}';
+            claveRegistrada = '${clave}';
+            numeroSesion = '${numeroSesion}';
+            //alert(data);
+
+            if (data.length > 0) {
+                agregarBotonSesionRojo(data);
+            }
+        }
+
+        function agregarBotonSesionRojo(id_sesion) {
+            var contenedor = document.getElementById('sesionesDocentes');
+            contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect red lighten-1 modal-trigger' onclick='enviarSesion(" + id_sesion + ")' href='#modal1'>Sesión " + id_sesion + "<i class='material-icons right'>perm_identity</i></button></div>";
+
+            var contenedorDos = document.getElementById('sesionesEstudiantes');
+            contenedorDos.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect red lighten-1 modal-trigger' onclick='enviarSesionDos(" + id_sesion + ")' href='#modal2'>Sesión " + id_sesion + "<i class='material-icons right'>people_outline</i></button></div>";
+        }
+
+
+        function cargarSesiones() {
+            // alert('cargando sesiones');
+
+            var xmlhttp = new XMLHttpRequest();
+            var url = 'https://api-juego.feriasclick.com/juego/registroJuego.php/?opcion=1';
+
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    array = JSON.parse(xmlhttp.responseText);
+                    var i;
+
+                    if (array.length > 0) {
+                        for (i = 0; i < array.length; i++) {
+                            // alert('Sesión ' + array[i].ID_SESION);
+                            agregarBotonSesionAzul(array[i].ID_SESION);
+                        }
+                    } else {
+                        noHaySesiones();
+                    }
+                }
+            }
+            xmlhttp.open("GET", url, true);
+            xmlhttp.send();
+        }
+    </script>
+    <body onload="cargarSesiones(); recibirData();">
         <div class="container">
 
             <nav>
@@ -37,7 +90,6 @@
                     </div>  
                     <p class="flow-text" align="justify">Para jugar en esta aplicación, el o la profesora deberá crear una sesión.</p>
                     <p class="flow-text" align="justify">Las y los estudiantes deberán seleccionar la sesión disponible previamente creada por el o la profesora.</p>
-                    <p class="flow-text" align="justify">Una vez que las y los estudiantes seleccionen la sección, así como el o la profesora, la aplicación les asignará uno de los seis grupos que constituyen este juego.</p>
                     <p class="flow-text" align="justify">¡Deben dejar fluir su creatividad para jugar este juego!</p>
 
                 </div>
@@ -57,7 +109,8 @@
                                 <div class="input-field">
                                     <i class="material-icons prefix">assignment_ind</i>
                                     <input id="rut" type="text" class="validate" maxlength="12" placeholder="Ingrese el rut sin puntos ni guión"
-                                           name="txtRut" onblur="limpiar_rut(this.value);formato_rut(this.value);"/>
+                                           name="txtRut" onblur="limpiar_rut(this.value);
+                                                   formato_rut(this.value);"/>
                                     <label for="rut">Rut</label>
                                 </div>  
                             </div>
@@ -113,12 +166,13 @@
                     <p>Ingrese su rut y la contraseña.</p>
                     <form class="cols10" action="cartografia-profesor.jsp">
                         <input type="hidden" id="hiddenField" name="hiddenField"/> 
-                        <input placeholder="Ingrese su rut" id="rutIngreso" type="text" class="validate" onblur="limpiar_rutDos(this.value); formato_rutDos(this.value)">
+                        <input placeholder="Ingrese su rut" id="rutIngreso" type="text" class="validate" onblur="limpiar_rutDos(this.value);
+                                formato_rutDos(this.value)">
                         <label for="rutIngreso">Rut</label>
                         <input placeholder="Ingrese su clave" id="claveIngreso" type="text" class="validate">
                         <label for="claveIngreso">Clave</label>
                         <div class="row" style="margin-top: 40px;">
-                            <button class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="validandoIngreso();">Ingresar
+                            <button class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return validandoIngreso();">Ingresar
                                 <i class="material-icons right">send</i>
                             </button>
                         </div>
@@ -139,7 +193,7 @@
                         <input placeholder="Ingrese la clave de la sesion" id="claveIngresoDos" type="text" class="validate">
                         <label for="claveIngresoDos">Clave</label>
                         <div class="row" style="margin-top: 40px;">
-                            <button class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="validandoIngresoDos();">Ingresar
+                            <button class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return validandoIngresoDos();">Ingresar
                                 <i class="material-icons right">send</i>
                             </button>
                         </div>
@@ -179,9 +233,7 @@
                 $('.modal').modal();
             });
         </script>
-        <script>
-            var array = '';
-            
+        <script type="text/javascript">
             function validandoRegistro()
             {
                 var campoClave = document.getElementById("clave").value;
@@ -212,69 +264,140 @@
                 var claveIngreso = document.getElementById("claveIngreso").value;
                 var id_sesion = document.getElementById("hiddenField").value;
                 // alert(id_sesion + rutIngreso + claveIngreso);
-                if (rutIngreso == null || rutIngreso.length == 0 || /^\s+$/.test(rutIngreso)) {
-                    Materialize.toast('El campo que indica su rut no puede estar vacío', 4000);
-                } else if (rutIngreso.length < 11) {
-                    Materialize.toast('El campo que indica su rut no puede tener menos de 11 caracteres', 4000);
-                } else if (rutIngreso.length > 12) {
-                    Materialize.toast('El campo que indica su rut no puede tener más de 12 caracteres', 4000);
-                } else if (valrut(rutIngreso) == false) {
-                    Materialize.toast('El rut ingresado no es válido', 4000);
-                } else if (claveIngreso == null || claveIngreso.length == 0 || /^\s+$/.test(claveIngreso)) {
-                    Materialize.toast('El campo que indica la clave no puede estar vacío', 4000);
-                } else {
-                    var i;
-                    var igualdad = false;
 
-                    if (array.length > 0) {
-                        //alert('paso al for')
-                        //alert(array);
-                        for (i = 0; i < array.length; i++) {
-                            if (array[i].ID_SESION == id_sesion && array[i].RUT == rutIngreso && array[i].CLAVE == claveIngreso) {
-                                igualdad = true;
-                            }
+                if (numeroSesion === id_sesion) {
+
+                    if (rutIngreso == null || rutIngreso.length == 0 || /^\s+$/.test(rutIngreso)) {
+                        Materialize.toast('El campo que indica su rut no puede estar vacío', 4000);
+                        return false;
+                    } else if (rutIngreso.length < 11) {
+                        Materialize.toast('El campo que indica su rut no puede tener menos de 11 caracteres', 4000);
+                        return false;
+                    } else if (rutIngreso.length > 12) {
+                        Materialize.toast('El campo que indica su rut no puede tener más de 12 caracteres', 4000);
+                        return false;
+                    } else if (valrut(rutIngreso) == false) {
+                        Materialize.toast('El rut ingresado no es válido', 4000);
+                        return false;
+                    } else if (claveIngreso == null || claveIngreso.length == 0 || /^\s+$/.test(claveIngreso)) {
+                        Materialize.toast('El campo que indica la clave no puede estar vacío', 4000);
+                        return false;
+                    } else {
+                        var i;
+                        var igualdad = false;
+
+                        if (numeroSesion == id_sesion && rutRegistrado == rutIngreso && claveRegistrada == claveIngreso) {
+                            igualdad = true;
+                            return true;
+                        } else {
+                            Materialize.toast('Los datos ingresados no coinciden', 4000);
+                            return false;
                         }
-                        //alert(igualdad);
-                    } else {
-                        Materialize.toast('Problema al cargar los datos de las sesiones', 4000);
                     }
-                    
-                    if(igualdad) {
-                        redireccionDocente(id_sesion);
+
+                } else {
+                    if (rutIngreso == null || rutIngreso.length == 0 || /^\s+$/.test(rutIngreso)) {
+                        Materialize.toast('El campo que indica su rut no puede estar vacío', 4000);
+                        return false;
+                    } else if (rutIngreso.length < 11) {
+                        Materialize.toast('El campo que indica su rut no puede tener menos de 11 caracteres', 4000);
+                        return false;
+                    } else if (rutIngreso.length > 12) {
+                        Materialize.toast('El campo que indica su rut no puede tener más de 12 caracteres', 4000);
+                        return false;
+                    } else if (valrut(rutIngreso) == false) {
+                        Materialize.toast('El rut ingresado no es válido', 4000);
+                        return false;
+                    } else if (claveIngreso == null || claveIngreso.length == 0 || /^\s+$/.test(claveIngreso)) {
+                        Materialize.toast('El campo que indica la clave no puede estar vacío', 4000);
+                        return false;
                     } else {
-                        Materialize.toast('Los datos ingresados no coinciden', 4000);
+                        var i;
+                        var igualdad = false;
+
+                        if (array.length > 0) {
+                            //alert('paso al for')
+                            //alert(array);
+                            for (i = 0; i < array.length; i++) {
+                                if (array[i].ID_SESION == id_sesion && array[i].RUT == rutIngreso && array[i].CLAVE == claveIngreso) {
+                                    igualdad = true;
+                                    return true;
+                                }
+                            }
+                            //alert(igualdad);
+                        } else {
+                            Materialize.toast('Problema al cargar los datos de las sesiones', 4000);
+                            return false;
+                        }
+
+                        if (igualdad) {
+                            // redireccionDocente(id_sesion);
+                            return true;
+                        } else {
+                            Materialize.toast('Los datos ingresados no coinciden', 4000);
+                            return false;
+                        }
                     }
-                } 
+                }
             }
-            
+
             function validandoIngresoDos() {
                 var claveIngreso = document.getElementById("claveIngresoDos").value;
                 var id_sesion = document.getElementById("hiddenFieldDos").value;
+                // alert('datos ingresados: ' + id_sesion + claveIngreso);
                 
-                if (claveIngreso == null || claveIngreso.length == 0 || /^\s+$/.test(claveIngreso)) {
-                    Materialize.toast('El campo que indica la clave no puede estar vacío', 4000);
-                } else {
-                    var i;
-                    var igualdad = false;
+                if (numeroSesion === id_sesion) {
+                    // alert('número de sesión recuperada :' + numeroSesion);
 
-                    if (array.length > 0) {
-                        //alert('paso al for')
-                        //alert(array);
-                        for (i = 0; i < array.length; i++) {
-                            if (array[i].ID_SESION == id_sesion && array[i].CLAVE == claveIngreso) {
-                                igualdad = true;
-                            }
+                    if (claveIngreso == null || claveIngreso.length == 0 || /^\s+$/.test(claveIngreso)) {
+                        Materialize.toast('El campo que indica la clave no puede estar vacío', 4000);
+                        return false;
+                    } else {
+                        var i;
+                        var igualdad = false;
+
+                        if (numeroSesion == id_sesion && claveRegistrada == claveIngreso) {
+                            igualdad = true;
+                            return true;
+                        } else {
+                            Materialize.toast('Los datos ingresados no coinciden', 4000);
+                            return false;
                         }
-                        //alert(igualdad);
-                    } else {
-                        Materialize.toast('Problema al cargar los datos de las sesiones', 4000);
                     }
-                    
-                    if(igualdad) {
-                        redireccionEstudiante(id_sesion);
+
+                } else {
+
+                    if (claveIngreso == null || claveIngreso.length == 0 || /^\s+$/.test(claveIngreso)) {
+                        Materialize.toast('El campo que indica la clave no puede estar vacíoDos', 4000);
+                        return false;
                     } else {
-                        Materialize.toast('Los datos ingresados no coinciden', 4000);
+                        var i;
+                        var igualdad = false;
+
+                        if (array.length > 0) {
+                            //alert('paso al for')
+                            //alert(array);
+                            for (i = 0; i < array.length; i++) {
+                                if (array[i].ID_SESION == id_sesion && array[i].CLAVE == claveIngreso) {
+                                    igualdad = true;
+                                    return true;
+                                }
+                            }
+                            //alert(igualdad);
+                        } else {
+                            Materialize.toast('Problema al cargar los datos de las sesiones', 4000);
+                            return false;
+                        }
+
+                        if (igualdad) {
+                            redireccionEstudiante(id_sesion);
+                            return true;
+                        } else {
+                            Materialize.toast('Los datos ingresados no coinciden', 4000);
+                            return false;
+                        }
                     }
+
                 }
             }
 
@@ -383,7 +506,7 @@
                 //Pasamos al campo el valor formateado
                 document.getElementById("rut").value = sRut.toUpperCase();
             }
-            
+
             function limpiar_rutDos(rut)
             {
                 var rutLimpio = rut;
@@ -423,43 +546,18 @@
                 document.getElementById("rutIngreso").value = sRut.toUpperCase();
             }
 
-            function cargarSesiones() {
-                // alert('cargando sesiones');
-
-                var xmlhttp = new XMLHttpRequest();
-                var url = 'https://api-juego.feriasclick.com/juego/registroJuego.php/?opcion=1';
-
-                xmlhttp.onreadystatechange = function () {
-                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                        array = JSON.parse(xmlhttp.responseText);
-                        var i;
-
-                        if (array.length > 0) {
-                            for (i = 0; i < array.length; i++) {
-                                // alert('Sesión ' + array[i].ID_SESION);
-                                agregarBotonSesion(array[i].ID_SESION);
-                            }
-                        } else {
-                            noHaySesiones();
-                        }
-                    }
-                }
-                xmlhttp.open("GET", url, true);
-                xmlhttp.send();
-            }
-
-            function agregarBotonSesion(id_sesion) {
+            function agregarBotonSesionAzul(id_sesion) {
                 var contenedor = document.getElementById('sesionesDocentes');
-                contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect blue lighten-1 modal-trigger' onclick='enviarSesion("+ id_sesion + ")' href='#modal1'>Sesión " + id_sesion + "<i class='material-icons right'>perm_identity</i></button></div>";
+                contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect blue lighten-1 modal-trigger' onclick='enviarSesion(" + id_sesion + ")' href='#modal1'>Sesión " + id_sesion + "<i class='material-icons right'>perm_identity</i></button></div>";
 
                 var contenedorDos = document.getElementById('sesionesEstudiantes');
-                contenedorDos.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect blue lighten-1 modal-trigger' onclick='enviarSesionDos("+ id_sesion + ")' href='#modal2'>Sesión " + id_sesion + "<i class='material-icons right'>people_outline</i></button></div>";
+                contenedorDos.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect blue lighten-1 modal-trigger' onclick='enviarSesionDos(" + id_sesion + ")' href='#modal2'>Sesión " + id_sesion + "<i class='material-icons right'>people_outline</i></button></div>";
             }
-            
+
             function enviarSesion(id_sesion) {
                 document.getElementById("hiddenField").value = id_sesion;
             }
-            
+
             function enviarSesionDos(id_sesion) {
                 document.getElementById("hiddenFieldDos").value = id_sesion;
             }

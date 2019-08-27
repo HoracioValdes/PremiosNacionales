@@ -57,6 +57,7 @@ public class ControladorRegistroLogin extends HttpServlet {
                     int numeroSesion = dao.obtenerSesion(rut);
                     if (numeroSesion > 0) {
                         msg = "Ya pueden jugar en la sesión número " + numeroSesion;
+                         request.setAttribute("numeroSesion", numeroSesion);
                     } else {
                         msg = "Error al obtener el número de la sesión";
                     }
@@ -66,12 +67,14 @@ public class ControladorRegistroLogin extends HttpServlet {
                 }
 
                 request.setAttribute("msg", msg);
+                request.setAttribute("rut", rut);
+                request.setAttribute("clave", clave);
             } else {
                 request.setAttribute("msg", errores);
             }
 
             //Se retorna el mensaje de vuelta al jsp.
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
 
         } else if (userPath.equals("/ingreso.do")) {
 
