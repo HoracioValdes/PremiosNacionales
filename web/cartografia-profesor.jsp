@@ -132,7 +132,7 @@
                 //alert('premio: ' + premio);
 
                 var xmlhttp = new XMLHttpRequest();
-                var url = 'http://www.premiosNacionales.escuela-fundacion-sol.cl/juego/registroJuego.php/?opcion=2&id_premio=' + premio;
+                var url = 'https://api-juego.feriasclick.com/juego/registroJuego.php/?opcion=2&id_premio=' + premio;
 
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -152,16 +152,16 @@
             }
 
             function obtenerArtistas(id_subtematica) {
-                alert('obteniendo artistas');
-                alert('id subtematica: ' + id_subtematica);
+                //alert('obteniendo artistas');
+                //alert('id subtematica: ' + id_subtematica);
 
                 var xmlhttp = new XMLHttpRequest();
-                var url = 'http://www.premiosNacionales.escuela-fundacion-sol.cl/juego/registroJuego.php/?opcion=3&id_subtematica=' + id_subtematica;
+                var url = 'https://api-juego.feriasclick.com/juego/registroJuego.php/?opcion=3&id_subtematica=' + id_subtematica;
 
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                         var array = JSON.parse(xmlhttp.responseText);
-                        alert(array);
+                        //alert(array);
 
                         if (array.length > 0) {
                             for (i = 0; i < array.length; i++) {

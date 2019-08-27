@@ -241,7 +241,7 @@
                 // alert('cargando sesiones');
 
                 var xmlhttp = new XMLHttpRequest();
-                var url = 'http://www.premiosNacionales.escuela-fundacion-sol.cl/juego/registroJuego.php/?opcion=1';
+                var url = 'https://api-juego.feriasclick.com/juego/registroJuego.php/?opcion=1';
 
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
