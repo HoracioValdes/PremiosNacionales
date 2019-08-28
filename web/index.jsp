@@ -19,61 +19,61 @@
         <!--Let browser know website is optimized for mobile-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>Juego de Premios Nacionales</title>
-    </head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script>
-        var array = '';
-        var rutRegistrado = '';
-        var claveRegistrada = '';
-        var numeroSesion = '';
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+            var array = '';
+            var rutRegistrado = '';
+            var claveRegistrada = '';
+            var numeroSesion = '';
 
-        function recibirData() {
-            var dataSucia = '${msg}';
-            var data = dataSucia.substring(36);
-            rutRegistrado = '${rut}';
-            claveRegistrada = '${clave}';
-            numeroSesion = '${numeroSesion}';
-            //alert(data);
+            function recibirData() {
+                var dataSucia = '${msg}';
+                var data = dataSucia.substring(36);
+                rutRegistrado = '${rut}';
+                claveRegistrada = '${clave}';
+                numeroSesion = '${numeroSesion}';
+                //alert(data);
 
-            if (data.length > 0) {
-                agregarBotonSesionRojo(data);
-            }
-        }
-
-        function agregarBotonSesionRojo(id_sesion) {
-            var contenedor = document.getElementById('sesionesDocentes');
-            contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect red lighten-1 modal-trigger' onclick='enviarSesion(" + id_sesion + ")' href='#modal1'>Sesión " + id_sesion + "<i class='material-icons right'>perm_identity</i></button></div>";
-
-            var contenedorDos = document.getElementById('sesionesEstudiantes');
-            contenedorDos.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect red lighten-1 modal-trigger' onclick='enviarSesionDos(" + id_sesion + ")' href='#modal2'>Sesión " + id_sesion + "<i class='material-icons right'>people_outline</i></button></div>";
-        }
-
-
-        function cargarSesiones() {
-            // alert('cargando sesiones');
-
-            var xmlhttp = new XMLHttpRequest();
-            var url = 'https://api-juego.feriasclick.com/juego/registroJuego.php/?opcion=1';
-
-            xmlhttp.onreadystatechange = function () {
-                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                    array = JSON.parse(xmlhttp.responseText);
-                    var i;
-
-                    if (array.length > 0) {
-                        for (i = 0; i < array.length; i++) {
-                            // alert('Sesión ' + array[i].ID_SESION);
-                            agregarBotonSesionAzul(array[i].ID_SESION);
-                        }
-                    } else {
-                        noHaySesiones();
-                    }
+                if (data.length > 0) {
+                    agregarBotonSesionRojo(data);
                 }
             }
-            xmlhttp.open("GET", url, true);
-            xmlhttp.send();
-        }
-    </script>
+
+            function agregarBotonSesionRojo(id_sesion) {
+                var contenedor = document.getElementById('sesionesDocentes');
+                contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect red lighten-1 modal-trigger' onclick='enviarSesion(" + id_sesion + ")' href='#modal1'>Sesión " + id_sesion + "<i class='material-icons right'>perm_identity</i></button></div>";
+
+                var contenedorDos = document.getElementById('sesionesEstudiantes');
+                contenedorDos.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect red lighten-1 modal-trigger' onclick='enviarSesionDos(" + id_sesion + ")' href='#modal2'>Sesión " + id_sesion + "<i class='material-icons right'>people_outline</i></button></div>";
+            }
+
+
+            function cargarSesiones() {
+                // alert('cargando sesiones');
+
+                var xmlhttp = new XMLHttpRequest();
+                var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=1';
+
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        array = JSON.parse(xmlhttp.responseText);
+                        var i;
+
+                        if (array.length > 0) {
+                            for (i = 0; i < array.length; i++) {
+                                // alert('Sesión ' + array[i].ID_SESION);
+                                agregarBotonSesionAzul(array[i].ID_SESION);
+                            }
+                        } else {
+                            noHaySesiones();
+                        }
+                    }
+                }
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
+            }
+        </script>
+    </head>
     <body onload="cargarSesiones(); recibirData();">
         <div class="container">
 
@@ -148,6 +148,14 @@
 
             <div class="col s12">
                 <h4 class="center-align"><b>Lista de Sesiones Disponibles (Estudiantes)</b></h4>
+                <blockquote>
+                    Si el docente acaba de crear una sesión, presiona el botón 'Refrescar' para volver a cargar la página y que el botón de la sesión aparezca.
+                </blockquote>
+                <div class='center'>
+                    <button style="margin-top: 10px; margin-bottom: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="refrescar();">Refrescar
+                        <i class="material-icons right">autorenew</i>
+                    </button>
+                </div>
             </div>
             <div class="col s6 offset-s4">
                 <div class="row">
@@ -234,6 +242,10 @@
             });
         </script>
         <script type="text/javascript">
+            function refrescar() {
+                location.reload();
+            }
+            
             function validandoRegistro()
             {
                 var campoClave = document.getElementById("clave").value;
@@ -345,7 +357,7 @@
                 var claveIngreso = document.getElementById("claveIngresoDos").value;
                 var id_sesion = document.getElementById("hiddenFieldDos").value;
                 // alert('datos ingresados: ' + id_sesion + claveIngreso);
-                
+
                 if (numeroSesion === id_sesion) {
                     // alert('número de sesión recuperada :' + numeroSesion);
 

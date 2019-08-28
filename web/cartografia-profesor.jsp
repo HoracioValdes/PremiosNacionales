@@ -95,6 +95,7 @@
                     }, 5000); // 5000ms = 5s
                 } else if (segundoLanzamiento) {
                     segundoLanzamiento = false;
+                    document.getElementById("myDiv").style.backgroundImage = "url('img/grilla.jpg')";
                     document.getElementById("botonLanzar").disabled = true;
                     setTimeout(function () {
                         cargarSubtematica()
@@ -132,7 +133,7 @@
                 //alert('premio: ' + premio);
 
                 var xmlhttp = new XMLHttpRequest();
-                var url = 'https://api-juego.feriasclick.com/juego/registroJuego.php/?opcion=2&id_premio=' + premio;
+                var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=2&id_premio=' + premio;
 
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -156,7 +157,7 @@
                 //alert('id subtematica: ' + id_subtematica);
 
                 var xmlhttp = new XMLHttpRequest();
-                var url = 'https://api-juego.feriasclick.com/juego/registroJuego.php/?opcion=3&id_subtematica=' + id_subtematica;
+                var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=3&id_subtematica=' + id_subtematica;
 
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
