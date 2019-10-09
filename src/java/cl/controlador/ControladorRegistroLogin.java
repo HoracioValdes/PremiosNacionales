@@ -45,16 +45,20 @@ public class ControladorRegistroLogin extends HttpServlet {
 
         if (userPath.equals("/registro.do")) {
             //Recuperamos los datos de la sesión a registrar
+            String nombre = request.getParameter("txtNombre");
+            String correo = request.getParameter("txtCorreo");
+            int asignatura = Integer.parseInt(request.getParameter("cboAsignatura"));
+            String institucion = request.getParameter("txtInstitucion");
+            int comuna = Integer.parseInt(request.getParameter("cboComuna"));
             String clave = request.getParameter("txtClave");
-            String rut = request.getParameter("txtRut");
 
             if (errores.isEmpty()) {
 
-                int cantFilas = dao.registrarSesion(rut, clave);
+                int cantFilas = dao.registrarSesion(nombre, correo, asignatura, institucion, comuna, clave);
 
                 //Verificar la inserción y enviar mensajes.
                 if (cantFilas > 0) {
-                    int numeroSesion = dao.obtenerSesion(rut);
+                    int numeroSesion = dao.obtenerSesion(correo, nombre);
                     if (numeroSesion > 0) {
                         msg = "Ya pueden jugar en la sesión número " + numeroSesion;
                          request.setAttribute("numeroSesion", numeroSesion);
@@ -67,7 +71,7 @@ public class ControladorRegistroLogin extends HttpServlet {
                 }
 
                 request.setAttribute("msg", msg);
-                request.setAttribute("rut", rut);
+                request.setAttribute("correo", correo);
                 request.setAttribute("clave", clave);
             } else {
                 request.setAttribute("msg", errores);

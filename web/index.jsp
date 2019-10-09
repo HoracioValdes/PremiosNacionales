@@ -22,14 +22,16 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script>
             var array = '';
-            var rutRegistrado = '';
+            var arrayAsignatura = '';
+            var arrayComuna = '';
+            var correoRegistrado = '';
             var claveRegistrada = '';
             var numeroSesion = '';
 
             function recibirData() {
                 var dataSucia = '${msg}';
                 var data = dataSucia.substring(36);
-                rutRegistrado = '${rut}';
+                correoRegistrado = '${correo}';
                 claveRegistrada = '${clave}';
                 numeroSesion = '${numeroSesion}';
                 //alert(data);
@@ -72,9 +74,59 @@
                 xmlhttp.open("GET", url, true);
                 xmlhttp.send();
             }
+            
+            function cargarAsignatura() {
+                // alert('cargando asignaturas');
+
+                var xmlhttp = new XMLHttpRequest();
+                var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=4';
+
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        arrayAsignatura = JSON.parse(xmlhttp.responseText);
+                        var i;
+
+                        if (arrayAsignatura.length > 0) {
+                            for (i = 0; i < arrayAsignatura.length; i++) {
+                                // alert('Sesión ' + array[i].ID_SESION);
+                                agregarAsignaturas(arrayAsignatura[i].ID_ASIGNATURA, arrayAsignatura[i].DESCRIPCION);
+                            }
+                        } else {
+                            noHayAsignaturas();
+                        }
+                    }
+                }
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
+            }
+            
+            function cargarComunas() {
+                // alert('cargando asignaturas');
+
+                var xmlhttp = new XMLHttpRequest();
+                var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=5';
+
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        arrayComuna = JSON.parse(xmlhttp.responseText);
+                        var i;
+
+                        if (arrayComuna.length > 0) {
+                            for (i = 0; i < arrayComuna.length; i++) {
+                                // alert('Sesión ' + array[i].ID_SESION);
+                                agregarComunas(arrayComuna[i].CUT, arrayComuna[i].Nombre_Comuna);
+                            }
+                        } else {
+                            noHayComunas();
+                        }
+                    }
+                }
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
+            }
         </script>
     </head>
-    <body onload="cargarSesiones(); recibirData();">
+    <body onload="cargarSesiones(); recibirData(); cargarAsignatura(); cargarComunas();">
         <div class="container">
 
             <nav>
@@ -108,16 +160,45 @@
                             <div class="row" style="margin-top: 15px;">          
                                 <div class="input-field">
                                     <i class="material-icons prefix">assignment_ind</i>
-                                    <input id="rut" type="text" class="validate" maxlength="12" placeholder="Ingrese el rut sin puntos ni guión"
-                                           name="txtRut" onblur="limpiar_rut(this.value);
-                                                   formato_rut(this.value);"/>
-                                    <label for="rut">Rut</label>
+                                    <input id="nombre" type="text" class="validate" maxlength="200" placeholder="Ingrese su nombre"
+                                           name="txtNombre"/>
+                                    <label for="nombre">Nombre</label>
                                 </div>  
                             </div>
-                            <div class="row">
+                            <div class="row" style="margin-top: 15px;">          
+                                <div class="input-field">
+                                    <i class="material-icons prefix">contact_mail</i>
+                                    <input id="mail" type="text" class="validate" maxlength="200" placeholder="Ingrese un correo de contacto"
+                                           name="txtCorreo"/>
+                                    <label for="mail">Correo</label>
+                                </div>  
+                            </div>
+                            <div class="row" style="margin-top: 15px; margin-bottom: 15px;">
+                                <div class="input-field col s12">
+                                    <select name="cboAsignatura" id="asignatura" class="browser-default">
+                                        <option  value="NULO" disabled selected>SELECCIONE LA ASIGNATURA</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 50px;">          
+                                <div class="input-field">
+                                    <i class="material-icons prefix">account_balance</i>
+                                    <input id="institucion" type="text" class="validate" maxlength="500" placeholder="Ingrese el nombre de la institución donde trabaja"
+                                           name="txtInstitucion"/>
+                                    <label for="institucion">Institución</label>
+                                </div>  
+                            </div>
+                            <div class="row" style="margin-top: 15px; margin-bottom: 15px;">
+                                <div class="input-field col s12">
+                                    <select name="cboComuna" id="comuna" class="browser-default">
+                                        <option  value="NULO" disabled selected>SELECCIONE LA COMUNA DE LA INSTITUCIÓN</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 50px;">
                                 <div class="input-field">
                                     <i class="material-icons prefix">lock_outline</i>
-                                    <input id="clave" type="text" class="validate" maxlength="20" placeholder="Ingrese una clave para abrir a la sesión" name="txtClave"/>
+                                    <input id="clave" type="text" class="validate" maxlength="50" placeholder="Ingrese una clave para abrir a la sesión" name="txtClave"/>
                                     <label for="clave">Clave</label>
                                 </div>
                             </div>
@@ -171,12 +252,11 @@
             <div id="modal1" class="modal">
                 <div class="modal-content">
                     <h4>Datos de ingreso necesarios</h4>
-                    <p>Ingrese su rut y la contraseña.</p>
+                    <p>Ingrese su correo y la contraseña.</p>
                     <form class="cols10" action="cartografia-profesor.jsp">
                         <input type="hidden" id="hiddenField" name="hiddenField"/> 
-                        <input placeholder="Ingrese su rut" id="rutIngreso" type="text" class="validate" onblur="limpiar_rutDos(this.value);
-                                formato_rutDos(this.value)">
-                        <label for="rutIngreso">Rut</label>
+                        <input placeholder="Ingrese su correo" id="correoIngreso" type="text" class="validate">
+                        <label for="rutIngreso">Correo</label>
                         <input placeholder="Ingrese su clave" id="claveIngreso" type="text" class="validate">
                         <label for="claveIngreso">Clave</label>
                         <div class="row" style="margin-top: 40px;">
@@ -197,7 +277,7 @@
                     <h4>Datos de ingreso necesarios</h4>
                     <p>Ingrese la contraseña de la sesión.</p>
                     <form class="cols10" action="entrar.do">
-                        <input type="hidden" id="hiddenFieldDos" name="hiddenFieldDos"/> 
+                        <input type="hidden" id="id_sesion_estudiante" name="id_sesion_estudiante"/> 
                         <input placeholder="Ingrese la clave de la sesion" id="claveIngresoDos" type="text" class="validate">
                         <label for="claveIngresoDos">Clave</label>
                         <div class="row" style="margin-top: 40px;">
@@ -245,23 +325,39 @@
             function refrescar() {
                 location.reload();
             }
-            
+
             function validandoRegistro()
             {
+                var campoNombre = document.getElementById("nombre").value;
+                var campoCorreo = document.getElementById("mail").value;
+                var asignatura = document.getElementById("asignatura").selectedIndex;
+                var campoInstitucion = document.getElementById("institucion").value;
+                var comuna = document.getElementById("comuna").selectedIndex;
                 var campoClave = document.getElementById("clave").value;
-                var campoRut = document.getElementById("rut").value;
 
-                if (campoRut == null || campoRut.length == 0 || /^\s+$/.test(campoRut)) {
-                    Materialize.toast('El campo que indica su rut no puede estar vacío', 4000);
+                if (campoNombre == null || campoNombre.length == 0 || /^\s+$/.test(campoNombre)) {
+                    Materialize.toast('El campo que indica su nombre no puede estar vacío', 4000);
                     return false;
-                } else if (campoRut.length < 11) {
-                    Materialize.toast('El campo que indica su rut no puede tener menos de 11 caracteres', 4000);
+                } else if (campoNombre.length > 200) {
+                    Materialize.toast('El campo que indica su nombre no puede tener más de 200 caracteres', 4000);
                     return false;
-                } else if (campoRut.length > 12) {
-                    Materialize.toast('El campo que indica su rut no puede tener más de 12 caracteres', 4000);
+                } else if (campoCorreo == null || campoCorreo.length == 0 || /^\s+$/.test(campoCorreo)) {
+                    Materialize.toast('El campo que indica su correo electrónico no puede estar vacío', 4000);
                     return false;
-                } else if (valrut(campoRut) == false) {
-                    Materialize.toast('El rut ingresado no es válido', 4000);
+                } else if (campoCorreo.length > 200) {
+                    Materialize.toast('El campo que indica su correo electrónico no puede tener más de 200 caracteres', 4000);
+                    return false;
+                } else if (asignatura == null || asignatura == 0) {
+                    Materialize.toast('Debe seleccionar una asignatura', 4000);
+                    return false;
+                } else if (campoInstitucion == null || campoInstitucion.length == 0 || /^\s+$/.test(campoInstitucion)) {
+                    Materialize.toast('El campo que indica su institución no puede estar vacío', 4000);
+                    return false;
+                } else if (campoInstitucion.length > 500) {
+                    Materialize.toast('El campo que indica su institución no puede tener más de 500 caracteres', 4000);
+                    return false;
+                } else if (comuna == null || comuna == 0) {
+                    Materialize.toast('Debe seleccionar una comuna donde está ubicada su institución', 4000);
                     return false;
                 } else if (campoClave == null || campoClave.length == 0 || /^\s+$/.test(campoClave)) {
                     Materialize.toast('El campo que indica la clave no puede estar vacío', 4000);
@@ -272,24 +368,18 @@
 
             function validandoIngreso()
             {
-                var rutIngreso = document.getElementById("rutIngreso").value;
+                var correoIngreso = document.getElementById("correoIngreso").value;
                 var claveIngreso = document.getElementById("claveIngreso").value;
                 var id_sesion = document.getElementById("hiddenField").value;
                 // alert(id_sesion + rutIngreso + claveIngreso);
 
                 if (numeroSesion === id_sesion) {
 
-                    if (rutIngreso == null || rutIngreso.length == 0 || /^\s+$/.test(rutIngreso)) {
-                        Materialize.toast('El campo que indica su rut no puede estar vacío', 4000);
+                    if (correoIngreso == null || correoIngreso.length == 0 || /^\s+$/.test(correoIngreso)) {
+                        Materialize.toast('El campo que indica el correo no puede estar vacío', 4000);
                         return false;
-                    } else if (rutIngreso.length < 11) {
-                        Materialize.toast('El campo que indica su rut no puede tener menos de 11 caracteres', 4000);
-                        return false;
-                    } else if (rutIngreso.length > 12) {
-                        Materialize.toast('El campo que indica su rut no puede tener más de 12 caracteres', 4000);
-                        return false;
-                    } else if (valrut(rutIngreso) == false) {
-                        Materialize.toast('El rut ingresado no es válido', 4000);
+                    } else if (correoIngreso.length > 200) {
+                        Materialize.toast('El campo que indica su correo no puede tener más de 200 caracteres', 4000);
                         return false;
                     } else if (claveIngreso == null || claveIngreso.length == 0 || /^\s+$/.test(claveIngreso)) {
                         Materialize.toast('El campo que indica la clave no puede estar vacío', 4000);
@@ -298,7 +388,7 @@
                         var i;
                         var igualdad = false;
 
-                        if (numeroSesion == id_sesion && rutRegistrado == rutIngreso && claveRegistrada == claveIngreso) {
+                        if (numeroSesion == id_sesion && correoRegistrado == correoIngreso && claveRegistrada == claveIngreso) {
                             igualdad = true;
                             return true;
                         } else {
@@ -308,17 +398,11 @@
                     }
 
                 } else {
-                    if (rutIngreso == null || rutIngreso.length == 0 || /^\s+$/.test(rutIngreso)) {
-                        Materialize.toast('El campo que indica su rut no puede estar vacío', 4000);
+                    if (correoIngreso == null || correoIngreso.length == 0 || /^\s+$/.test(correoIngreso)) {
+                        Materialize.toast('El campo que indica su correo no puede estar vacío', 4000);
                         return false;
-                    } else if (rutIngreso.length < 11) {
-                        Materialize.toast('El campo que indica su rut no puede tener menos de 11 caracteres', 4000);
-                        return false;
-                    } else if (rutIngreso.length > 12) {
-                        Materialize.toast('El campo que indica su rut no puede tener más de 12 caracteres', 4000);
-                        return false;
-                    } else if (valrut(rutIngreso) == false) {
-                        Materialize.toast('El rut ingresado no es válido', 4000);
+                    } else if (correoIngreso.length > 200) {
+                        Materialize.toast('El campo que indica su correo no puede tener más de 200 caracteres', 4000);
                         return false;
                     } else if (claveIngreso == null || claveIngreso.length == 0 || /^\s+$/.test(claveIngreso)) {
                         Materialize.toast('El campo que indica la clave no puede estar vacío', 4000);
@@ -331,7 +415,7 @@
                             //alert('paso al for')
                             //alert(array);
                             for (i = 0; i < array.length; i++) {
-                                if (array[i].ID_SESION == id_sesion && array[i].RUT == rutIngreso && array[i].CLAVE == claveIngreso) {
+                                if (array[i].ID_SESION == id_sesion && array[i].CORREO == correoIngreso && array[i].CLAVE == claveIngreso) {
                                     igualdad = true;
                                     return true;
                                 }
@@ -355,7 +439,7 @@
 
             function validandoIngresoDos() {
                 var claveIngreso = document.getElementById("claveIngresoDos").value;
-                var id_sesion = document.getElementById("hiddenFieldDos").value;
+                var id_sesion = document.getElementById("id_sesion_estudiante").value;
                 // alert('datos ingresados: ' + id_sesion + claveIngreso);
 
                 if (numeroSesion === id_sesion) {
@@ -412,152 +496,7 @@
 
                 }
             }
-
-            function valrut(campoRut) {
-
-                var rut = campoRut;
-                var crut;
-                //limpieza
-                var eliminar = ".-";
-                //Los eliminamos
-                for (var i = 0; i < eliminar.length; i++) {
-                    rut = rut.replace(new RegExp("\\" + eliminar[i], 'gi'), '');
-                }
-
-                var tmpstr = "";
-                var intlargo = rut;
-                if (intlargo.length > 0)
-                {
-                    crut = rut;
-                    var largo = crut.length;
-                    if (largo < 2)
-                    {
-                        return false;
-                    }
-                    for (i = 0; i < crut.length; i++)
-                        if (crut.charAt(i) != ' ' && crut.charAt(i) != '.' && crut.charAt(i) != '-')
-                        {
-                            tmpstr = tmpstr + crut.charAt(i);
-                        }
-                    var rutSuma = tmpstr;
-                    crut = tmpstr;
-                    largo = crut.length;
-                    if (largo > 2)
-                        rutSuma = crut.substring(0, largo - 1);
-                    else
-                        rutSuma = crut.charAt(0);
-                    var dv = crut.charAt(largo - 1);
-                    if (rutSuma == null || dv == null)
-                        return false;
-                    var dvr = '0';
-                    var suma = 0;
-                    var mul = 2;
-                    for (i = rutSuma.length - 1; i >= 0; i--)
-                    {
-                        suma = suma + rutSuma.charAt(i) * mul;
-                        if (mul == 7)
-                            mul = 2;
-                        else
-                            mul++;
-                    }
-
-                    var res = suma % 11;
-                    if (res == 1)
-                        dvr = 'k';
-                    else if (res == 0)
-                        dvr = '0';
-                    else
-                    {
-                        var dvi = 11 - res;
-                        dvr = dvi + "";
-                    }
-
-                    if (dvr != dv.toLowerCase())
-                    {
-                        return false;
-                    }
-                    return true;
-                }
-            }
-
-            function limpiar_rut(rut)
-            {
-                var rutLimpio = rut;
-                //Definimos los caracteres a eliminar
-                var eliminar = ".-";
-                //Los eliminamos
-                for (var i = 0; i < eliminar.length; i++) {
-                    rutLimpio = rutLimpio.replace(new RegExp("\\" + eliminar[i], 'gi'), '');
-                }
-                //Pasamos al campo el valor limpio
-                document.getElementById("rut").value = rutLimpio.toUpperCase();
-            }
-
-            function formato_rut(rut) {
-                var sRut1 = rut; //Contador de posición
-                var nPos = 0; //Guarda el rut invertido con los puntos y el guión agregado
-                var sInvertido = ""; //Guarda el resultado final del rut como debe ser
-                var sRut = "";
-                for (var i = sRut1.length - 1; i >= 0; i--) {
-                    sInvertido += sRut1.charAt(i);
-                    if (i == sRut1.length - 1) {
-                        sInvertido += "-";
-                    } else if (nPos == 3) {
-                        sInvertido += ".";
-                        nPos = 0;
-                    }
-                    nPos++;
-                }
-                for (var j = sInvertido.length - 1; j >= 0; j--) {
-                    if (sInvertido.charAt(sInvertido.length - 1) != ".") {
-                        sRut += sInvertido.charAt(j);
-                    } else if (j != sInvertido.length - 1) {
-                        sRut += sInvertido.charAt(j);
-                    }
-                }
-                //Pasamos al campo el valor formateado
-                document.getElementById("rut").value = sRut.toUpperCase();
-            }
-
-            function limpiar_rutDos(rut)
-            {
-                var rutLimpio = rut;
-                //Definimos los caracteres a eliminar
-                var eliminar = ".-";
-                //Los eliminamos
-                for (var i = 0; i < eliminar.length; i++) {
-                    rutLimpio = rutLimpio.replace(new RegExp("\\" + eliminar[i], 'gi'), '');
-                }
-                //Pasamos al campo el valor limpio
-                document.getElementById("rutIngreso").value = rutLimpio.toUpperCase();
-            }
-
-            function formato_rutDos(rut) {
-                var sRut1 = rut; //Contador de posición
-                var nPos = 0; //Guarda el rut invertido con los puntos y el guión agregado
-                var sInvertido = ""; //Guarda el resultado final del rut como debe ser
-                var sRut = "";
-                for (var i = sRut1.length - 1; i >= 0; i--) {
-                    sInvertido += sRut1.charAt(i);
-                    if (i == sRut1.length - 1) {
-                        sInvertido += "-";
-                    } else if (nPos == 3) {
-                        sInvertido += ".";
-                        nPos = 0;
-                    }
-                    nPos++;
-                }
-                for (var j = sInvertido.length - 1; j >= 0; j--) {
-                    if (sInvertido.charAt(sInvertido.length - 1) != ".") {
-                        sRut += sInvertido.charAt(j);
-                    } else if (j != sInvertido.length - 1) {
-                        sRut += sInvertido.charAt(j);
-                    }
-                }
-                //Pasamos al campo el valor formateado
-                document.getElementById("rutIngreso").value = sRut.toUpperCase();
-            }
-
+            
             function agregarBotonSesionAzul(id_sesion) {
                 var contenedor = document.getElementById('sesionesDocentes');
                 contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect blue lighten-1 modal-trigger' onclick='enviarSesion(" + id_sesion + ")' href='#modal1'>Sesión " + id_sesion + "<i class='material-icons right'>perm_identity</i></button></div>";
@@ -565,13 +504,23 @@
                 var contenedorDos = document.getElementById('sesionesEstudiantes');
                 contenedorDos.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect blue lighten-1 modal-trigger' onclick='enviarSesionDos(" + id_sesion + ")' href='#modal2'>Sesión " + id_sesion + "<i class='material-icons right'>people_outline</i></button></div>";
             }
+            
+            function agregarAsignaturas(id_asignatura, descripcion) {
+                var contenedor = document.getElementById('asignatura');
+                contenedor.innerHTML += "<option value="+id_asignatura+">"+descripcion+"</option>";
+            }
+            
+            function agregarComunas(cut, nombre_comuna) {
+                var contenedor = document.getElementById('comuna');
+                contenedor.innerHTML += "<option value="+cut+">"+nombre_comuna+"</option>";
+            }
 
             function enviarSesion(id_sesion) {
                 document.getElementById("hiddenField").value = id_sesion;
             }
 
             function enviarSesionDos(id_sesion) {
-                document.getElementById("hiddenFieldDos").value = id_sesion;
+                document.getElementById("id_sesion_estudiante").value = id_sesion;
             }
 
             function noHaySesiones() {
@@ -582,6 +531,14 @@
                 contenedorDos.innerHTML = "<p><b>Aún no se han creado sesiones</b></p>";
             }
 
+            function noHayAsignaturas() {
+                alert('Error al cargar las asignaturas');
+            }
+            
+            function noHayComunas() {
+                alert('Error al cargar las comunas');
+            }
+            
             function redireccionDocente(id_sesion) {
                 //alert('Sesión ' + id_sesion);
                 window.location = 'cartografia-profesor.jsp?sesion=' + id_sesion;

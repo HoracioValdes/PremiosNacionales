@@ -21,7 +21,105 @@
         <title>Juego de Premios Nacionales</title>
     </head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <body>
+    <script>
+        var estado_sesion;
+        var id_sesion;
+        var numero_equipo;
+
+        function recibirData() {
+            estado_sesion = '${estado_sesion}';
+            id_sesion = '${id_sesion}';
+            numero_equipo = '${numero_equipo}';
+
+            cargarDados(estado_sesion, numero_equipo, id_sesion);
+        }
+
+        function cargarDados(estado_sesion, numero_equipo, id_sesion) {
+
+            if (estado_sesion == 'ABIERTA' && numero_equipo == 1) {
+                alert('se cumple 1');
+                var contenedor = document.getElementById('dado');
+                contenedor.innerHTML += "<button id='botonLanzar' style='margin-top: 10px;' class='btn waves-effect blue lighten-1' type='submit' name='action' onclick='return lanzarDado();'>Lanzar dado<i class='material-icons right'>loop</i></button>";
+            } else if (estado_sesion == 'ABIERTA' && numero_equipo == 2) {
+                alert('se cumple 2');
+                var contenedor = document.getElementById('dado');
+                contenedor.innerHTML += "<button id='botonLanzar' style='margin-top: 10px;' class='btn waves-effect blue lighten-1' type='submit' name='action' onclick='return lanzarDado();'>Lanzar dado<i class='material-icons right'>loop</i></button>";
+            } else if (estado_sesion == 'SEGUNDA' && numero_equipo == 3) {
+                alert('se cumple 3');
+                var contenedor = document.getElementById('dado');
+                contenedor.innerHTML += "<button id='botonLanzar' style='margin-top: 10px;' class='btn waves-effect blue lighten-1' type='submit' name='action' onclick='return lanzarDado();'>Lanzar dado<i class='material-icons right'>loop</i></button>";
+            } else if (estado_sesion == 'SEGUNDA' && numero_equipo == 4) {
+                alert('se cumple 4');
+                var contenedor = document.getElementById('dado');
+                contenedor.innerHTML += "<button id='botonLanzar' style='margin-top: 10px;' class='btn waves-effect blue lighten-1' type='submit' name='action' onclick='return lanzarDado();'>Lanzar dado<i class='material-icons right'>loop</i></button>";
+            } else if (estado_sesion == 'TERCERA' && numero_equipo == 5) {
+                alert('se cumple 5');
+                var contenedor = document.getElementById('dado');
+                contenedor.innerHTML += "<button id='botonLanzar' style='margin-top: 10px;' class='btn waves-effect blue lighten-1' type='submit' name='action' onclick='return lanzarDado();'>Lanzar dado<i class='material-icons right'>loop</i></button>";
+            } else if (estado_sesion == 'TERCERA' && numero_equipo == 5) {
+                alert('se cumple 6');
+                var contenedor = document.getElementById('dado');
+                contenedor.innerHTML += "<button id='botonLanzar' style='margin-top: 10px;' class='btn waves-effect blue lighten-1' type='submit' name='action' onclick='return lanzarDado();'>Lanzar dado<i class='material-icons right'>loop</i></button>";
+            }
+
+        }
+
+        function lanzarDado()
+        {
+            // Consulta de lanzamiento realizado
+            var xmlhttpUno = new XMLHttpRequest();
+            var urlUno = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=8&id_sesion=' + id_sesion + '&numero_equipo=' + numero_equipo;
+
+            xmlhttpUno.onreadystatechange = function () {
+                if (xmlhttpUno.readyState == 4 && xmlhttpUno.status == 200) {
+                    var arrayUno = JSON.parse(xmlhttpUno.responseText);
+                    if (arrayUno.length > 0) {
+
+                        Materialize.toast('Este equipo ya realizó su lanzamiento del dado', 4000);
+
+                    } else {
+
+                        if (numero_equipo == 2 || numero_equipo == 4 || numero_equipo == 6) {
+
+                            numero_equipo_anterior = numero_equipo - 1;
+                            //Consultar por premio seleccionado en la primera tirada
+                            var xmlhttp = new XMLHttpRequest();
+                            var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=7&id_sesion=' + id_sesion + '&numero_equipo=' + numero_equipo_anterior;
+
+                            xmlhttp.onreadystatechange = function () {
+                                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                                    // alert('valor de dado insertado');
+                                    var array = JSON.parse(xmlhttp.responseText);
+                                    if (array.length > 0) {
+
+                                        document.getElementById("dadoDos").style.height = "150px";
+                                        setTimeout(function () {
+                                            cargarDado();
+                                        }, 5000); // 5000ms = 5s
+
+                                    } else {
+                                        Materialize.toast('El equipo anterior aún no ha lanzado el dado', 4000);
+                                    }
+                                }
+                            }
+                            xmlhttp.open("GET", url, true);
+                            xmlhttp.send();
+                        } else if (numero_equipo == 1 || numero_equipo == 3 || numero_equipo == 5) {
+
+                            document.getElementById("dadoDos").style.height = "150px";
+                            setTimeout(function () {
+                                cargarDado();
+                            }, 5000); // 5000ms = 5s
+
+                        }
+                    }
+                }
+            }
+            xmlhttpUno.open("GET", urlUno, true);
+            xmlhttpUno.send();
+        }
+    </script>
+    <body onload="recibirData();">
         <div class="container">
 
             <nav>
@@ -40,222 +138,172 @@
                 </div>
             </div>
 
+            <div class="blue-text center-align">
+                <p class="flow-text" id="texto_resultado"></p>
+            </div>
+
+            <div class="col s6 offset-s4" style="align-content: center">
+                <img id="dadoDos" src="img/dado.gif" style="height: 0px; display:block; margin:auto;">
+            </div>
             <div class="col s12">
                 <h4 class="center-align"><b>Dado</b></h4>
             </div>
-            <div class="col s6 offset-s4">
-                <div class="blue-text center-align">
-                    <p class="flow-text"><b>${requestScope.msg}</b></p>
-                </div>
-                <div class="row">
-                    <form class="col s10 offset-s1 card-panel z-depth-5" action="registro.do" method="post">
-                        <div class="row" style="margin-top: 15px;">
-                            <div class="center-align">    
-                                <button style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return validandoRegistro();">Lanzar dado
-                                    <i class="material-icons right">send</i>
-                                </button>
-                            </div>    
-                        </div>
-                    </form>
+            <div class="row">
+                <div class="col s10 offset-s1">
+                    <div class="center" id="dado" style="margin-top: 45px; margin-bottom: 45px;">
+
+                    </div>
                 </div>
             </div>
-
-            <footer class="page-footer blue darken-3">
-                <div class="container">
-                    <div class="row">
-                        <div class="col l6 s12">
-                            <h5 class="white-text">Contáctanos</h5>
-                            <p class="grey-text text-lighten-4">Envíanos tus sugerencias o comentarios a <a href="mailto:horacio_valdes@hotmail.com" style="color: #ffff00">horacio_valdes@hotmail.com</a></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="footer-copyright">
-                    <div class="container">
-                        © 2018 Juego Premios Nacionales
-                    </div>
-                </div>
-            </footer>
         </div>
         <!--Import jQuery before materialize.js-->
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="js/materialize.min.js"></script>
         <script>
-                                    $(function () {
+        $(function () {
 
-                                        $(".button-collapse").sideNav();
-                                    });
+            $(".button-collapse").sideNav();
+        });
         </script>
         <script>
-            function validandoRegistro()
-            {
-                var campoClave = document.getElementById("txtClave").value;
-                var campoRut = document.getElementById("rut").value;
+            var premio = 0;
+            function cargarDado() {
+                document.getElementById("dadoDos").style.height = "0px";
+                document.getElementById("botonLanzar").style.height = "0px";
+                alert(numero_equipo);
 
-                if (campoRut == null || campoRut.length == 0 || /^\s+$/.test(campoRut)) {
-                    Materialize.toast('El campo que indica su rut no puede estar vacío', 4000);
-                    return false;
-                } else if (campoRut.length < 11) {
-                    Materialize.toast('El campo que indica su rut no puede tener menos de 11 caracteres', 4000);
-                    return false;
-                } else if (campoRut.length > 12) {
-                    Materialize.toast('El campo que indica su rut no puede tener más de 12 caracteres', 4000);
-                    return false;
-                } else if (valrut(campoRut) == false) {
-                    Materialize.toast('El rut ingresado no es válido', 4000);
-                    return false;
-                } else if (campoClave == null || campoClave.length == 0 || /^\s+$/.test(campoClave)) {
-                    Materialize.toast('El campo que indica la clave no puede estar vacío', 4000);
-                    return false;
-                }
-                return true;
-            }
+                if (numero_equipo == 1 || numero_equipo == 3 || numero_equipo == 5) {
+                    alert('paso primera condición');
+                    var posicion = Math.floor((Math.random() * (5 - 1)) + 1);
+                    alert(posicion);
 
-            function validandoIngreso()
-            {
-                var campoCorreoIngreso = document.getElementById("correoIngreso").value;
-                var campoClaveIngreso = document.getElementById("claveIngreso").value;
-
-                if (campoCorreoIngreso == null || campoCorreoIngreso.length == 0 || /^\s+$/.test(campoCorreoIngreso)) {
-                    Materialize.toast('El campo que indica su correo no puede estar vacío', 4000);
-                    return false;
-                } else if (valCorreo(campoCorreoIngreso) === false) {
-                    Materialize.toast('El correo ingresado no es válido', 4000);
-                    return false;
-                } else if (campoClaveIngreso == null || campoClaveIngreso.length == 0 || /^\s+$/.test(campoClaveIngreso)) {
-                    Materialize.toast('El campo que indica su clave no puede estar vacío', 4000);
-                    return false;
-                } else if (campoClaveIngreso.length > 20) {
-                    Materialize.toast('El campo que indica su clave no puede tener más de 20 caracteres', 4000);
-                    return false;
-                }
-                return true;
-            }
-
-            function valrut(campoRut) {
-
-                var rut = campoRut;
-                var crut;
-                //limpieza
-                var eliminar = ".-";
-                //Los eliminamos
-                for (var i = 0; i < eliminar.length; i++) {
-                    rut = rut.replace(new RegExp("\\" + eliminar[i], 'gi'), '');
-                }
-
-                var tmpstr = "";
-                var intlargo = rut;
-                if (intlargo.length > 0)
-                {
-                    crut = rut;
-                    var largo = crut.length;
-                    if (largo < 2)
-                    {
-                        return false;
+                    if (posicion == 1) {
+                        alert('primer resultado');
+                        document.getElementById('texto_resultado').innerHTML = 'El dado arrojó uno';
+                        Materialize.toast('El dado arrojó uno', 4000);
+                    } else if (posicion == 2) {
+                        alert('segundo resultado');
+                        document.getElementById('texto_resultado').innerHTML = 'El dado arrojó dos';
+                        Materialize.toast('El dado arrojó dos', 4000);
+                    } else if (posicion == 3) {
+                        alert('tecer resultado');
+                        document.getElementById('texto_resultado').innerHTML = 'El dado arrojó tres';
+                        Materialize.toast('El dado arrojó tres', 4000);
+                    } else if (posicion == 4) {
+                        alert('cuarto resultado');
+                        document.getElementById('texto_resultado').innerHTML = 'El dado arrojó cuatro';
+                        Materialize.toast('El dado arrojó cuatro', 4000);
                     }
-                    for (i = 0; i < crut.length; i++)
-                        if (crut.charAt(i) != ' ' && crut.charAt(i) != '.' && crut.charAt(i) != '-')
-                        {
-                            tmpstr = tmpstr + crut.charAt(i);
+
+                    // Carga a la base
+                    insertarPrimerDado(numero_equipo, id_sesion, posicion);
+                } else {
+                    alert('pasó a segunda condición');
+                    numero_equipo_anterior = numero_equipo - 1;
+                    //Consultar por premio seleccionado en la primera tirada
+                    var xmlhttp = new XMLHttpRequest();
+                    var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=7&id_sesion=' + id_sesion + '&numero_equipo=' + numero_equipo_anterior;
+
+                    xmlhttp.onreadystatechange = function () {
+                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                            // alert('valor de dado insertado');
+                            var array = JSON.parse(xmlhttp.responseText);
+
+                            if (array.length > 0) {
+                                premio = array[0].VALOR;
+
+                                alert('premio uno: ' + premio);
+                                obtenerSubtematicas(premio);
+                            } else {
+                                Materialize.toast('El equipo anterior aún no lanza el dado', 4000);
+                            }
+
                         }
-                    var rutSuma = tmpstr;
-                    crut = tmpstr;
-                    largo = crut.length;
-                    if (largo > 2)
-                        rutSuma = crut.substring(0, largo - 1);
-                    else
-                        rutSuma = crut.charAt(0);
-                    var dv = crut.charAt(largo - 1);
-                    if (rutSuma == null || dv == null)
-                        return false;
-                    var dvr = '0';
-                    var suma = 0;
-                    var mul = 2;
-                    for (i = rutSuma.length - 1; i >= 0; i--)
-                    {
-                        suma = suma + rutSuma.charAt(i) * mul;
-                        if (mul == 7)
-                            mul = 2;
-                        else
-                            mul++;
                     }
+                    xmlhttp.open("GET", url, true);
+                    xmlhttp.send();
 
-                    var res = suma % 11;
-                    if (res == 1)
-                        dvr = 'k';
-                    else if (res == 0)
-                        dvr = '0';
-                    else
-                    {
-                        var dvi = 11 - res;
-                        dvr = dvi + "";
-                    }
-
-                    if (dvr != dv.toLowerCase())
-                    {
-                        return false;
-                    }
-                    return true;
                 }
             }
 
-            function limpiar_rut(rut)
-            {
-                var rutLimpio = rut;
-                //Definimos los caracteres a eliminar
-                var eliminar = ".-";
-                //Los eliminamos
-                for (var i = 0; i < eliminar.length; i++) {
-                    rutLimpio = rutLimpio.replace(new RegExp("\\" + eliminar[i], 'gi'), '');
-                }
-                //Pasamos al campo el valor limpio
-                document.getElementById("rut").value = rutLimpio.toUpperCase();
-            }
+            function obtenerLanzamientoAnterior(id_sesion, numero_equipo) {
+                numero_equipo_anterior = numero_equipo - 1;
+                //Consultar por premio seleccionado en la primera tirada
+                var xmlhttp = new XMLHttpRequest();
+                var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=7&id_sesion=' + id_sesion + '&numero_equipo=' + numero_equipo_anterior;
 
-            function formato_rut(rut) {
-                var sRut1 = rut; //Contador de posición
-                var nPos = 0; //Guarda el rut invertido con los puntos y el guión agregado
-                var sInvertido = ""; //Guarda el resultado final del rut como debe ser
-                var sRut = "";
-                for (var i = sRut1.length - 1; i >= 0; i--) {
-                    sInvertido += sRut1.charAt(i);
-                    if (i == sRut1.length - 1) {
-                        sInvertido += "-";
-                    } else if (nPos == 3) {
-                        sInvertido += ".";
-                        nPos = 0;
-                    }
-                    nPos++;
-                }
-                for (var j = sInvertido.length - 1; j >= 0; j--) {
-                    if (sInvertido.charAt(sInvertido.length - 1) != ".") {
-                        sRut += sInvertido.charAt(j);
-                    } else if (j != sInvertido.length - 1) {
-                        sRut += sInvertido.charAt(j);
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        // alert('valor de dado insertado');
+                        var array = JSON.parse(xmlhttp.responseText);
+                        if (array.length > 0) {
+                            return true;
+                        } else {
+                            return false;
+                        }
                     }
                 }
-                //Pasamos al campo el valor formateado
-                document.getElementById("rut").value = sRut.toUpperCase();
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
             }
 
-            function cargarSesiones() {
+            function insertarPrimerDado(numero_equipo, id_sesion, valor) {
                 // alert('cargando sesiones');
 
                 var xmlhttp = new XMLHttpRequest();
-                var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=1';
+                var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=6&numero_equipo=' + numero_equipo + '&id_sesion=' + id_sesion + '&valor=' + valor;
+
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        // alert('valor de dado insertado');
+                    }
+                }
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
+            }
+
+            var subtematica = '';
+            var id_subtematica = 0;
+
+            function obtenerSubtematicas(premio) {
+                alert('obteniendo subtemáticas');
+                alert('premio: ' + premio);
+
+                var xmlhttp = new XMLHttpRequest();
+                var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=2&id_premio=' + premio;
 
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                         var array = JSON.parse(xmlhttp.responseText);
-                        var i;
+                        //alert(array);
 
-                        if (array.length > 0) {
-                            for (i = 0; i < array.length; i++) {
-                                // alert('Sesión ' + array[i].ID_SESION);
-                                agregarBotonSesion(array[i].ID_SESION);
-                            }
-                        } else {
-                            noHaySesiones();
-                        }
+                        //Elección aleatoria de subtemática
+                        var subtematicaAzar = Math.floor((Math.random() * (array.length - 1)) + 1);
+                        //alert(subtematicaAzar);
+                        //alert(array[subtematicaAzar - 1].DESCRIPCION_SUBTEMATICA);
+                        subtematica = array[subtematicaAzar - 1].DESCRIPCION_SUBTEMATICA;
+                        id_subtematica = array[subtematicaAzar - 1].ID_SUBTEMATICA;
+                        alert('id_subtematica: ' + id_subtematica);
+                        alert('subtematica: ' + subtematica);
+                        document.getElementById('texto_resultado').innerHTML = 'El dado seleccionó la subtemática ' + subtematica;
+                        Materialize.toast('La subtemática seleccionada es ' + subtematica, 4000);
+
+                        insertarSegundoDado(numero_equipo, id_sesion, id_subtematica);
+                    }
+                }
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
+            }
+
+            function insertarSegundoDado(numero_equipo, id_sesion, id_subtematica) {
+                // alert('cargando sesiones');
+
+                var xmlhttp = new XMLHttpRequest();
+                var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=6&numero_equipo=' + numero_equipo + '&id_sesion=' + id_sesion + '&valor=' + id_subtematica;
+
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        // alert('valor de dado insertado');
                     }
                 }
                 xmlhttp.open("GET", url, true);

@@ -64,6 +64,32 @@ public class DaoJuegoEstudiante extends Conectar {
         }
         return numero_grupos;
     }
+    
+    public String obtenerEstadoSesion(int id_sesion) {
+        String estado = "";
+        try {
+            //Recuperar una conexión.
+            Connection con = this.getConexion();
+            //Se genera sentecia select
+            String strSQL = "SELECT ESTADO FROM SESION WHERE ID_SESION = "+ id_sesion +";";
+            //Se prepara la consulta.
+            PreparedStatement ps = con.prepareStatement(strSQL);
+            //ejecutar la consulta.
+            ResultSet res = ps.executeQuery();
+            //Se recorre el ResultSet.
+            while (res.next()) {
+                    estado = res.getString("ESTADO");
+            }
+            con.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DaoJuegoEstudiante.class.getName())
+                    .log(Level.SEVERE, "Error en registro del Driver.", ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DaoJuegoEstudiante.class.getName())
+                    .log(Level.SEVERE, "Error en SQL.", ex);
+        }
+        return estado;
+    }
 //    
 //    public ArrayList<Comuna> listarComuna() {
 //        ArrayList<Comuna> lstComuna = new ArrayList();

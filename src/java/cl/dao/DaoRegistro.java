@@ -20,19 +20,23 @@ import java.util.logging.Logger;
  */
 public class DaoRegistro extends Conectar{
     
-    public int registrarSesion(String clave, String rut) {
+    public int registrarSesion(String nombre, String correo, int asignatura, String institucion, int comuna, String clave) {
         int cantFilas = 0;
 
         try {
             //Recuperar una conexión.
             Connection con = this.getConexion();
             //Se genera sentecia select
-            String strSQL = "INSERT INTO SESION (RUT, CLAVE, ESTADO) VALUES (?,?,'ABIERTA');";
+            String strSQL = "INSERT INTO SESION VALUES (NULL,?,?,?,?,?,?,'ABIERTA');";
             //Se prepara la consulta
             PreparedStatement ps = con.prepareStatement(strSQL);
             //Definir el valor de los parámetros ("?")
-            ps.setString(2, rut);
-            ps.setString(1, clave);
+            ps.setString(1, nombre);
+            ps.setString(2, correo);
+            ps.setInt(3, asignatura);
+            ps.setString(4, institucion);
+            ps.setInt(5, comuna);
+            ps.setString(6, clave);
             cantFilas = ps.executeUpdate();
             con.close();
         } catch (ClassNotFoundException ex) {
@@ -43,13 +47,13 @@ public class DaoRegistro extends Conectar{
         return cantFilas;
     }
     
-    public int obtenerSesion(String rut) {
+    public int obtenerSesion(String correo, String nombre) {
         int numeroSesion = 0;
         try {
             //Recuperar una conexión.
             Connection con = this.getConexion();
             //Se genera sentecia select
-            String strSQL = "SELECT MAX(ID_SESION) AS SESION FROM SESION WHERE RUT = '"+ rut +"';";
+            String strSQL = "SELECT MAX(ID_SESION) AS SESION FROM SESION WHERE CORREO = '"+ correo +"' AND NOMBRE = '"+ nombre +"';";
             //Se prepara la consulta.
             PreparedStatement ps = con.prepareStatement(strSQL);
             //ejecutar la consulta.
