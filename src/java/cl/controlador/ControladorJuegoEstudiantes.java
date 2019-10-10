@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Horacio
  */
-@WebServlet(name = "ControladorEncuesta", urlPatterns = {"/entrar.do", "/entrar_dos.do", "/modificar.do", "/manipular.do"})
+@WebServlet(name = "ControladorEncuesta", urlPatterns = {"/entrar.do", "/entrar_dos.do", "/entrar_profesor.do", "/manipular.do"})
 public class ControladorJuegoEstudiantes extends HttpServlet {
 
     /**
@@ -96,273 +96,37 @@ public class ControladorJuegoEstudiantes extends HttpServlet {
                 request.setAttribute("id_sesion", id_sesion);
                 request.setAttribute("numero_equipo", numero_equipo_dos);
                 request.getRequestDispatcher("panel-estudiante.jsp").forward(request, response);
-                
+
             } else if (estado_sesion.equalsIgnoreCase("SEGUNDA")) {
 
             } else if (estado_sesion.equalsIgnoreCase("TERCERA")) {
 
             }
 
-        } else if (userPath.equals("/modificar.do")) {
+        } else if (userPath.equals("/entrar_profesor.do")) {
 
-//            String rut = String.valueOf(request.getParameter("rut"));
-//            boolean confirmacion = false;
-//
-//            if (dao.verificarEncuesta(rut)) {
-//                Busqueda_encuesta busqueda_encuesta = new Busqueda_encuesta();
-//
-//                busqueda_encuesta = dao.Buscar_encuesta(rut);
-//
-//                Encuesta_buscada encuesta_buscada = new Encuesta_buscada();
-//
-//                encuesta_buscada.setRut(busqueda_encuesta.getRut());
-//                encuesta_buscada.setNombre(busqueda_encuesta.getNombre());
-//                encuesta_buscada.setSexo(busqueda_encuesta.getSexo());
-//                encuesta_buscada.setCentro_medico(busqueda_encuesta.getCentro_medico());
-//                if (busqueda_encuesta.getCambio_centro() == 1) {
-//                    encuesta_buscada.setCambio_centro("Sí");
-//                } else {
-//                    encuesta_buscada.setCambio_centro("No");
-//                }
-//                encuesta_buscada.setComuna(busqueda_encuesta.getComuna());
-//                encuesta_buscada.setFecha_nacimiento(busqueda_encuesta.getFecha_nacimiento());
-//                encuesta_buscada.setEducacion(busqueda_encuesta.getEducacion());
-//                if (busqueda_encuesta.getEstudio_actual() == 1) {
-//                    encuesta_buscada.setEstudio_actual("Sí");
-//                } else {
-//                    encuesta_buscada.setEstudio_actual("No");
-//                }
-//                encuesta_buscada.setCarrera_institucion(busqueda_encuesta.getCarrera_institucion());
-//                encuesta_buscada.setEstado_civil(busqueda_encuesta.getEstado_civil());
-//                encuesta_buscada.setPersonas_hogar(busqueda_encuesta.getPersonas_hogar());
-//                encuesta_buscada.setPersonas_ocupadas(busqueda_encuesta.getPersonas_ocupadas());
-//                encuesta_buscada.setPersonas_buscando(busqueda_encuesta.getPersonas_buscando());
-//                if (busqueda_encuesta.getPersonas_problema_salud() == 1) {
-//                    encuesta_buscada.setPersonas_problema_salud("Sí");
-//                } else {
-//                    encuesta_buscada.setPersonas_problema_salud("No");
-//                }
-//                encuesta_buscada.setPersonas_problema_salud_numero(busqueda_encuesta.getPersonas_problema_salud_numero());
-//                encuesta_buscada.setPersonas_carga(busqueda_encuesta.getPersonas_carga());
-//                if (busqueda_encuesta.getProveedor_principal() == 1) {
-//                    encuesta_buscada.setProveedor_principal("Sí");
-//                } else {
-//                    encuesta_buscada.setProveedor_principal("No");
-//                }
-//                encuesta_buscada.setVivienda(busqueda_encuesta.getVivienda());
-//                encuesta_buscada.setCargo_trabajo(busqueda_encuesta.getCargo_trabajo());
-//                if (busqueda_encuesta.getPolifuncionalidad() == 1) {
-//                    encuesta_buscada.setPolifuncionalidad("Sí");
-//                } else {
-//                    encuesta_buscada.setPolifuncionalidad("No");
-//                }
-//                encuesta_buscada.setArea_funciones(busqueda_encuesta.getArea_funciones());
-//                encuesta_buscada.setAnio_antiguedad(busqueda_encuesta.getAnio_antiguedad());
-//                encuesta_buscada.setMes_antiguedad(busqueda_encuesta.getMes_antiguedad());
-//                encuesta_buscada.setHoras_jornada(busqueda_encuesta.getHoras_jornada());
-//                if (busqueda_encuesta.getHoras_extra_habiles() == 1) {
-//                    encuesta_buscada.setHoras_extra_habiles("Sí");
-//                } else {
-//                    encuesta_buscada.setHoras_extra_habiles("No");
-//                }
-//                if (busqueda_encuesta.getHoras_extra_sabado() == 1) {
-//                    encuesta_buscada.setHoras_extra_sabado("Sí");
-//                } else {
-//                    encuesta_buscada.setHoras_extra_sabado("No");
-//                }
-//                if (busqueda_encuesta.getHoras_extra_domingo() == 1) {
-//                    encuesta_buscada.setHoras_extra_domingo("Sí");
-//                } else {
-//                    encuesta_buscada.setHoras_extra_domingo("No");
-//                }
-//                encuesta_buscada.setTurnos(busqueda_encuesta.getTurnos());
-//                encuesta_buscada.setTiempo_traslado_horas(busqueda_encuesta.getTiempo_traslado_horas());
-//                encuesta_buscada.setTiempo_traslado_minutos(busqueda_encuesta.getTiempo_traslado_minutos());
-//                if (busqueda_encuesta.getSolicitud_traslado_centro() == 1) {
-//                    encuesta_buscada.setSolicitud_traslado_centro("Sí");
-//                } else {
-//                    encuesta_buscada.setSolicitud_traslado_centro("No");
-//                }
-//                encuesta_buscada.setNumero_solicitud(busqueda_encuesta.getNumero_solicitud());
-//                if (busqueda_encuesta.getOtorgamiento_traslado_centro() == 1) {
-//                    encuesta_buscada.setOtorgamiento_traslado_centro("Sí");
-//                } else {
-//                    encuesta_buscada.setOtorgamiento_traslado_centro("No");
-//                }
-//                encuesta_buscada.setNumero_otorgamiento(busqueda_encuesta.getNumero_otorgamiento());
-//                if (busqueda_encuesta.getPrestamo_marzo() == 1) {
-//                    encuesta_buscada.setPrestamo_marzo("Sí");
-//                } else {
-//                    encuesta_buscada.setPrestamo_marzo("No");
-//                }
-//                if (busqueda_encuesta.getServicio_dental() == 1) {
-//                    encuesta_buscada.setServicio_dental("Sí");
-//                } else {
-//                    encuesta_buscada.setServicio_dental("No");
-//                }
-//                if (busqueda_encuesta.getOtro_servicio_dental() == 1) {
-//                    encuesta_buscada.setOtro_servicio_dental("Sí");
-//                } else {
-//                    encuesta_buscada.setOtro_servicio_dental("No");
-//                }
-//                if (busqueda_encuesta.getBono_nps() == 1) {
-//                    encuesta_buscada.setBono_nps("Sí");
-//                } else {
-//                    encuesta_buscada.setBono_nps("No");
-//                }
-//                if (busqueda_encuesta.getCriterios_bono_nps() == 1) {
-//                    encuesta_buscada.setCriterios_bono_nps("Sí");
-//                } else {
-//                    encuesta_buscada.setCriterios_bono_nps("No");
-//                }
-//                if (busqueda_encuesta.getCriterios_bono_produccion() == 1) {
-//                    encuesta_buscada.setCriterios_bono_produccion("Sí");
-//                } else {
-//                    encuesta_buscada.setCriterios_bono_produccion("No");
-//                }
-//                if (busqueda_encuesta.getTiempo_acreditacion() == 1) {
-//                    encuesta_buscada.setTiempo_acreditacion("Sí");
-//                } else {
-//                    encuesta_buscada.setTiempo_acreditacion("No");
-//                }
-//                if (busqueda_encuesta.getEstres_acreditacion() == 1) {
-//                    encuesta_buscada.setEstres_acreditacion("Sí");
-//                } else if (busqueda_encuesta.getEstres_acreditacion() == 0) {
-//                    encuesta_buscada.setEstres_acreditacion("No");
-//                } else {
-//                    encuesta_buscada.setEstres_acreditacion("No aplica");
-//                }
-//                if (busqueda_encuesta.getProblema_funciones_acreditacion() == 1) {
-//                    encuesta_buscada.setProblema_funciones_acreditacion("Sí");
-//                } else if (busqueda_encuesta.getProblema_funciones_acreditacion() == 0) {
-//                    encuesta_buscada.setProblema_funciones_acreditacion("No");
-//                } else {
-//                    encuesta_buscada.setProblema_funciones_acreditacion("No aplica");
-//                }
-//                if (busqueda_encuesta.getSituacion_catastrofica() == 1) {
-//                    encuesta_buscada.setSituacion_catastrofica("Sí");
-//                } else if (busqueda_encuesta.getSituacion_catastrofica() == 0) {
-//                    encuesta_buscada.setSituacion_catastrofica("No");
-//                } else {
-//                    encuesta_buscada.setSituacion_catastrofica("No aplica");
-//                }
-//                if (busqueda_encuesta.getRetiro_voluntario() == 1) {
-//                    encuesta_buscada.setRetiro_voluntario("Sí");
-//                } else {
-//                    encuesta_buscada.setRetiro_voluntario("No");
-//                }
-//                if (busqueda_encuesta.getSalida_social() == 1) {
-//                    encuesta_buscada.setSalida_social("Sí");
-//                } else {
-//                    encuesta_buscada.setSalida_social("No");
-//                }
-//                switch (busqueda_encuesta.getSatisfaccion_empresa()) {
-//                    case 1:
-//                        encuesta_buscada.setSatisfaccion_empresa("MUY DE ACUERDO");
-//                        break;
-//                    case 2:
-//                        encuesta_buscada.setSatisfaccion_empresa("DE ACUERDO");
-//                        break;
-//                    case 3:
-//                        encuesta_buscada.setSatisfaccion_empresa("NI DE ACUERDO NI EN DESACUERDO");
-//                        break;
-//                    case 4:
-//                        encuesta_buscada.setSatisfaccion_empresa("EN DESACUERDO");
-//                        break;
-//                    default:
-//                        encuesta_buscada.setSatisfaccion_empresa("MUY EN DESACUERDO");
-//                        break;
-//                }
-//                switch (busqueda_encuesta.getFiesta()) {
-//                    case 1:
-//                        encuesta_buscada.setFiesta("MUY DE ACUERDO");
-//                        break;
-//                    case 2:
-//                        encuesta_buscada.setFiesta("DE ACUERDO");
-//                        break;
-//                    case 3:
-//                        encuesta_buscada.setFiesta("NI DE ACUERDO NI EN DESACUERDO");
-//                        break;
-//                    case 4:
-//                        encuesta_buscada.setFiesta("EN DESACUERDO");
-//                        break;
-//                    default:
-//                        encuesta_buscada.setFiesta("MUY EN DESACUERDO");
-//                        break;
-//                }
-//                switch (busqueda_encuesta.getValoracion_sindicato()) {
-//                    case 1:
-//                        encuesta_buscada.setValoracion_sindicato("MUY DE ACUERDO");
-//                        break;
-//                    case 2:
-//                        encuesta_buscada.setValoracion_sindicato("DE ACUERDO");
-//                        break;
-//                    case 3:
-//                        encuesta_buscada.setValoracion_sindicato("NI DE ACUERDO NI EN DESACUERDO");
-//                        break;
-//                    case 4:
-//                        encuesta_buscada.setValoracion_sindicato("EN DESACUERDO");
-//                        break;
-//                    default:
-//                        encuesta_buscada.setValoracion_sindicato("MUY EN DESACUERDO");
-//                        break;
-//                }
-//                if (busqueda_encuesta.getOtro_sindicato() == 1) {
-//                    encuesta_buscada.setOtro_sindicato("Sí");
-//                } else {
-//                    encuesta_buscada.setOtro_sindicato("No");
-//                }
-//                encuesta_buscada.setAntiguedad_sindicato_anio(busqueda_encuesta.getAntiguedad_sindicato_anio());
-//                encuesta_buscada.setAntiguedad_sindicato_mes(busqueda_encuesta.getAntiguedad_sindicato_mes());
-//                if (busqueda_encuesta.getContrato_colectivo() == 1) {
-//                    encuesta_buscada.setContrato_colectivo("Sí");
-//                } else {
-//                    encuesta_buscada.setContrato_colectivo("No");
-//                }
-//                if (busqueda_encuesta.getConocimiento_contrato_colectivo() == 1) {
-//                    encuesta_buscada.setConocimiento_contrato_colectivo("Sí");
-//                } else {
-//                    encuesta_buscada.setConocimiento_contrato_colectivo("No");
-//                }
-//                if (busqueda_encuesta.getEstatutos_sindicato() == 1) {
-//                    encuesta_buscada.setEstatutos_sindicato("Sí");
-//                } else {
-//                    encuesta_buscada.setEstatutos_sindicato("No");
-//                }
-//
-//                request.setAttribute("encuesta_buscada", encuesta_buscada);
-//            } else {
-//                confirmacion = true;
-//                msg = "Usted aún no ha contestado una encuesta; debe contestarla para acceder a la sección 'Modificar o eliminar encuesta'";
-//                request.setAttribute("msg", msg);
-//            }
-//
-//            if (confirmacion) {
-//
-//                request.getRequestDispatcher("encuesta.do").forward(request, response);
-//
-//            } else {
-//
-//                //Se recuperan los registros de los comboBox.
-//                listaCentroMedico = dao.listarCentroMedico();
-//                listaComuna = dao.listarComuna();
-//                listaEducacion = dao.listarEducacion();
-//                listaEstadoCivil = dao.listarEstadoCivil();
-//                listaVivienda = dao.listarVivienda();
-//                listaCargo = dao.listarCargo();
-//                listaFuncion = dao.listarFuncion();
-//
-//                //Se envía información a jsp de salida.
-//                request.setAttribute("listaCentroMedico", listaCentroMedico);
-//                request.setAttribute("listaComuna", listaComuna);
-//                request.setAttribute("listaEducacion", listaEducacion);
-//                request.setAttribute("listaEstadoCivil", listaEstadoCivil);
-//                request.setAttribute("listaVivienda", listaVivienda);
-//                request.setAttribute("listaCargo", listaCargo);
-//                request.setAttribute("listaFuncion", listaFuncion);
-//                request.getRequestDispatcher("modificarEncuesta.jsp").forward(request, response);
-//
-//            }
+            //Se recupera la id de la sesión
+            int id_sesion = Integer.parseInt(request.getParameter("id_sesion_profesor"));
+
+            String estado_sesion = dao.obtenerEstadoSesion(id_sesion);
+
+            int nivel_sesion = 1;
+
+            if (estado_sesion.equalsIgnoreCase("ABIERTA")) {
+
+                if (!dao.verificarNivel(id_sesion, estado_sesion)) {
+                    dao.insertarNivel(estado_sesion, id_sesion);
+                }
+
+            } else {
+                nivel_sesion = dao.obtenerNivel(id_sesion, estado_sesion);
+            }
+
+            request.setAttribute("nivel_sesion", nivel_sesion);
+            request.setAttribute("estado_sesion", estado_sesion);
+            request.setAttribute("id_sesion", id_sesion);
+            request.getRequestDispatcher("cartografia-profesor.jsp").forward(request, response);
+
         } else if (userPath.equals("/manipular.do")) {
 
 //            String rut = String.valueOf(request.getParameter("rut"));

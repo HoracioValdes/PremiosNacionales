@@ -90,6 +90,78 @@ public class DaoJuegoEstudiante extends Conectar {
         }
         return estado;
     }
+    
+    public boolean verificarNivel(int id_sesion, String estado) {
+        boolean existencia = false;
+        try {
+            //Recuperar una conexión.
+            Connection con = this.getConexion();
+            //Se genera sentecia select
+            String strSQL = "SELECT MAX(NIVEL) FROM NIVEL WHERE ID_SESION = "+id_sesion+" AND ESTADO = '"+estado+"'";
+            //Se prepara la consulta.
+            PreparedStatement ps = con.prepareStatement(strSQL);
+            //ejecutar la consulta.
+            ResultSet res = ps.executeQuery();
+            //Se recorre el ResultSet.
+            while (res.next()) {
+                existencia = true;
+            }
+            con.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DaoRegistro.class.getName())
+                    .log(Level.SEVERE, "Error en registro del Driver.", ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DaoRegistro.class.getName())
+                    .log(Level.SEVERE, "Error en SQL.", ex);
+        }
+        return existencia;
+    }
+    
+    public int insertarNivel(String estado, int id_sesion) {
+        int cantFilas = 0;
+        try {
+            //Recuperar una conexión.
+            Connection con = this.getConexion();
+            //Se genera sentecia select
+            String strSQL = "INSERT INTO NIVEL VALUES (NULL, '"+estado+"', 1, "+id_sesion+");";
+            //Se prepara la consulta.
+            PreparedStatement ps = con.prepareStatement(strSQL);
+
+            cantFilas = ps.executeUpdate();
+            con.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DaoJuegoEstudiante.class.getName()).log(Level.SEVERE, "Problema registro del Driver", ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DaoJuegoEstudiante.class.getName()).log(Level.SEVERE, "Error SQL.", ex);
+        }
+        return cantFilas;
+    }
+    
+    public int obtenerNivel(int id_sesion, String estado) {
+        int nivel = 0;
+        try {
+            //Recuperar una conexión.
+            Connection con = this.getConexion();
+            //Se genera sentecia select
+            String strSQL = "SELECT MAX(NIVEL) AS NIVEL FROM NIVEL WHERE ID_SESION = "+id_sesion+" AND ESTADO = '"+estado+"';";
+            //Se prepara la consulta.
+            PreparedStatement ps = con.prepareStatement(strSQL);
+            //ejecutar la consulta.
+            ResultSet res = ps.executeQuery();
+            //Se recorre el ResultSet.
+            while (res.next()) {
+                    nivel = Integer.parseInt(res.getString("NIVEL"));
+            }
+            con.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DaoJuegoEstudiante.class.getName())
+                    .log(Level.SEVERE, "Error en registro del Driver.", ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DaoJuegoEstudiante.class.getName())
+                    .log(Level.SEVERE, "Error en SQL.", ex);
+        }
+        return nivel;
+    }
 //    
 //    public ArrayList<Comuna> listarComuna() {
 //        ArrayList<Comuna> lstComuna = new ArrayList();
@@ -277,31 +349,6 @@ public class DaoJuegoEstudiante extends Conectar {
 //        return lstFuncion;
 //    }
 //
-//    public boolean verificarEncuesta(String rut_socio) {
-//        boolean existencia = false;
-//        try {
-//            //Recuperar una conexión.
-//            Connection con = this.getConexion();
-//            //Se genera sentecia select
-//            String strSQL = "SELECT * FROM ENCUESTA WHERE RUT LIKE '" + rut_socio + "'";
-//            //Se prepara la consulta.
-//            PreparedStatement ps = con.prepareStatement(strSQL);
-//            //ejecutar la consulta.
-//            ResultSet res = ps.executeQuery();
-//            //Se recorre el ResultSet.
-//            while (res.next()) {
-//                existencia = true;
-//            }
-//            con.close();
-//        } catch (ClassNotFoundException ex) {
-//            Logger.getLogger(DaoRegistro.class.getName())
-//                    .log(Level.SEVERE, "Error en registro del Driver.", ex);
-//        } catch (SQLException ex) {
-//            Logger.getLogger(DaoRegistro.class.getName())
-//                    .log(Level.SEVERE, "Error en SQL.", ex);
-//        }
-//        return existencia;
-//    }
 //
 //    public int registrarEncuesta(Socio_encuesta socio_encuesta) {
 //        int cantFilas = 0;

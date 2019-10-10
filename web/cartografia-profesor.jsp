@@ -21,7 +21,7 @@
         <title>Juego de Premios Nacionales</title>
     </head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <body id="myDiv" onload="recibirSesion(), centrarMapa()" style="background: url('img/MAPA.jpg'); background-repeat: no-repeat; width: 100%; height: 100%;
+    <body id="myDiv" onload="recibirDatos(), centrarMapa()" style="background: url('img/MAPA.jpg'); background-repeat: no-repeat; width: 100%; height: 100%;
           -webkit-transition:background-position .3s ease-in;  
           -moz-transition:background-position .3s ease-in;  
           -o-transition:background-position .3s ease-in;  
@@ -54,13 +54,9 @@
                 </div>
             </div>
 
-            <div class="col s6 offset-s4" style="position:fixed; bottom:0; margin-bottom: 50px; margin-left: 650px;">
-                <img id="dado" src="img/dado.gif" style="height: 0px;">
-            </div>
-
             <div class="col s6 offset-s4">
                 <div class="blue-text center-align" style="position:fixed; bottom:0; margin-bottom: 50px; margin-left: 50px;">
-                    <button id="botonLanzar" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return lanzarDado();">Lanzar dado
+                    <button id="botonLanzar" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return obtenerLanzamiento();">Obtener Lanzamientos
                         <i class="material-icons right">loop</i>
                     </button>
                 </div>
@@ -76,17 +72,45 @@
                         });
         </script>
         <script>
-            var primerLanzamiento = true;
-            var segundoLanzamiento = true;
             var premio = 0;
+            var subtematica = 0;
 
             function centrarMapa() {
                 document.getElementById("myDiv").style.backgroundPosition = "left top";
             }
 
-            function lanzarDado()
+            function obtenerLanzamiento()
             {
-                document.getElementById("dado").style.height = "150px";
+                if (estado_sesion == 'ABIERTA') {
+
+                    var xmlhttp = new XMLHttpRequest();
+                    var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=9&numero_equipo='1;
+
+                    xmlhttp.onreadystatechange = function () {
+                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                            var array = JSON.parse(xmlhttp.responseText);
+                            //alert(array);
+
+                            //Elección aleatoria de subtemática
+                            var subtematicaAzar = Math.floor((Math.random() * (array.length - 1)) + 1);
+                            //alert(subtematicaAzar);
+                            //alert(array[subtematicaAzar - 1].DESCRIPCION_SUBTEMATICA);
+                            document.getElementById('subtematica').innerHTML = array[subtematicaAzar - 1].DESCRIPCION_SUBTEMATICA;
+                            obtenerArtistas(array[subtematicaAzar - 1].ID_SUBTEMATICA)
+                        }
+                    }
+                    xmlhttp.open("GET", url, true);
+                    xmlhttp.send();
+
+                } else if (estado_sesion == 'SEGUNDA') {
+
+
+
+                } else if (estado_sesion == 'TERCERA') {
+
+
+
+                }
 
                 if (primerLanzamiento) {
                     primerLanzamiento = false;
@@ -175,17 +199,22 @@
                 xmlhttp.open("GET", url, true);
                 xmlhttp.send();
             }
-            
+
             function agregarBotonArtista(id_artista, nombre_artista) {
                 var contenedor = document.getElementById('artistas');
-                contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect blue lighten-1 modal-trigger' onclick='enviarSesion("+ id_artista + ")'>" + nombre_artista + "<i class='material-icons right'>assignment_ind</i></button></div>";
+                contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect blue lighten-1 modal-trigger' onclick='enviarSesion(" + id_artista + ")'>" + nombre_artista + "<i class='material-icons right'>assignment_ind</i></button></div>";
             }
 
-            function recibirSesion() {
-                var sesionSucia = window.location.search.substring(1);
-                var sesionSuciaDos = sesionSucia.split('&', 1);
-                var sesion = sesionSuciaDos[0].substring(12);
-                //alert(sesion);
+            var estado_sesion = '';
+            var id_sesion = 0;
+            var nivel_sesion = 0;
+            function recibirDatos() {
+                estado_sesion = '${estado_sesion}';
+                id_sesion = '${id_sesion}';
+                nivel_sesion = '${nivel_sesion}';
+                alert('estado_sesion: ' + estado_sesion);
+                alert('id_sesion: ' + id_sesion);
+                alert('nivel_sesion: ' + nivel_sesion);
             }
         </script>
     </body>

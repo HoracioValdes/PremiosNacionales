@@ -253,8 +253,8 @@
                 <div class="modal-content">
                     <h4>Datos de ingreso necesarios</h4>
                     <p>Ingrese su correo y la contraseña.</p>
-                    <form class="cols10" action="cartografia-profesor.jsp">
-                        <input type="hidden" id="hiddenField" name="hiddenField"/> 
+                    <form class="cols10" action="entrar_profesor.do">
+                        <input type="hidden" id="id_sesion_profesor" name="id_sesion_profesor"/> 
                         <input placeholder="Ingrese su correo" id="correoIngreso" type="text" class="validate">
                         <label for="rutIngreso">Correo</label>
                         <input placeholder="Ingrese su clave" id="claveIngreso" type="text" class="validate">
@@ -370,7 +370,7 @@
             {
                 var correoIngreso = document.getElementById("correoIngreso").value;
                 var claveIngreso = document.getElementById("claveIngreso").value;
-                var id_sesion = document.getElementById("hiddenField").value;
+                var id_sesion = document.getElementById("id_sesion_profesor").value;
                 // alert(id_sesion + rutIngreso + claveIngreso);
 
                 if (numeroSesion === id_sesion) {
@@ -516,7 +516,7 @@
             }
 
             function enviarSesion(id_sesion) {
-                document.getElementById("hiddenField").value = id_sesion;
+                document.getElementById("id_sesion_profesor").value = id_sesion;
             }
 
             function enviarSesionDos(id_sesion) {
