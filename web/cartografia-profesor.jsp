@@ -34,9 +34,9 @@
                 </div>
             </nav>
 
-            <div class="row">
-                <div class="col s10 offset-s1"> 
-                    <h4 id="subtematica" align="justify"></h4>
+            <div>
+                <div class="col s8 offset-s4 card-panel #3949ab indigo darken-1"> 
+                    <h5 id="subtematica" align="center" style="color: #ffffff"></h5>
                 </div>
             </div>
 
@@ -102,7 +102,7 @@
                                         subtematica = array[0].VALOR;
                                         // alert('subtematica: ' + subtematica);
                                         
-                                        document.getElementById("myDiv").style.backgroundImage = "url('img/grilla.jpg')";
+                                        //document.getElementById("myDiv").style.backgroundImage = "url('img/grilla.jpg')";
                                         obtenerSubtematicas(premio);
                                     }
                                 }
@@ -144,7 +144,7 @@
                                         subtematica = array[0].VALOR;
                                         // alert('subtematica: ' + subtematica);
                                         
-                                        document.getElementById("myDiv").style.backgroundImage = "url('img/grilla.jpg')";
+                                        //document.getElementById("myDiv").style.backgroundImage = "url('img/grilla.jpg')";
                                         obtenerSubtematicas(premio);
                                     }
                                 }
@@ -186,7 +186,7 @@
                                         subtematica = array[0].VALOR;
                                         //alert('subtematica: ' + subtematica);
                                         
-                                        document.getElementById("myDiv").style.backgroundImage = "url('img/grilla.jpg')";
+                                        //document.getElementById("myDiv").style.backgroundImage = "url('img/grilla.jpg')";
                                         obtenerSubtematicas(premio);
                                     }
                                 }
@@ -201,20 +201,6 @@
                     xmlhttp.open("GET", url, true);
                     xmlhttp.send();
 
-                }
-
-                if (primerLanzamiento) {
-                    primerLanzamiento = false;
-                    setTimeout(function () {
-                        cargarMapa()
-                    }, 5000); // 5000ms = 5s
-                } else if (segundoLanzamiento) {
-                    segundoLanzamiento = false;
-                    document.getElementById("myDiv").style.backgroundImage = "url('img/grilla.jpg')";
-                    document.getElementById("botonLanzar").disabled = true;
-                    setTimeout(function () {
-                        cargarSubtematica()
-                    }, 5000); // 5000ms = 5s
                 }
             }
 
@@ -266,7 +252,7 @@
                 //alert('id subtematica: ' + id_subtematica);
 
                 var xmlhttp = new XMLHttpRequest();
-                var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=3&id_subtematica=' + id_subtematica;
+                var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=3&id_subtematica=' + id_subtematica + '&nivel=' + nivel_sesion;
 
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
