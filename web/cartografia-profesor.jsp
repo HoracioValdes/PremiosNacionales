@@ -22,10 +22,10 @@
     </head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <body id="myDiv" onload="recibirDatos(), centrarMapa()" style="background: url('img/MAPA.jpg'); background-repeat: no-repeat; width: 100%; height: 100%;
-          -webkit-transition:background-position .3s ease-in;  
-          -moz-transition:background-position .3s ease-in;  
-          -o-transition:background-position .3s ease-in;  
-          transition:background-position .3s ease-in; ">
+          -webkit-transition:background-position .20s ease-in;  
+          -moz-transition:background-position .20s ease-in;  
+          -o-transition:background-position .20s ease-in;  
+          transition:background-position .20s ease-in; ">
         <div class="container">
 
             <nav>
@@ -33,12 +33,6 @@
                     <a href="#" class="brand-logo" style="margin-left: 10px;">Premios Nacionales</a>
                 </div>
             </nav>
-
-            <div class="row">
-                <div class="col s10 offset-s1"> 
-                    <p class="flow-text" align="justify">La o el docente debe tirar el dado para seleccionar un Premio Nacional y luego una Subtemática del premio seleccionado.</p>
-                </div>
-            </div>
 
             <div class="row">
                 <div class="col s10 offset-s1"> 
@@ -84,19 +78,40 @@
                 if (estado_sesion == 'ABIERTA') {
 
                     var xmlhttp = new XMLHttpRequest();
-                    var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=9&numero_equipo='1;
+                    var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=9&numero_equipo=' + 1 + '&id_sesion=' + id_sesion;
 
                     xmlhttp.onreadystatechange = function () {
                         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                             var array = JSON.parse(xmlhttp.responseText);
                             //alert(array);
 
-                            //Elección aleatoria de subtemática
-                            var subtematicaAzar = Math.floor((Math.random() * (array.length - 1)) + 1);
-                            //alert(subtematicaAzar);
-                            //alert(array[subtematicaAzar - 1].DESCRIPCION_SUBTEMATICA);
-                            document.getElementById('subtematica').innerHTML = array[subtematicaAzar - 1].DESCRIPCION_SUBTEMATICA;
-                            obtenerArtistas(array[subtematicaAzar - 1].ID_SUBTEMATICA)
+                            if (array.length > 0) {
+
+                                premio = array[0].VALOR;
+                                // alert('premio: ' + premio);
+                                cargarMapa(premio);
+
+                                var xmlhttpDos = new XMLHttpRequest();
+                                var urlDos = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=9&numero_equipo=' + 2 + '&id_sesion=' + id_sesion;
+
+                                xmlhttpDos.onreadystatechange = function () {
+                                    if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
+                                        var array = JSON.parse(xmlhttpDos.responseText);
+                                        //alert(array);
+
+                                        subtematica = array[0].VALOR;
+                                        // alert('subtematica: ' + subtematica);
+                                        
+                                        document.getElementById("myDiv").style.backgroundImage = "url('img/grilla.jpg')";
+                                        obtenerSubtematicas(premio);
+                                    }
+                                }
+                                xmlhttpDos.open("GET", urlDos, true);
+                                xmlhttpDos.send();
+
+                            } else {
+                                Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                            }
                         }
                     }
                     xmlhttp.open("GET", url, true);
@@ -104,11 +119,87 @@
 
                 } else if (estado_sesion == 'SEGUNDA') {
 
+                    var xmlhttp = new XMLHttpRequest();
+                    var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=9&numero_equipo=' + 3 + '&id_sesion=' + id_sesion;
 
+                    xmlhttp.onreadystatechange = function () {
+                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                            var array = JSON.parse(xmlhttp.responseText);
+                            //alert(array);
+
+                            if (array.length > 0) {
+
+                                premio = array[0].VALOR;
+                                // alert('premio: ' + premio);
+                                cargarMapa(premio);
+
+                                var xmlhttpDos = new XMLHttpRequest();
+                                var urlDos = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=9&numero_equipo=' + 4 + '&id_sesion=' + id_sesion;
+
+                                xmlhttpDos.onreadystatechange = function () {
+                                    if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
+                                        var array = JSON.parse(xmlhttpDos.responseText);
+                                        //alert(array);
+
+                                        subtematica = array[0].VALOR;
+                                        // alert('subtematica: ' + subtematica);
+                                        
+                                        document.getElementById("myDiv").style.backgroundImage = "url('img/grilla.jpg')";
+                                        obtenerSubtematicas(premio);
+                                    }
+                                }
+                                xmlhttpDos.open("GET", urlDos, true);
+                                xmlhttpDos.send();
+
+                            } else {
+                                Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                            }
+                        }
+                    }
+                    xmlhttp.open("GET", url, true);
+                    xmlhttp.send();
 
                 } else if (estado_sesion == 'TERCERA') {
 
+                    var xmlhttp = new XMLHttpRequest();
+                    var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=9&numero_equipo=' + 5 + '&id_sesion=' + id_sesion;
 
+                    xmlhttp.onreadystatechange = function () {
+                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                            var array = JSON.parse(xmlhttp.responseText);
+                            //alert(array);
+
+                            if (array.length > 0) {
+
+                                premio = array[0].VALOR;
+                                // alert('premio: ' + premio);
+                                cargarMapa(premio);
+
+                                var xmlhttpDos = new XMLHttpRequest();
+                                var urlDos = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=9&numero_equipo=' + 6 + '&id_sesion=' + id_sesion;
+
+                                xmlhttpDos.onreadystatechange = function () {
+                                    if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
+                                        var array = JSON.parse(xmlhttpDos.responseText);
+                                        //alert(array);
+
+                                        subtematica = array[0].VALOR;
+                                        //alert('subtematica: ' + subtematica);
+                                        
+                                        document.getElementById("myDiv").style.backgroundImage = "url('img/grilla.jpg')";
+                                        obtenerSubtematicas(premio);
+                                    }
+                                }
+                                xmlhttpDos.open("GET", urlDos, true);
+                                xmlhttpDos.send();
+
+                            } else {
+                                Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                            }
+                        }
+                    }
+                    xmlhttp.open("GET", url, true);
+                    xmlhttp.send();
 
                 }
 
@@ -133,22 +224,16 @@
                 obtenerSubtematicas(premio);
             }
 
-            function cargarMapa() {
-                document.getElementById("dado").style.height = "0px";
-                var posicion = Math.floor((Math.random() * (5 - 1)) + 1);
+            function cargarMapa(premio) {
                 // alert(posicion);
-                if (posicion === 4) {
+                if (premio === 4) {
                     document.getElementById("myDiv").style.backgroundPosition = "right 70%";
-                    premio = posicion;
-                } else if (posicion === 3) {
+                } else if (premio === 3) {
                     document.getElementById("myDiv").style.backgroundPosition = "left 70%";
-                    premio = posicion;
-                } else if (posicion === 2) {
+                } else if (premio === 2) {
                     document.getElementById("myDiv").style.backgroundPosition = "right top";
-                    premio = posicion;
-                } else {
+                } else if (premio == 1) {
                     document.getElementById("myDiv").style.backgroundPosition = "center 37%";
-                    premio = 1;
                 }
             }
 
@@ -192,7 +277,7 @@
                             for (i = 0; i < array.length; i++) {
                                 agregarBotonArtista(array[i].ID_ARTISTA, array[i].NOMBRE_ARTISTA);
                             }
-                            Materialize.toast('¿Cuál artista escogerás?', 4000);
+                            Materialize.toast('¿Cuál artista escogerán?', 4000);
                         }
                     }
                 }
