@@ -21,6 +21,11 @@
         <title>Juego de Premios Nacionales</title>
     </head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.modal').modal();
+        });
+    </script>
     <body id="myDiv" onload="recibirDatos(), centrarMapa()" style="background: url('img/MAPA.jpg'); background-repeat: no-repeat; width: 100%; height: 100%;
           -webkit-transition:background-position .20s ease-in;  
           -moz-transition:background-position .20s ease-in;  
@@ -34,8 +39,8 @@
                 </div>
             </nav>
 
-            <div>
-                <div class="col s8 offset-s4 card-panel #3949ab indigo darken-1"> 
+            <div class="row">
+                <div class="col s8 offset-s2 card-panel #3949ab indigo darken-1"> 
                     <h5 id="subtematica" align="center" style="color: #ffffff"></h5>
                 </div>
             </div>
@@ -56,6 +61,26 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal Structure -->
+        <div id="modal2" class="modal">
+            <div class="modal-content">
+                <h4 align="center">Desafío de artista</h4>
+                <p><b>Nombre de artista</b></p>
+                <p id="nombreArtista">.</p>
+                <p><b>Biografía de artista</b></p>
+                <p id="biografiaArtista">.</p>
+                <p><b>Desafío de artista</b></p>
+                <p id="desafioArtista">.</p>
+                <p><b>Enlaces de artista</b></p>
+                <div id="enlaces">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+            </div>
+        </div>
+
         <!--Import jQuery before materialize.js-->
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="js/materialize.min.js"></script>
@@ -75,6 +100,7 @@
 
             function obtenerLanzamiento()
             {
+                document.getElementById("botonLanzar").style.height = "0px";
                 if (estado_sesion == 'ABIERTA') {
 
                     var xmlhttp = new XMLHttpRequest();
@@ -101,7 +127,7 @@
 
                                         subtematica = array[0].VALOR;
                                         // alert('subtematica: ' + subtematica);
-                                        
+
                                         //document.getElementById("myDiv").style.backgroundImage = "url('img/grilla.jpg')";
                                         obtenerSubtematicas(premio);
                                     }
@@ -143,7 +169,7 @@
 
                                         subtematica = array[0].VALOR;
                                         // alert('subtematica: ' + subtematica);
-                                        
+
                                         //document.getElementById("myDiv").style.backgroundImage = "url('img/grilla.jpg')";
                                         obtenerSubtematicas(premio);
                                     }
@@ -185,7 +211,7 @@
 
                                         subtematica = array[0].VALOR;
                                         //alert('subtematica: ' + subtematica);
-                                        
+
                                         //document.getElementById("myDiv").style.backgroundImage = "url('img/grilla.jpg')";
                                         obtenerSubtematicas(premio);
                                     }
@@ -257,9 +283,35 @@
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                         var array = JSON.parse(xmlhttp.responseText);
-                        //alert(array);
 
                         if (array.length > 0) {
+
+                            var xmlhttpDos = new XMLHttpRequest();
+                            var urlDos = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=10&id_sesion=' + id_sesion + '&nivel=' + nivel_sesion;
+
+                            xmlhttpDos.onreadystatechange = function () {
+                                if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
+                                    var arrayPasado = JSON.parse(xmlhttpDos.responseText);
+                                    //alert(array);
+
+                                    if (arrayPasado.length > 0) {
+                                        for (i = 0; i < arrayPasado.length; i++) {
+
+                                            for (x = 0; x < array.length; x++) {
+
+                                                if (arrayPasado[i].ID_ARTISTA == array[x].ID_ARTISTA) {
+                                                    alert('eliminando repetidos!');
+                                                    array.splice(x, 1);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            xmlhttp.open("GET", urlDos, true);
+                            xmlhttp.send();
+
                             for (i = 0; i < array.length; i++) {
                                 agregarBotonArtista(array[i].ID_ARTISTA, array[i].NOMBRE_ARTISTA);
                             }
@@ -273,7 +325,43 @@
 
             function agregarBotonArtista(id_artista, nombre_artista) {
                 var contenedor = document.getElementById('artistas');
-                contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect blue lighten-1 modal-trigger' onclick='enviarSesion(" + id_artista + ")'>" + nombre_artista + "<i class='material-icons right'>assignment_ind</i></button></div>";
+                contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect blue lighten-1 modal-trigger' onclick='traerArtista(" + id_artista + ")' href='#modal2'>" + nombre_artista + "<i class='material-icons right'>assignment_ind</i></button></div>";
+            }
+
+            function traerArtista(id_artista) {
+                var xmlhttp = new XMLHttpRequest();
+                var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=11&id_artista=' + id_artista;
+
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        var array = JSON.parse(xmlhttp.responseText);
+                        //alert(array);
+
+                        document.getElementById('nombreArtista').innerHTML = array[0].NOMBRE_ARTISTA;
+                        document.getElementById('biografiaArtista').innerHTML = array[0].BIOGRAFIA_ARTISTA;
+                        document.getElementById('desafioArtista').innerHTML = array[0].DESAFIO;
+                    }
+                }
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
+
+                var xmlhttpDos = new XMLHttpRequest();
+                var urlDos = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=12&id_artista=' + id_artista;
+
+                xmlhttpDos.onreadystatechange = function () {
+                    if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
+                        var arrayDos = JSON.parse(xmlhttpDos.responseText);
+                        //alert(array);
+
+                        for (i = 0; i < arrayDos.length; i++) {
+                            
+                            var enlace = '<a href="'+arrayDos[i].TEXTO_ENLACE+'" target="_blank">'+arrayDos[i].TEXTO_ENLACE+'</a><br>';
+                            document.getElementById("enlaces").innerHTML += enlace;
+                        }
+                    }
+                }
+                xmlhttpDos.open("GET", urlDos, true);
+                xmlhttpDos.send();
             }
 
             var estado_sesion = '';
