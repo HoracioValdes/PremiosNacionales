@@ -110,14 +110,16 @@ public class ControladorJuegoEstudiantes extends HttpServlet {
 
             String estado_sesion = dao.obtenerEstadoSesion(id_sesion);
 
-            int nivel_sesion = 1;
+            int nivel_sesion = 0;
 
             if (estado_sesion.equalsIgnoreCase("ABIERTA")) {
-
-                if (!dao.verificarNivel(id_sesion, estado_sesion)) {
+                if (!dao.verificarNivelPrevio(id_sesion, estado_sesion)) {
                     dao.insertarNivel(estado_sesion, id_sesion);
+                    dao.comienzoJuego(id_sesion);
+                    nivel_sesion = 1;
+                } else {
+                    nivel_sesion = 1;
                 }
-
             } else {
                 nivel_sesion = dao.obtenerNivel(id_sesion, estado_sesion);
             }

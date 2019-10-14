@@ -38,6 +38,23 @@ public class DaoJuegoEstudiante extends Conectar {
         }
         return cantFilas;
     }
+    
+    public void comienzoJuego(int id_sesion) {
+        try {
+            //Recuperar una conexión.
+            Connection con = this.getConexion();
+            //Se genera sentecia select
+            String strSQL = "INSERT INTO JUGAR VALUES (NULL, 0, "+ id_sesion+");";
+            //Se prepara la consulta.
+            PreparedStatement ps = con.prepareStatement(strSQL);
+            ps.executeUpdate();
+            con.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DaoJuegoEstudiante.class.getName()).log(Level.SEVERE, "Problema registro del Driver", ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DaoJuegoEstudiante.class.getName()).log(Level.SEVERE, "Error SQL.", ex);
+        }
+    }
 
     public int obtenerNumeroGrupos(int id_sesion) {
         int numero_grupos = 0;
@@ -117,6 +134,32 @@ public class DaoJuegoEstudiante extends Conectar {
         return existencia;
     }
     
+    public boolean verificarNivelPrevio(int id_sesion, String estado) {
+        boolean existencia = false;
+        try {
+            //Recuperar una conexión.
+            Connection con = this.getConexion();
+            //Se genera sentecia select
+            String strSQL = "SELECT * FROM NIVEL WHERE ID_SESION = "+id_sesion+" AND ESTADO = '"+estado+"'";
+            //Se prepara la consulta.
+            PreparedStatement ps = con.prepareStatement(strSQL);
+            //ejecutar la consulta.
+            ResultSet res = ps.executeQuery();
+            //Se recorre el ResultSet.
+            while (res.next()) {
+                existencia = true;
+            }
+            con.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DaoRegistro.class.getName())
+                    .log(Level.SEVERE, "Error en registro del Driver.", ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DaoRegistro.class.getName())
+                    .log(Level.SEVERE, "Error en SQL.", ex);
+        }
+        return existencia;
+    }
+    
     public int insertarNivel(String estado, int id_sesion) {
         int cantFilas = 0;
         try {
@@ -143,7 +186,7 @@ public class DaoJuegoEstudiante extends Conectar {
             //Recuperar una conexión.
             Connection con = this.getConexion();
             //Se genera sentecia select
-            String strSQL = "SELECT MAX(NIVEL) AS NIVEL FROM NIVEL WHERE ID_SESION = "+id_sesion+" AND ESTADO = '"+estado+"';";
+            String strSQL = "SELECT NIVEL FROM NIVEL WHERE ID_SESION = "+id_sesion+" AND ESTADO = '"+estado+"';";
             //Se prepara la consulta.
             PreparedStatement ps = con.prepareStatement(strSQL);
             //ejecutar la consulta.

@@ -66,57 +66,76 @@
 
         function lanzarDado()
         {
-            // Consulta de lanzamiento realizado
-            var xmlhttpUno = new XMLHttpRequest();
-            var urlUno = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=8&id_sesion=' + id_sesion + '&numero_equipo=' + numero_equipo;
+            // Consulta de inicio de partida
 
-            xmlhttpUno.onreadystatechange = function () {
-                if (xmlhttpUno.readyState == 4 && xmlhttpUno.status == 200) {
-                    var arrayUno = JSON.parse(xmlhttpUno.responseText);
-                    if (arrayUno.length > 0) {
+            var xmlhttpTres = new XMLHttpRequest();
+            var urlTres = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=14&id_sesion=' + id_sesion;
 
-                        Materialize.toast('Este equipo ya realizó su lanzamiento del dado', 4000);
+            xmlhttpTres.onreadystatechange = function () {
+                if (xmlhttpTres.readyState == 4 && xmlhttpTres.status == 200) {
+                    var arrayTres = JSON.parse(xmlhttpTres.responseText);
 
-                    } else {
+                    if (arrayTres[0].PLAY == 1) {
 
-                        if (numero_equipo == 2 || numero_equipo == 4 || numero_equipo == 6) {
+                        // Consulta de lanzamiento realizado
+                        var xmlhttpUno = new XMLHttpRequest();
+                        var urlUno = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=8&id_sesion=' + id_sesion + '&numero_equipo=' + numero_equipo;
 
-                            numero_equipo_anterior = numero_equipo - 1;
-                            //Consultar por premio seleccionado en la primera tirada
-                            var xmlhttp = new XMLHttpRequest();
-                            var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=7&id_sesion=' + id_sesion + '&numero_equipo=' + numero_equipo_anterior;
+                        xmlhttpUno.onreadystatechange = function () {
+                            if (xmlhttpUno.readyState == 4 && xmlhttpUno.status == 200) {
+                                var arrayUno = JSON.parse(xmlhttpUno.responseText);
+                                if (arrayUno.length > 0) {
 
-                            xmlhttp.onreadystatechange = function () {
-                                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                                    // alert('valor de dado insertado');
-                                    var array = JSON.parse(xmlhttp.responseText);
-                                    if (array.length > 0) {
+                                    Materialize.toast('Este equipo ya realizó su lanzamiento del dado', 4000);
+
+                                } else {
+
+                                    if (numero_equipo == 2 || numero_equipo == 4 || numero_equipo == 6) {
+
+                                        numero_equipo_anterior = numero_equipo - 1;
+                                        //Consultar por premio seleccionado en la primera tirada
+                                        var xmlhttp = new XMLHttpRequest();
+                                        var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=7&id_sesion=' + id_sesion + '&numero_equipo=' + numero_equipo_anterior;
+
+                                        xmlhttp.onreadystatechange = function () {
+                                            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                                                // alert('valor de dado insertado');
+                                                var array = JSON.parse(xmlhttp.responseText);
+                                                if (array.length > 0) {
+
+                                                    document.getElementById("dadoDos").style.height = "150px";
+                                                    setTimeout(function () {
+                                                        cargarDado();
+                                                    }, 5000); // 5000ms = 5s
+
+                                                } else {
+                                                    Materialize.toast('El equipo anterior aún no ha lanzado el dado', 4000);
+                                                }
+                                            }
+                                        }
+                                        xmlhttp.open("GET", url, true);
+                                        xmlhttp.send();
+                                    } else if (numero_equipo == 1 || numero_equipo == 3 || numero_equipo == 5) {
 
                                         document.getElementById("dadoDos").style.height = "150px";
                                         setTimeout(function () {
                                             cargarDado();
                                         }, 5000); // 5000ms = 5s
 
-                                    } else {
-                                        Materialize.toast('El equipo anterior aún no ha lanzado el dado', 4000);
                                     }
                                 }
                             }
-                            xmlhttp.open("GET", url, true);
-                            xmlhttp.send();
-                        } else if (numero_equipo == 1 || numero_equipo == 3 || numero_equipo == 5) {
-
-                            document.getElementById("dadoDos").style.height = "150px";
-                            setTimeout(function () {
-                                cargarDado();
-                            }, 5000); // 5000ms = 5s
-
                         }
+                        xmlhttpUno.open("GET", urlUno, true);
+                        xmlhttpUno.send();
+
+                    } else {
+                        Materialize.toast('El juego aún no ha sido iniciado', 4000);
                     }
                 }
             }
-            xmlhttpUno.open("GET", urlUno, true);
-            xmlhttpUno.send();
+            xmlhttpTres.open("GET", urlTres, true);
+            xmlhttpTres.send();
         }
     </script>
     <body onload="recibirData();">
@@ -145,9 +164,7 @@
             <div class="col s6 offset-s4" style="align-content: center">
                 <img id="dadoDos" src="img/dado.gif" style="height: 0px; display:block; margin:auto;">
             </div>
-            <div class="col s12">
-                <h4 class="center-align"><b>Dado</b></h4>
-            </div>
+
             <div class="row">
                 <div class="col s10 offset-s1">
                     <div class="center" id="dado" style="margin-top: 45px; margin-bottom: 45px;">
@@ -155,15 +172,24 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col s6 offset-s4">
+                <div class="blue-text center-align" style="position:fixed; bottom:0; margin-bottom: 50px; margin-left: 50px;">
+                    <button id="botonDesafio" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="obtenerDesafio();">Obtener Desafío
+                        <i class="material-icons right">loop</i>
+                    </button>
+                </div>
+            </div>
+
         </div>
         <!--Import jQuery before materialize.js-->
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="js/materialize.min.js"></script>
         <script>
-        $(function () {
+                        $(function () {
 
-            $(".button-collapse").sideNav();
-        });
+                            $(".button-collapse").sideNav();
+                        });
         </script>
         <script>
             var premio = 0;
@@ -308,6 +334,29 @@
                 }
                 xmlhttp.open("GET", url, true);
                 xmlhttp.send();
+            }
+
+            function obtenerDesafio() {
+                // Consulta de inicio de partida
+
+                var xmlhttpTres = new XMLHttpRequest();
+                var urlTres = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=14&id_sesion=' + id_sesion;
+
+                xmlhttpTres.onreadystatechange = function () {
+                    if (xmlhttpTres.readyState == 4 && xmlhttpTres.status == 200) {
+                        var arrayTres = JSON.parse(xmlhttpTres.responseText);
+
+                        if (arrayTres[0].PLAY == 1) {
+
+
+
+                        } else {
+                            Materialize.toast('El juego aún no ha sido iniciado', 4000);
+                        }
+                    }
+                }
+                xmlhttpTres.open("GET", urlTres, true);
+                xmlhttpTres.send();
             }
         </script>
     </body>
