@@ -22,6 +22,11 @@
     </head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
+        $(document).ready(function () {
+            $('.modal').modal();
+        });
+    </script>
+    <script>
         var estado_sesion;
         var id_sesion;
         var numero_equipo;
@@ -174,10 +179,44 @@
             </div>
 
             <div class="col s6 offset-s4">
-                <div class="blue-text center-align" style="position:fixed; bottom:0; margin-bottom: 50px; margin-left: 50px;">
-                    <button id="botonDesafio" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="obtenerDesafio();">Obtener Desafío
+                <div id="divDesafio" class="blue-text" style="position:fixed; bottom:0; margin-bottom: 50px; margin-left: 50px;">
+                    <a id="botonDesafio" style="margin-top: 10px;" class="btn waves-effect blue lighten-1 modal-trigger" type="submit" name="action" onclick="obtenerDesafio();" href='#modal2'>Obtener Desafío
                         <i class="material-icons right">loop</i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col s6 offset-s4">
+                <div id="divEvaluar" class="blue-text" style="position:fixed; bottom:0; margin-bottom: 50px; margin-left: 800px;">
+                    <button id="botonEvaluar" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="traerEvaluacion();" disabled="true">Evaluar
+                        <i class="material-icons right">assignment_turned_in</i>
                     </button>
+                </div>
+            </div>
+
+            <!-- Modal Structure -->
+            <div id="modal2" class="modal">
+                <div class="modal-content">
+                    <h4 align="center">Desafío de artista</h4>
+                    <p><b>Nombre de artista</b></p>
+                    <p id="nombreArtista">.</p>
+                    <p><b>Biografía de artista</b></p>
+                    <p id="biografiaArtista">.</p>
+                    <p style="font-size: 30px;"><b>Desafío de artista</b></p>
+                    <p id="desafioArtista" style="font-size: 30px;">.</p>
+                    <p><b>Enlaces de artista</b></p>
+                    <div id="enlaces">
+                    </div>
+                    <p><b>Respuesta de Equipo</b></p>
+                    <textarea id="respuesta" class="materialize-textarea" maxlength="1000" placeholder="Escriban acá su respuesta al desafío"></textarea>
+                    <div class="row" style="margin-top: 40px;">
+                        <button class="btn waves-effect blue lighten-1" id="botonRespuesta" type="submit" name="action" onclick="responder();">Responder
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+                    </div>
                 </div>
             </div>
 
@@ -186,12 +225,58 @@
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="js/materialize.min.js"></script>
         <script>
-                        $(function () {
+                            $(function () {
 
-                            $(".button-collapse").sideNav();
-                        });
+                                $(".button-collapse").sideNav();
+                            });
         </script>
         <script>
+            var id_artista = 0;
+            function responder() {
+                //Registros previos
+                var xmlhttpDos = new XMLHttpRequest();
+                var urlDos = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=21&estado=' + estado_sesion + '&id_sesion=' + id_sesion + '&numero_equipo=' + numero_equipo;
+
+                xmlhttpDos.onreadystatechange = function () {
+                    if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
+                        var array = JSON.parse(xmlhttpDos.responseText);
+
+                        if (array.length > 0) {
+                            Materialize.toast('Este equipo ya realizó su respuesta', 4000);
+                        } else {
+
+                            //Validación
+                            var respuesta = document.getElementById("respuesta").value;
+
+                            if (respuesta == null || respuesta.length == 0 || /^\s+$/.test(respuesta)) {
+                                Materialize.toast('El campo que recoge su respuesta no puede estar vacío', 4000);
+                                return false;
+                            } else if (respuesta.length > 1000) {
+                                Materialize.toast('El campo que indica su respuesta no puede tener más de 1000 caracteres', 4000);
+                                return false;
+                            } else {
+
+                                var xmlhttp = new XMLHttpRequest();
+                                var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=20&id_artista=' + id_artista + '&id_sesion=' + id_sesion + '&estado=' + estado_sesion + '&numero_equipo=' + numero_equipo + '&respuesta=' + respuesta;
+
+                                xmlhttp.onreadystatechange = function () {
+                                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+                                        document.getElementById("botonRespuesta").disabled = true;
+                                        Materialize.toast('Respuesta insertada', 4000);
+                                    }
+                                }
+                                xmlhttp.open("GET", url, true);
+                                xmlhttp.send();
+                            }
+
+                        }
+                    }
+                }
+                xmlhttpDos.open("GET", urlDos, true);
+                xmlhttpDos.send();
+            }
+
             var premio = 0;
             function cargarDado() {
                 document.getElementById("dadoDos").style.height = "0px";
@@ -348,7 +433,60 @@
 
                         if (arrayTres[0].PLAY == 1) {
 
+                            var xmlhttpCuatro = new XMLHttpRequest();
+                            var urlCuatro = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=17&id_sesion=' + id_sesion + '&estado=' + estado_sesion;
 
+                            xmlhttpCuatro.onreadystatechange = function () {
+                                if (xmlhttpCuatro.readyState == 4 && xmlhttpCuatro.status == 200) {
+                                    var arrayCuatro = JSON.parse(xmlhttpCuatro.responseText);
+
+                                    if (arrayCuatro.length > 0) {
+
+                                        id_artista = arrayCuatro[0].ID_ARTISTA;
+
+                                        var xmlhttp = new XMLHttpRequest();
+                                        var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=11&id_artista=' + id_artista;
+
+                                        xmlhttp.onreadystatechange = function () {
+                                            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                                                var array = JSON.parse(xmlhttp.responseText);
+
+                                                document.getElementById('nombreArtista').innerHTML = array[0].NOMBRE_ARTISTA;
+                                                document.getElementById('biografiaArtista').innerHTML = array[0].BIOGRAFIA_ARTISTA;
+                                                document.getElementById('desafioArtista').innerHTML = array[0].DESAFIO;
+
+                                                document.getElementById("botonDesafio").style.height = "0px";
+                                                document.getElementById("botonEvaluar").disabled = false;
+                                            }
+                                        }
+                                        xmlhttp.open("GET", url, true);
+                                        xmlhttp.send();
+
+                                        var xmlhttpDos = new XMLHttpRequest();
+                                        var urlDos = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=12&id_artista=' + id_artista;
+
+                                        xmlhttpDos.onreadystatechange = function () {
+                                            if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
+                                                var arrayDos = JSON.parse(xmlhttpDos.responseText);
+                                                //alert(array);
+
+                                                for (i = 0; i < arrayDos.length; i++) {
+
+                                                    var enlace = '<a href="' + arrayDos[i].TEXTO_ENLACE + '" target="_blank">' + arrayDos[i].TEXTO_ENLACE + '</a><br>';
+                                                    document.getElementById("enlaces").innerHTML += enlace;
+                                                }
+                                            }
+                                        }
+                                        xmlhttpDos.open("GET", urlDos, true);
+                                        xmlhttpDos.send();
+
+                                    } else {
+                                        Materialize.toast('El docente aún no ha seleccionado un artista', 4000);
+                                    }
+                                }
+                            }
+                            xmlhttpCuatro.open("GET", urlCuatro, true);
+                            xmlhttpCuatro.send();
 
                         } else {
                             Materialize.toast('El juego aún no ha sido iniciado', 4000);

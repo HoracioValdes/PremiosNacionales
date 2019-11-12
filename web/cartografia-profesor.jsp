@@ -102,9 +102,6 @@
                 <div id="enlaces">
                 </div>
             </div>
-            <div class="modal-footer">
-                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
-            </div>
         </div>
 
         <!--Import jQuery before materialize.js-->
@@ -419,6 +416,32 @@
                 }
                 xmlhttpDos.open("GET", urlDos, true);
                 xmlhttpDos.send();
+
+                var xmlhttpTres = new XMLHttpRequest();
+                var urlTres = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=19&id_sesion=' + id_sesion + '&estado=' + estado_sesion;
+
+                xmlhttpTres.onreadystatechange = function () {
+                    if (xmlhttpTres.readyState == 4 && xmlhttpTres.status == 200) {
+                        var arrayTres = JSON.parse(xmlhttpTres.responseText);
+
+                        if (arrayTres.length > 0) {
+                            var id_nivel = arrayTres[0].ID_NIVEL;
+
+                            var xmlhttpCuatro = new XMLHttpRequest();
+                            var urlCuatro = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=18&id_artista=' + id_artista + '&id_sesion=' + id_sesion + '&id_nivel=' + id_nivel;
+
+                            xmlhttpCuatro.onreadystatechange = function () {
+                                if (xmlhttpCuatro.readyState == 4 && xmlhttpCuatro.status == 200) {
+                                    Materialize.toast('Las y los estudiantes pueden cargar el desafío', 4000);
+                                }
+                            }
+                            xmlhttpCuatro.open("GET", urlCuatro, true);
+                            xmlhttpCuatro.send();
+                        }
+                    }
+                }
+                xmlhttpTres.open("GET", urlTres, true);
+                xmlhttpTres.send();
             }
 
             var estado_sesion = '';
