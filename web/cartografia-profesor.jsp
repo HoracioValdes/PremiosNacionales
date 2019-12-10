@@ -26,7 +26,7 @@
             $('.modal').modal();
         });
     </script>
-    <body id="myDiv" onload="recibirDatos(), centrarMapa()" style="background: url('img/MAPA.jpg'); background-repeat: no-repeat; width: 100%; height: 100%;
+    <body id="myDiv" onload="recibirDatos(), centrarMapa()" style="background: url('img/MAPA.png'); background-repeat: no-repeat; width: 100%; height: 100%;
           -webkit-transition:background-position .20s ease-in;  
           -moz-transition:background-position .20s ease-in;  
           -o-transition:background-position .20s ease-in;  
