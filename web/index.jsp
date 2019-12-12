@@ -54,7 +54,7 @@
                 // alert('cargando sesiones');
 
                 var xmlhttp = new XMLHttpRequest();
-                var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=1';
+                var url = 'http://localhost/juego/registroJuego.php/?opcion=1';
 
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -79,7 +79,7 @@
                 // alert('cargando asignaturas');
 
                 var xmlhttp = new XMLHttpRequest();
-                var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=4';
+                var url = 'http://localhost/juego/registroJuego.php/?opcion=4';
 
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -104,7 +104,7 @@
                 // alert('cargando asignaturas');
 
                 var xmlhttp = new XMLHttpRequest();
-                var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=5';
+                var url = 'http://localhost/juego/registroJuego.php/?opcion=5';
 
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {

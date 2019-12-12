@@ -21,7 +21,7 @@ public class Conectar {
         //Registro del Driver.
         Class.forName("com.mysql.jdbc.Driver");
         //Retornar al conexión
-        return DriverManager.getConnection("jdbc:mysql://116.203.1.145:3306/premios_nacionales", "us_juego", "7P3qxp1XYalXFi16gv");
+        return DriverManager.getConnection("jdbc:mysql://localhost:3306/premios_nacionales", "jugador", "123456");
     }
     
     public void Desconectar(Connection cn){

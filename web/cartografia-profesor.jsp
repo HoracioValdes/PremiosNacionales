@@ -26,7 +26,7 @@
             $('.modal').modal();
         });
     </script>
-    <body id="myDiv" onload="recibirDatos(), centrarMapa()" style="background: url('img/MAPA.png'); background-repeat: no-repeat; width: 100%; height: 100%;
+    <body id="myDiv" onload="recibirDatos(), centrarMapa(), ordenarInicio()" style="background: url('img/MAPA.png'); background-repeat: no-repeat; width: 100%; height: 100%;
           -webkit-transition:background-position .20s ease-in;  
           -moz-transition:background-position .20s ease-in;  
           -o-transition:background-position .20s ease-in;  
@@ -49,6 +49,16 @@
                 <div class="col s10 offset-s1">
                     <div class="center" id="artistas" style="margin-top: 45px; margin-bottom: 45px;">
 
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s10 offset-s1">
+                    <div class="center" id="respuestas" hidden="true" style="margin-top: 45px; margin-bottom: 45px;">
+                        <button id="botonRespuestas" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="cargarResultados();">Actualizar
+                            <i class="material-icons right">check_circle</i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -79,6 +89,17 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="col s10 offset-s1" hidden="true" id="divResultados">
+                    <label>Puedes desplazar las respuestas horizontalmente</label>
+                    <table class="responsive-table" id="tablaResultados">
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <div class="col s6 offset-s4">
                 <div class="blue-text center-align" style="position:fixed; bottom:0; margin-bottom: 50px; margin-left: 50px;">
                     <button id="botonLanzar" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return obtenerLanzamiento();" disabled="true">Obtener Lanzamientos
@@ -102,6 +123,9 @@
                 <div id="enlaces">
                 </div>
             </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+            </div>
         </div>
 
         <!--Import jQuery before materialize.js-->
@@ -117,8 +141,59 @@
             var premio = 0;
             var subtematica = 0;
 
+            function cargarResultados() {
+                document.getElementById("divResultados").hidden = false;
+
+                var xmlhttp = new XMLHttpRequest();
+                var url = 'http://localhost/juego/registroJuego.php/?opcion=22&estado=' + estado_sesion + '&id_sesion=' + id_sesion;
+
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        var array = JSON.parse(xmlhttp.responseText);
+
+                        if (array.length > 0) {
+
+                            var table = document.getElementById("tablaResultados");
+
+                            for (i = 0; i < array.length; i++) {
+                                var row = table.insertRow(0);
+
+                                var cell1 = row.insertCell(0);
+                                var cell2 = row.insertCell(1);
+                                var cell3 = row.insertCell(2);
+                                cell1.innerHTML = "Equipo " + array[i].NUMERO_EQUIPO;
+                                cell2.innerHTML = "Respuesta: " + array[i].RESPUESTA;
+                                cell3.innerHTML = "<a class='btn-floating blue' href=''><i class='material-icons left'>add</i></a>";
+
+                            }
+                        } else {
+                            Materialize.toast('Aún no hay respuestas ingresadas', 4000);
+                        }
+                    }
+                }
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
+            }
+
             function centrarMapa() {
                 document.getElementById("myDiv").style.backgroundPosition = "left top";
+            }
+
+            function ordenarInicio() {
+                alert('hola');
+                // Pregunta por lanzamiento de dados
+
+                // Sí
+                // Pregunta por elección de artista
+                //Sí
+                // Pregunta por respuestas
+                // Sí
+                // Carga de tabla
+                // No
+                // Carga de Modal de Artista
+
+                // No
+                // Carga de obtener lanzamiento
             }
 
             function fijarNivel() {
@@ -131,7 +206,7 @@
                 } else {
 
                     var xmlhttp = new XMLHttpRequest();
-                    var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=13&nivel=' + nuevoNivel + '&id_sesion=' + id_sesion + '&estado=' + estado_sesion;
+                    var url = 'http://localhost/juego/registroJuego.php/?opcion=13&nivel=' + nuevoNivel + '&id_sesion=' + id_sesion + '&estado=' + estado_sesion;
 
                     xmlhttp.onreadystatechange = function () {
                         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -153,7 +228,7 @@
                 if (estado_sesion == 'ABIERTA') {
 
                     var xmlhttp = new XMLHttpRequest();
-                    var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=9&numero_equipo=' + 1 + '&id_sesion=' + id_sesion;
+                    var url = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 1 + '&id_sesion=' + id_sesion;
 
                     xmlhttp.onreadystatechange = function () {
                         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -165,7 +240,7 @@
 
 
                                 var xmlhttpDos = new XMLHttpRequest();
-                                var urlDos = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=9&numero_equipo=' + 2 + '&id_sesion=' + id_sesion;
+                                var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 2 + '&id_sesion=' + id_sesion;
 
                                 xmlhttpDos.onreadystatechange = function () {
                                     if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
@@ -198,7 +273,7 @@
                 } else if (estado_sesion == 'SEGUNDA') {
 
                     var xmlhttp = new XMLHttpRequest();
-                    var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=9&numero_equipo=' + 3 + '&id_sesion=' + id_sesion;
+                    var url = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 3 + '&id_sesion=' + id_sesion;
 
                     xmlhttp.onreadystatechange = function () {
                         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -209,7 +284,7 @@
                                 premio = array[0].VALOR;
 
                                 var xmlhttpDos = new XMLHttpRequest();
-                                var urlDos = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=9&numero_equipo=' + 4 + '&id_sesion=' + id_sesion;
+                                var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 4 + '&id_sesion=' + id_sesion;
 
                                 xmlhttpDos.onreadystatechange = function () {
                                     if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
@@ -241,7 +316,7 @@
                 } else if (estado_sesion == 'TERCERA') {
 
                     var xmlhttp = new XMLHttpRequest();
-                    var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=9&numero_equipo=' + 5 + '&id_sesion=' + id_sesion;
+                    var url = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 5 + '&id_sesion=' + id_sesion;
 
                     xmlhttp.onreadystatechange = function () {
                         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -252,7 +327,7 @@
                                 premio = array[0].VALOR;
 
                                 var xmlhttpDos = new XMLHttpRequest();
-                                var urlDos = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=9&numero_equipo=' + 6 + '&id_sesion=' + id_sesion;
+                                var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 6 + '&id_sesion=' + id_sesion;
 
                                 xmlhttpDos.onreadystatechange = function () {
                                     if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
@@ -308,7 +383,7 @@
                 //alert('premio: ' + premio);
 
                 var xmlhttp = new XMLHttpRequest();
-                var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=2&id_premio=' + premio;
+                var url = 'http://localhost/juego/registroJuego.php/?opcion=2&id_premio=' + premio;
 
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -330,18 +405,22 @@
             function obtenerArtistas(id_subtematica) {
                 //alert('obteniendo artistas');
                 //alert('id subtematica: ' + id_subtematica);
+                
+                // Identificación si existe un desafío pendiente
+                
+                
+                // Limpieza de desafíos ya generados en el juego, correspondientes al nivel
+                var xmlhttpSiete = new XMLHttpRequest();
+                var url = 'http://localhost/juego/registroJuego.php/?opcion=3&id_subtematica=' + id_subtematica + '&nivel=' + nivel_sesion;
 
-                var xmlhttp = new XMLHttpRequest();
-                var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=3&id_subtematica=' + id_subtematica + '&nivel=' + nivel_sesion;
+                xmlhttpSiete.onreadystatechange = function () {
+                    if (xmlhttpSiete.readyState == 4 && xmlhttpSiete.status == 200) {
+                        var artistas_disponibles = JSON.parse(xmlhttpSiete.responseText);
 
-                xmlhttp.onreadystatechange = function () {
-                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                        var array = JSON.parse(xmlhttp.responseText);
-
-                        if (array.length > 0) {
+                        if (artistas_disponibles.length > 0) {
 
                             var xmlhttpDos = new XMLHttpRequest();
-                            var urlDos = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=10&id_sesion=' + id_sesion + '&nivel=' + nivel_sesion;
+                            var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=10&id_sesion=' + id_sesion + '&nivel=' + nivel_sesion;
 
                             xmlhttpDos.onreadystatechange = function () {
                                 if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
@@ -351,40 +430,44 @@
                                     if (arrayPasado.length > 0) {
                                         for (i = 0; i < arrayPasado.length; i++) {
 
-                                            for (x = 0; x < array.length; x++) {
+                                            for (x = 0; x < artistas_disponibles.length; x++) {
 
-                                                if (arrayPasado[i].ID_ARTISTA == array[x].ID_ARTISTA) {
+                                                if (arrayPasado[i].ID_ARTISTA == artistas_disponibles[x].ID_ARTISTA) {
                                                     alert('eliminando repetidos!');
-                                                    array.splice(x, 1);
+                                                    artistas_disponibles.splice(x, 1);
                                                 }
-
                                             }
                                         }
                                     }
                                 }
                             }
-                            xmlhttp.open("GET", urlDos, true);
-                            xmlhttp.send();
-
-                            for (i = 0; i < array.length; i++) {
-                                agregarBotonArtista(array[i].ID_ARTISTA, array[i].NOMBRE_ARTISTA);
-                            }
-                            Materialize.toast('¿Cuál artista escogerán?', 4000);
+                            xmlhttpDos.open("GET", urlDos, true);
+                            xmlhttpDos.send();
                         }
+                        for (z = 0; z < artistas_disponibles.length; z++) {
+                            agregarBotonArtista(artistas_disponibles[z].ID_ARTISTA, artistas_disponibles[z].NOMBRE_ARTISTA);
+                        }
+                        Materialize.toast('¿Cuál artista escogerán?', 4000);
                     }
+                    alert(artistas_disponibles);
                 }
-                xmlhttp.open("GET", url, true);
-                xmlhttp.send();
+                xmlhttpSiete.open("GET", url, true);
+                xmlhttpSiete.send();
             }
 
             function agregarBotonArtista(id_artista, nombre_artista) {
                 var contenedor = document.getElementById('artistas');
-                contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect blue lighten-1 modal-trigger' onclick='traerArtista(" + id_artista + ")' href='#modal2'>" + nombre_artista + "<i class='material-icons right'>assignment_ind</i></button></div>";
+                contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect blue lighten-1 modal-trigger' onclick='deshabilitarListadoArtistas(), traerArtista(" + id_artista + ")' href='#modal2'>" + nombre_artista + "<i class='material-icons right'>assignment_ind</i></button></div>";
+            }
+
+            function deshabilitarListadoArtistas() {
+                document.getElementById('artistas').hidden = true;
+                document.getElementById('respuestas').hidden = false;
             }
 
             function traerArtista(id_artista) {
                 var xmlhttp = new XMLHttpRequest();
-                var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=11&id_artista=' + id_artista;
+                var url = 'http://localhost/juego/registroJuego.php/?opcion=11&id_artista=' + id_artista;
 
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -400,7 +483,7 @@
                 xmlhttp.send();
 
                 var xmlhttpDos = new XMLHttpRequest();
-                var urlDos = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=12&id_artista=' + id_artista;
+                var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=12&id_artista=' + id_artista;
 
                 xmlhttpDos.onreadystatechange = function () {
                     if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
@@ -418,7 +501,7 @@
                 xmlhttpDos.send();
 
                 var xmlhttpTres = new XMLHttpRequest();
-                var urlTres = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=19&id_sesion=' + id_sesion + '&estado=' + estado_sesion;
+                var urlTres = 'http://localhost/juego/registroJuego.php/?opcion=19&id_sesion=' + id_sesion + '&estado=' + estado_sesion;
 
                 xmlhttpTres.onreadystatechange = function () {
                     if (xmlhttpTres.readyState == 4 && xmlhttpTres.status == 200) {
@@ -428,7 +511,7 @@
                             var id_nivel = arrayTres[0].ID_NIVEL;
 
                             var xmlhttpCuatro = new XMLHttpRequest();
-                            var urlCuatro = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=18&id_artista=' + id_artista + '&id_sesion=' + id_sesion + '&id_nivel=' + id_nivel;
+                            var urlCuatro = 'http://localhost/juego/registroJuego.php/?opcion=18&id_artista=' + id_artista + '&id_sesion=' + id_sesion + '&id_nivel=' + id_nivel;
 
                             xmlhttpCuatro.onreadystatechange = function () {
                                 if (xmlhttpCuatro.readyState == 4 && xmlhttpCuatro.status == 200) {
@@ -459,7 +542,7 @@
             function habilitarPartida() {
 
                 var xmlhttp = new XMLHttpRequest();
-                var url = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=16&id_sesion=' + id_sesion;
+                var url = 'http://localhost/juego/registroJuego.php/?opcion=16&id_sesion=' + id_sesion;
 
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -468,7 +551,7 @@
                         if (array[0].NUMERO_EQUIPOS == 6) {
 
                             var xmlhttpDos = new XMLHttpRequest();
-                            var urlDos = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=15&id_sesion=' + id_sesion;
+                            var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=15&id_sesion=' + id_sesion;
 
                             xmlhttpDos.onreadystatechange = function () {
                                 if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
@@ -524,7 +607,7 @@
                     // Consulta de inicio de partida
 
                     var xmlhttpTres = new XMLHttpRequest();
-                    var urlTres = 'http://premios-nacionales.desarrollo-tecnologico.com/juego/registroJuego.php/?opcion=14&id_sesion=' + id_sesion;
+                    var urlTres = 'http://localhost/juego/registroJuego.php/?opcion=14&id_sesion=' + id_sesion;
 
                     xmlhttpTres.onreadystatechange = function () {
                         if (xmlhttpTres.readyState == 4 && xmlhttpTres.status == 200) {
