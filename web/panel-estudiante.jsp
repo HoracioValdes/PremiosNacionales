@@ -190,12 +190,7 @@
 
             <div class="row">
                 <div class="col s10 offset-s1" hidden="true" id="divResultados">
-                    <label>Puedes desplazar las respuestas horizontalmente</label>
-                    <table class="responsive-table" id="tablaResultados">
-                        <tbody>
-
-                        </tbody>
-                    </table>
+                    <label>Califica a tus compañeros</label>
                 </div>
             </div>
 
@@ -211,6 +206,7 @@
             <div id="modal2" class="modal">
                 <div class="modal-content">
                     <h4 align="center">Desafío de artista</h4>
+
                     <p><b>Nombre de artista</b></p>
                     <p id="nombreArtista">.</p>
                     <p><b>Biografía de artista</b></p>
@@ -223,12 +219,49 @@
                     <p><b>Respuesta de Equipo</b></p>
                     <textarea id="respuesta" class="materialize-textarea" maxlength="1000" placeholder="Escriban acá su respuesta al desafío"></textarea>
                     <div class="row" style="margin-top: 40px;">
-                        <button class="btn waves-effect blue lighten-1" id="botonRespuesta" type="submit" name="action" onclick="responder(), habilitarRespuestas()">Responder
+                        <button class="btn waves-effect blue lighten-1" id="botonRespuesta" type="submit" name="action" onclick="responder()">Responder
                             <i class="material-icons right">send</i>
                         </button>
                     </div>
+
                     <div class="modal-footer">
-                        <a href="#!" onclick="habilitarRespuestas()" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+                        <a href="#!" onclick="comprobacionRespuesta()" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Structure -->
+            <div id="modal3" class="modal">
+                <div class="modal-content">
+
+                    <h4 align="center">Evaluación de respuesta</h4>
+
+                    <p><b>Nombre de artista</b></p>
+                    <p id="nombreArtistaDesafio">.</p>
+                    <p><b>Desafío</b></p>
+                    <p id="desafioPregunta">.</p>
+                    <p><b>Respuesta</b></p>
+                    <p id="respuestaPregunta">.</p>
+                    <p><b>Valoración respuesta</b></p>
+                    <p id="valoracionRespuesta">.</p>
+                    <p><b>Calificación</b></p>
+
+                    <form action="#">
+                        <input type="hidden" id="id_respuesta">
+                        <input type="hidden" id="equipoEvaluado">
+                        <p class="range-field">
+                            <input type="range" id="test5" min="0" max="10"/>
+                        </p>
+                    </form>
+
+                    <div class="row" style="margin-top: 40px;">
+                        <button class="btn waves-effect blue lighten-1" id="botonCalificacion" type="submit" name="action" onclick="calificar()">Calificar
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </div>
+
+                    <div class="modal-footer">
+                        <a href="#!" onclick="comprobacionValoracion()" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
                     </div>
                 </div>
             </div>
@@ -244,6 +277,52 @@
                             });
         </script>
         <script>
+            var contador_valoraciones = 0;
+
+            function calificar() {
+                alert("Calificando...");
+                var id_respuesta = document.getElementById("id_respuesta").value;
+                alert("Id de repuesta: " + id_respuesta);
+                alert("Equipo evaluado número: " + equipo_evaluado);
+            }
+
+            function comprobacionValoracion() {
+                alert("Comprobando respuestas valoradas...");
+            }
+
+            function cargarRespuesta(equipo) {
+                alert('Cargando respuesta...')
+                alert('Id artista: ' + id_artista);
+                // Obtención de número de equipo a evaluar
+                var equipoEvaluado = equipo;
+                alert('Numero equipo: ' + equipoEvaluado);
+                alert('Id de sesión: ' + id_sesion);
+
+                // Obtención de la respuesta a calificar
+                var xmlhttp = new XMLHttpRequest();
+                var url = 'http://localhost/juego/registroJuego.php/?opcion=28&id_artista=' + id_artista + '&numero_equipo=' + equipoEvaluado + '&id_sesion=' + id_sesion;
+
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        var respuesta = JSON.parse(xmlhttp.responseText);
+
+                        if (respuesta.length > 0) {
+
+                            document.getElementById('nombreArtistaDesafio').innerHTML = respuesta[0].NOMBRE_ARTISTA;
+                            document.getElementById('desafioPregunta').innerHTML = respuesta[0].DESAFIO;
+                            document.getElementById('respuestaPregunta').innerHTML = respuesta[0].RESPUESTA;
+                            document.getElementById('valoracionRespuesta').innerHTML = respuesta[0].VALORACION;
+                            document.getElementById('id_respuesta').value = respuesta[0].ID_RESPUESTA;
+                            document.getElementById('equipoEvaluado').value = respuesta[0].NUMERO_EQUIPO;
+                        } else {
+                            Materialize.toast('Problema al cargar la respuesta al calificar', 4000);
+                        }
+                    }
+                }
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
+            }
+
             function cargarResultados() {
                 document.getElementById("divResultados").hidden = false;
 
@@ -256,16 +335,19 @@
 
                         if (array.length > 0) {
 
-                            var table = document.getElementById("tablaResultados");
+                            var contenedor = document.getElementById('divResultados');
                             
+                            contenedor.innerHTML = "";
+
                             for (i = 0; i < array.length; i++) {
-                                var row = table.insertRow(0);
-
-                                var cell1 = row.insertCell(0);
-                                var cell2 = row.insertCell(1);
-                                cell1.innerHTML = "Equipo " + array[i].NUMERO_EQUIPO;
-                                cell2.innerHTML = "<a class='btn-floating blue' href=''><i class='material-icons left'>add</i></a>";
-
+                                contenedor.innerHTML += "\
+                                <form>\n\
+                                    <div class='row'>\n\
+                                        <h4>Equipo " + array[i].NUMERO_EQUIPO + "</h4>\n\
+                                        <input id='equipoEvaluadoForm' hidden='true' value=" + array[i].NUMERO_EQUIPO + ">\n\
+                                        <a class='btn-floating blue' href='#modal3' onclick='cargarRespuesta(" + array[i].NUMERO_EQUIPO + ")'><i class='material-icons left'>add</i></a>\n\
+                                    </div>\n\
+                                </form>";
                             }
                         } else {
                             Materialize.toast('Aún no hay respuestas ingresadas', 4000);
@@ -280,50 +362,104 @@
                 document.getElementById('respuestas').hidden = false;
             }
 
-            var id_artista = 0;
-            function responder() {
-                //Registros previos
-                var xmlhttpDos = new XMLHttpRequest();
-                var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=21&estado=' + estado_sesion + '&id_sesion=' + id_sesion + '&numero_equipo=' + numero_equipo;
+            function comprobacionRespuesta() {
+                alert("id_sesión: " + id_sesion);
+                alert("id_artista: " + id_artista);
+                alert("id_desafio: " + id_desafio);
+                alert("número de equipo: " + numero_equipo);
 
-                xmlhttpDos.onreadystatechange = function () {
-                    if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
-                        var array = JSON.parse(xmlhttpDos.responseText);
+                var xmlhttp = new XMLHttpRequest();
+                var url = 'http://localhost/juego/registroJuego.php/?opcion=27&id_artista=' + id_artista + '&numero_equipo=' + numero_equipo + '&id_sesion=' + id_sesion;
 
-                        if (array.length > 0) {
-                            Materialize.toast('Este equipo ya realizó su respuesta', 4000);
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        var array = JSON.parse(xmlhttp.responseText);
+
+                        if (array[0].RESPUESTAS > 0) {
+
+                            document.getElementById("botonDesafio").style.height = "0px";
+                            habilitarRespuestas();
+
                         } else {
-
-                            //Validación
-                            var respuesta = document.getElementById("respuesta").value;
-
-                            if (respuesta == null || respuesta.length == 0 || /^\s+$/.test(respuesta)) {
-                                Materialize.toast('El campo que recoge su respuesta no puede estar vacío', 4000);
-                                return false;
-                            } else if (respuesta.length > 1000) {
-                                Materialize.toast('El campo que indica su respuesta no puede tener más de 1000 caracteres', 4000);
-                                return false;
-                            } else {
-
-                                var xmlhttp = new XMLHttpRequest();
-                                var url = 'http://localhost/juego/registroJuego.php/?opcion=20&id_artista=' + id_artista + '&id_sesion=' + id_sesion + '&estado=' + estado_sesion + '&numero_equipo=' + numero_equipo + '&respuesta=' + respuesta;
-
-                                xmlhttp.onreadystatechange = function () {
-                                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-
-                                        document.getElementById("botonRespuesta").disabled = true;
-                                        Materialize.toast('Respuesta insertada', 4000);
-                                    }
-                                }
-                                xmlhttp.open("GET", url, true);
-                                xmlhttp.send();
-                            }
-
+                            Materialize.toast('Aún no hay respuestas ingresadas de su equipo', 4000);
                         }
                     }
                 }
-                xmlhttpDos.open("GET", urlDos, true);
-                xmlhttpDos.send();
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
+
+            }
+
+            var id_artista = 0;
+            var id_desafio = 0;
+
+            function responder() {
+                // Obtener id_desafio
+                var xmlhttpZeta = new XMLHttpRequest();
+                var urlZeta = 'http://localhost/juego/registroJuego.php/?opcion=23&id_artista=' + id_artista + '&id_sesion=' + id_sesion;
+
+                xmlhttpZeta.onreadystatechange = function () {
+                    if (xmlhttpZeta.readyState == 4 && xmlhttpZeta.status == 200) {
+                        var desafio = JSON.parse(xmlhttpZeta.responseText);
+
+                        id_desafio = desafio[0].ID_DESAFIO;
+
+                        //Registros previos de respuestas
+                        var xmlhttpDos = new XMLHttpRequest();
+                        var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=21&estado=' + estado_sesion + '&id_sesion=' + id_sesion + '&numero_equipo=' + numero_equipo;
+
+                        xmlhttpDos.onreadystatechange = function () {
+                            if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
+                                var array = JSON.parse(xmlhttpDos.responseText);
+
+                                if (array.length > 0) {
+                                    Materialize.toast('Este equipo ya realizó su respuesta', 4000);
+                                } else {
+
+                                    //Validación
+                                    var respuesta = document.getElementById("respuesta").value;
+
+                                    if (respuesta == null || respuesta.length == 0 || /^\s+$/.test(respuesta)) {
+                                        Materialize.toast('El campo que recoge su respuesta no puede estar vacío', 4000);
+                                        return false;
+                                    } else if (respuesta.length > 1000) {
+                                        Materialize.toast('El campo que indica su respuesta no puede tener más de 1000 caracteres', 4000);
+                                        return false;
+                                    } else {
+
+                                        alert(id_artista);
+                                        alert(id_sesion);
+                                        alert(id_desafio);
+                                        alert(estado_sesion);
+                                        alert(numero_equipo);
+                                        alert(respuesta);
+
+                                        var xmlhttp = new XMLHttpRequest();
+                                        var url = 'http://localhost/juego/registroJuego.php/?opcion=20&id_artista=' + id_artista + '&id_sesion=' + id_sesion + '&id_desafio=' + id_desafio + '&estado=' + estado_sesion + '&numero_equipo=' + numero_equipo + '&respuesta=' + respuesta;
+
+                                        xmlhttp.onreadystatechange = function () {
+                                            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+                                                document.getElementById("botonRespuesta").disabled = true;
+                                                Materialize.toast('Respuesta insertada', 4000);
+                                                document.getElementById("botonDesafio").style.height = "0px";
+                                                habilitarRespuestas();
+                                            }
+                                        }
+                                        xmlhttp.open("GET", url, true);
+                                        xmlhttp.send();
+                                    }
+
+                                }
+                            }
+                        }
+                        xmlhttpDos.open("GET", urlDos, true);
+                        xmlhttpDos.send();
+
+                    }
+                }
+                xmlhttpZeta.open("GET", urlZeta, true);
+                xmlhttpZeta.send();
             }
 
             var premio = 0;
@@ -472,7 +608,6 @@
 
             function obtenerDesafio() {
                 // Consulta de inicio de partida
-
                 var xmlhttpTres = new XMLHttpRequest();
                 var urlTres = 'http://localhost/juego/registroJuego.php/?opcion=14&id_sesion=' + id_sesion;
 
@@ -503,8 +638,6 @@
                                                 document.getElementById('nombreArtista').innerHTML = array[0].NOMBRE_ARTISTA;
                                                 document.getElementById('biografiaArtista').innerHTML = array[0].BIOGRAFIA_ARTISTA;
                                                 document.getElementById('desafioArtista').innerHTML = array[0].DESAFIO;
-
-                                                document.getElementById("botonDesafio").style.height = "0px";
                                             }
                                         }
                                         xmlhttp.open("GET", url, true);
