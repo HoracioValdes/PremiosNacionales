@@ -26,7 +26,7 @@
             $('.modal').modal();
         });
     </script>
-    <body id="myDiv" onload="recibirDatos(), centrarMapa(), ordenarInicio()" style="background: url('img/MAPA.png'); background-repeat: no-repeat; width: 100%; height: 100%;
+    <body id="myDiv" onload="recibirDatos(), centrarMapa()" style="background: url('img/MAPA.png'); background-repeat: no-repeat; width: 100%; height: 100%;
           -webkit-transition:background-position .20s ease-in;  
           -moz-transition:background-position .20s ease-in;  
           -o-transition:background-position .20s ease-in;  
@@ -56,7 +56,7 @@
             <div class="row">
                 <div class="col s10 offset-s1">
                     <div class="center" id="respuestas" hidden="true" style="margin-top: 45px; margin-bottom: 45px;">
-                        <button id="botonRespuestas" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="cargarResultados();">Actualizar
+                        <button id="botonRespuestas" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="cargarResultados();">Obtener respuestas
                             <i class="material-icons right">check_circle</i>
                         </button>
                     </div>
@@ -90,8 +90,8 @@
             </div>
 
             <div class="row">
+                <p style="text-align: center; color: white;"><b>Califica a los estudiantes</b></p>
                 <div class="card-panel col s10 offset-s1" hidden="true" id="divResultados">
-                    <span>Califica a los estudiantes</span>
                 </div>
             </div>
 
@@ -135,23 +135,23 @@
                 <p id="desafioPregunta">.</p>
                 <p><b>Respuesta</b></p>
                 <p id="respuestaPregunta">.</p>
-                <p><b>Valoración respuesta</b></p>
-                <p id="valoracionRespuesta">.</p>
                 <p><b>Calificación</b></p>
 
-                <form action="#">
+                <form>
                     <input type="hidden" id="id_respuesta">
                     <input type="hidden" id="equipoEvaluado">
                     <p class="range-field">
-                        <input type="range" id="test5" min="0" max="10"/>
+                        <input type="range" id="rango" min="0" max="10"/>
                     </p>
+
+                    <div class="row" style="margin-top: 40px;">
+                        <a class="btn waves-effect blue lighten-1" id="botonCalificacion" onclick="calificar(document.getElementById('id_respuesta').value, document.getElementById('rango').value)">Calificar
+                            <i class="material-icons right">send</i>
+                        </a>
+                    </div>
                 </form>
 
-                <div class="row" style="margin-top: 40px;">
-                    <button class="btn waves-effect blue lighten-1" id="botonCalificacion" type="submit" name="action" onclick="calificar()">Calificar
-                        <i class="material-icons right">send</i>
-                    </button>
-                </div>
+
 
                 <div class="modal-footer">
                     <a href="#!" onclick="comprobacionValoracion()" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
@@ -163,18 +163,142 @@
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="js/materialize.min.js"></script>
         <script>
-                            $(function () {
+                        $(function () {
 
-                                $(".button-collapse").sideNav();
-                            });
+                            $(".button-collapse").sideNav();
+                        });
         </script>
         <script>
             function comprobacionValoracion() {
                 alert("Comprobando respuestas valoradas...");
+
+                // Obtención de id desafío
+                alert('Id de artista: ' + id_artista);
+                alert('Id sesion: ' + id_sesion);
+
+                var xmlhttpF = new XMLHttpRequest();
+                var urlF = 'http://localhost/juego/registroJuego.php/?opcion=23&id_artista=' + id_artista + '&id_sesion=' + id_sesion;
+
+                xmlhttpF.onreadystatechange = function () {
+                    if (xmlhttpF.readyState == 4 && xmlhttpF.status == 200) {
+                        var desafio = JSON.parse(xmlhttpF.responseText);
+
+                        if (desafio.length > 0) {
+                            alert('Id desafio: ' + desafio[0].ID_DESAFIO);
+
+                            var id_desafio = desafio[0].ID_DESAFIO;
+                            var numero_equipo = 7;
+
+                            // Consulta sobre calificaciones respecto al desafio (deben ser siete como máximo)
+                            var xmlhttpR = new XMLHttpRequest();
+                            var urlR = 'http://localhost/juego/registroJuego.php/?opcion=32&id_desafio=' + id_desafio + '&numero_equipo=' + numero_equipo;
+
+                            xmlhttpR.onreadystatechange = function () {
+                                if (xmlhttpR.readyState == 4 && xmlhttpR.status == 200) {
+                                    var consulta = JSON.parse(xmlhttpR.responseText);
+
+                                    alert(consulta[0].CALIFICACIONES);
+
+                                    if (consulta[0].CALIFICACIONES == 6) {
+
+                                        alert('Número de calificaciones: ' + consulta[0].CALIFICACIONES);
+
+                                        Materialize.toast('Ya ha calificado a todos los equipo', 4000);
+
+                                    } else {
+
+                                        Materialize.toast('Aún le quedan equipos por calificar', 4000);
+
+                                    }
+                                }
+                            }
+                            xmlhttpR.open("GET", urlR, true);
+                            xmlhttpR.send();
+                        } else {
+                            Materialize.toast('Problemas para obtener el id del desafío', 4000);
+                        }
+                    }
+                }
+                xmlhttpF.open("GET", urlF, true);
+                xmlhttpF.send();
+
             }
-            
+
             var premio = 0;
             var subtematica = 0;
+
+            function calificar(id_respuesta, rango) {
+                var id_respuesta = id_respuesta;
+                alert('id de respuesta: ' + id_respuesta);
+                var valor = rango;
+                alert('Valor de calificación: ' + valor);
+                var numero_equipo = 7;
+                alert('Número de evaluador: ' + numero_equipo);
+
+                // Obtención de id desafío
+                alert('Id de artista: ' + id_artista);
+                alert('Id sesion: ' + id_sesion);
+
+                var xmlhttpF = new XMLHttpRequest();
+                var urlF = 'http://localhost/juego/registroJuego.php/?opcion=23&id_artista=' + id_artista + '&id_sesion=' + id_sesion;
+
+                xmlhttpF.onreadystatechange = function () {
+                    if (xmlhttpF.readyState == 4 && xmlhttpF.status == 200) {
+                        var desafio = JSON.parse(xmlhttpF.responseText);
+
+                        if (desafio.length > 0) {
+                            alert('Id desafio: ' + desafio[0].ID_DESAFIO);
+
+                            var id_desafio = desafio[0].ID_DESAFIO;
+
+                            // Consulta sobre calificaciones previas
+                            var xmlhttpR = new XMLHttpRequest();
+                            var urlR = 'http://localhost/juego/registroJuego.php/?opcion=30&id_respuesta=' + id_respuesta + '&numero_equipo=' + numero_equipo;
+
+                            xmlhttpR.onreadystatechange = function () {
+                                if (xmlhttpR.readyState == 4 && xmlhttpR.status == 200) {
+                                    var consulta = JSON.parse(xmlhttpR.responseText);
+
+                                    if (consulta[0].CALIFICACIONES > 0) {
+
+                                        Materialize.toast('Usted ya calificó a este equipo', 4000);
+
+                                    } else {
+
+                                        // Realizar inserción de datos en calificaciones
+                                        var xmlhttpL = new XMLHttpRequest();
+                                        var urlL = 'http://localhost/juego/registroJuego.php/?opcion=31&id_respuesta=' + id_respuesta + '&id_desafio=' + id_desafio + '&valor=' + valor + '&numero_equipo=' + numero_equipo;
+
+                                        xmlhttpL.onreadystatechange = function () {
+                                            if (xmlhttpL.readyState == 4 && xmlhttpL.status == 200) {
+                                                var comprobacion = JSON.parse(xmlhttpL.responseText);
+
+                                                if (comprobacion == true) {
+                                                    Materialize.toast('Calificación ingresada', 4000);
+                                                }
+                                            }
+                                        }
+                                        xmlhttpL.open("GET", urlL, true);
+                                        xmlhttpL.send();
+
+
+                                    }
+                                }
+                            }
+                            xmlhttpR.open("GET", urlR, true);
+                            xmlhttpR.send();
+                        } else {
+                            Materialize.toast('Problemas para obtener el id del desafío', 4000);
+                        }
+                    }
+                }
+                xmlhttpF.open("GET", urlF, true);
+                xmlhttpF.send();
+            }
+
+            function eliminarBotonRespuestas() {
+                document.getElementById("respuestas").hidden = true;
+            }
 
             function cargarResultados() {
                 // Comprobar si existen 6 respuestas
@@ -187,42 +311,119 @@
                         var numero_respuestas = JSON.parse(xmlhttpY.responseText);
 
                         if (numero_respuestas[0].RESPUESTAS < 6) {
+
                             Materialize.toast('Aún no están las 6 respuestas ingresadas', 4000);
+
                         } else {
 
-                            // Carga de tabla de respuestas
-                            var xmlhttp = new XMLHttpRequest();
-                            var url = 'http://localhost/juego/registroJuego.php/?opcion=22&estado=' + estado_sesion + '&id_sesion=' + id_sesion;
+                            // Comprobar se hay 7 calificaciones
+                            // Obtención de id desafío
+                            alert('Id sesion: ' + id_sesion);
 
-                            xmlhttp.onreadystatechange = function () {
-                                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                                    var array = JSON.parse(xmlhttp.responseText);
+                            // Obtención de id de artista
+                            var xmlhttpW = new XMLHttpRequest();
+                            var urlW = 'http://localhost/juego/registroJuego.php/?opcion=29&id_sesion=' + id_sesion;
 
-                                    if (array.length > 0) {
+                            xmlhttpW.onreadystatechange = function () {
+                                if (xmlhttpW.readyState == 4 && xmlhttpW.status == 200) {
+                                    var respuesta = JSON.parse(xmlhttpW.responseText);
 
-                                        var contenedor = document.getElementById('divResultados');
+                                    if (respuesta.length > 0) {
 
-                                        contenedor.innerHTML = "";
+                                        var id_artista_consulta = respuesta[0].ID_ARTISTA;
+                                        alert("Id de artista" + id_artista_consulta);
 
-                                        document.getElementById("divResultados").hidden = false;
+                                        // Consulta de id desafio
+                                        var xmlhttpF = new XMLHttpRequest();
+                                        var urlF = 'http://localhost/juego/registroJuego.php/?opcion=23&id_artista=' + id_artista_consulta + '&id_sesion=' + id_sesion;
 
-                                        for (i = 0; i < array.length; i++) {
-                                            contenedor.innerHTML += "\
-                                                <form>\n\
-                                                    <div class='row'>\n\
-                                                        <h6>Equipo " + array[i].NUMERO_EQUIPO + "</h6>\n\
-                                                        <input id='equipoEvaluadoForm' value=" + array[i].NUMERO_EQUIPO + ">\n\
-                                                        <a class='btn-floating blue' href='#modal3' onclick='cargarRespuesta(" + array[i].NUMERO_EQUIPO + ")'><i class='material-icons left'>add</i></a>\n\
-                                                    </div>\n\
-                                                </form>";
+                                        xmlhttpF.onreadystatechange = function () {
+                                            if (xmlhttpF.readyState == 4 && xmlhttpF.status == 200) {
+                                                var desafio = JSON.parse(xmlhttpF.responseText);
+
+                                                if (desafio.length > 0) {
+                                                    alert('Id desafio: ' + desafio[0].ID_DESAFIO);
+
+                                                    var id_desafio = desafio[0].ID_DESAFIO;
+                                                    var numero_equipo = 7;
+
+                                                    // Consulta sobre calificaciones respecto al desafio (deben ser siete como máximo)
+                                                    var xmlhttpR = new XMLHttpRequest();
+                                                    var urlR = 'http://localhost/juego/registroJuego.php/?opcion=32&id_desafio=' + id_desafio + '&numero_equipo=' + numero_equipo;
+
+                                                    xmlhttpR.onreadystatechange = function () {
+                                                        if (xmlhttpR.readyState == 4 && xmlhttpR.status == 200) {
+                                                            var consulta = JSON.parse(xmlhttpR.responseText);
+
+                                                            alert(consulta[0].CALIFICACIONES);
+
+                                                            if (consulta[0].CALIFICACIONES == 6) {
+
+                                                                alert('Número de calificaciones: ' + consulta[0].CALIFICACIONES);
+
+                                                                Materialize.toast('Ya ha calificado a todos los equipos', 4000);
+
+                                                            } else {
+
+                                                                Materialize.toast('Aún le quedan equipos por calificar', 4000);
+
+                                                                eliminarBotonRespuestas();
+
+                                                                // Carga de tabla de respuestas
+                                                                var xmlhttp = new XMLHttpRequest();
+                                                                var url = 'http://localhost/juego/registroJuego.php/?opcion=22&estado=' + estado_sesion + '&id_sesion=' + id_sesion;
+
+                                                                xmlhttp.onreadystatechange = function () {
+                                                                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                                                                        var array = JSON.parse(xmlhttp.responseText);
+
+                                                                        if (array.length > 0) {
+
+                                                                            var contenedor = document.getElementById('divResultados');
+
+                                                                            contenedor.innerHTML = "";
+
+                                                                            document.getElementById("divResultados").hidden = false;
+
+                                                                            for (i = 0; i < array.length; i++) {
+                                                                                contenedor.innerHTML += "\
+                                                                                    <form style='margin-top: 10px; margin-bottom: 10px;'>\n\
+                                                                                        <div class='row'>\n\
+                                                                                            <h6 style='text-align: center;'>Equipo " + array[i].NUMERO_EQUIPO + "</h6>\n\
+                                                                                            <input hidden='true' id='equipoEvaluadoForm' value=" + array[i].NUMERO_EQUIPO + ">\n\
+                                                                                            <a style='display: block; margin-left: auto; margin-right: auto;' class='btn-floating blue' href='#modal3' onclick='cargarRespuesta(" + array[i].NUMERO_EQUIPO + ")'><i class='material-icons left'>add</i></a>\n\
+                                                                                        </div>\n\
+                                                                                    </form>";
+                                                                            }
+                                                                        } else {
+                                                                            Materialize.toast('Aún no hay respuestas ingresadas', 4000);
+                                                                        }
+                                                                    }
+                                                                }
+                                                                xmlhttp.open("GET", url, true);
+                                                                xmlhttp.send();S
+
+                                                            }
+                                                        }
+                                                    }
+                                                    xmlhttpR.open("GET", urlR, true);
+                                                    xmlhttpR.send();
+                                                } else {
+                                                    Materialize.toast('Problemas para obtener el id del desafío', 4000);
+                                                }
+                                            }
                                         }
+                                        xmlhttpF.open("GET", urlF, true);
+                                        xmlhttpF.send();
+
+
                                     } else {
-                                        Materialize.toast('Aún no hay respuestas ingresadas', 4000);
+                                        Materialize.toast('Problema al cargar el id de artista', 4000);
                                     }
                                 }
                             }
-                            xmlhttp.open("GET", url, true);
-                            xmlhttp.send();
+                            xmlhttpW.open("GET", urlW, true);
+                            xmlhttpW.send();
 
                         }
                     }
@@ -230,42 +431,66 @@
                 xmlhttpY.open("GET", urlY, true);
                 xmlhttpY.send();
             }
-            
+
             function cargarRespuesta(equipo) {
                 alert('Cargando respuesta...')
-                
-                // Obtener id de artista
-                
+
                 // Obtención de equipo a evaluar
                 var equipoEvaluado = equipo;
                 alert('Equipo a evaluar: ' + equipoEvaluado);
-                
+
                 // Obtención de id de sesión
                 alert('Id de sesión' + id_sesion);
-                
-                // Pegar código de carga de datos acá...
-                
+
+                // Obtener id de artista
+                var xmlhttpDos = new XMLHttpRequest();
+                var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=29&id_sesion=' + id_sesion;
+
+                xmlhttpDos.onreadystatechange = function () {
+                    if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
+                        var array = JSON.parse(xmlhttpDos.responseText);
+
+                        if (array.length > 0) {
+
+                            id_artista = array[0].ID_ARTISTA;
+                            alert('Id de artista: ' + id_artista);
+
+                            // Obtención de respuesta a calificar
+                            // Obtención de la respuesta a calificar
+                            var xmlhttpW = new XMLHttpRequest();
+                            var urlW = 'http://localhost/juego/registroJuego.php/?opcion=28&id_artista=' + id_artista + '&numero_equipo=' + equipoEvaluado + '&id_sesion=' + id_sesion;
+
+                            xmlhttpW.onreadystatechange = function () {
+                                if (xmlhttpW.readyState == 4 && xmlhttpW.status == 200) {
+                                    var respuesta = JSON.parse(xmlhttpW.responseText);
+
+                                    if (respuesta.length > 0) {
+
+                                        document.getElementById('nombreArtistaDesafio').innerHTML = respuesta[0].NOMBRE_ARTISTA;
+                                        document.getElementById('desafioPregunta').innerHTML = respuesta[0].DESAFIO;
+                                        document.getElementById('respuestaPregunta').innerHTML = respuesta[0].RESPUESTA;
+                                        document.getElementById('id_respuesta').value = respuesta[0].ID_RESPUESTA;
+                                        document.getElementById('equipoEvaluado').value = respuesta[0].NUMERO_EQUIPO;
+                                    } else {
+                                        Materialize.toast('Problema al cargar la respuesta al calificar', 4000);
+                                    }
+                                }
+                            }
+                            xmlhttpW.open("GET", urlW, true);
+                            xmlhttpW.send();
+
+                        } else {
+                            Materialize.toast('No se pudo obtener el Id del artista del desafío', 4000);
+                        }
+
+                    }
+                }
+                xmlhttpDos.open("GET", urlDos, true);
+                xmlhttpDos.send();
             }
 
             function centrarMapa() {
                 document.getElementById("myDiv").style.backgroundPosition = "left top";
-            }
-
-            function ordenarInicio() {
-                alert('hola');
-                // Pregunta por lanzamiento de dados
-
-                // Sí
-                // Pregunta por elección de artista
-                //Sí
-                // Pregunta por respuestas
-                // Sí
-                // Carga de tabla
-                // No
-                // Carga de Modal de Artista
-
-                // No
-                // Carga de obtener lanzamiento
             }
 
             function fijarNivel() {

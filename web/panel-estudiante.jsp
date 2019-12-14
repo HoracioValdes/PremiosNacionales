@@ -242,8 +242,6 @@
                     <p id="desafioPregunta">.</p>
                     <p><b>Respuesta</b></p>
                     <p id="respuestaPregunta">.</p>
-                    <p><b>Valoración respuesta</b></p>
-                    <p id="valoracionRespuesta">.</p>
                     <p><b>Calificación</b></p>
 
                     <form action="#">
@@ -311,7 +309,6 @@
                             document.getElementById('nombreArtistaDesafio').innerHTML = respuesta[0].NOMBRE_ARTISTA;
                             document.getElementById('desafioPregunta').innerHTML = respuesta[0].DESAFIO;
                             document.getElementById('respuestaPregunta').innerHTML = respuesta[0].RESPUESTA;
-                            document.getElementById('valoracionRespuesta').innerHTML = respuesta[0].VALORACION;
                             document.getElementById('id_respuesta').value = respuesta[0].ID_RESPUESTA;
                             document.getElementById('equipoEvaluado').value = respuesta[0].NUMERO_EQUIPO;
                         } else {
