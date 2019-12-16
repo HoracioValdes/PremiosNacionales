@@ -25,7 +25,7 @@ public class DaoJuegoEstudiante extends Conectar {
             //Recuperar una conexión.
             Connection con = this.getConexion();
             //Se genera sentecia select
-            String strSQL = "INSERT INTO EQUIPO VALUES (" + numero_equipo + "," + id_sesion+ ");";
+            String strSQL = "INSERT INTO EQUIPO VALUES (" + numero_equipo + "," + id_sesion + ");";
             //Se prepara la consulta.
             PreparedStatement ps = con.prepareStatement(strSQL);
 
@@ -38,13 +38,13 @@ public class DaoJuegoEstudiante extends Conectar {
         }
         return cantFilas;
     }
-    
+
     public void comienzoJuego(int id_sesion) {
         try {
             //Recuperar una conexión.
             Connection con = this.getConexion();
             //Se genera sentecia select
-            String strSQL = "INSERT INTO JUGAR VALUES (NULL, 0, "+ id_sesion+");";
+            String strSQL = "INSERT INTO JUGAR VALUES (NULL, 0, " + id_sesion + ");";
             //Se prepara la consulta.
             PreparedStatement ps = con.prepareStatement(strSQL);
             ps.executeUpdate();
@@ -56,13 +56,39 @@ public class DaoJuegoEstudiante extends Conectar {
         }
     }
 
+    public int idDesafio(int id_sesion) {
+        int id_desafio = 0;
+        try {
+            //Recuperar una conexión.
+            Connection con = this.getConexion();
+            //Se genera sentecia select
+            String strSQL = "SELECT ID_DESAFIO FROM DESAFIO WHERE ID_SESION = " + id_sesion + " AND ESTADO_DESAFIO = 'ABIERTO';";
+            //Se prepara la consulta.
+            PreparedStatement ps = con.prepareStatement(strSQL);
+            //ejecutar la consulta.
+            ResultSet res = ps.executeQuery();
+            //Se recorre el ResultSet.
+            while (res.next()) {
+                id_desafio = (Integer.parseInt(res.getString("ID_DESAFIO")));
+            }
+            con.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DaoJuegoEstudiante.class.getName())
+                    .log(Level.SEVERE, "Error en registro del Driver.", ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DaoJuegoEstudiante.class.getName())
+                    .log(Level.SEVERE, "Error en SQL.", ex);
+        }
+        return id_desafio;
+    }
+
     public int obtenerNumeroGrupos(int id_sesion) {
         int numero_grupos = 0;
         try {
             //Recuperar una conexión.
             Connection con = this.getConexion();
             //Se genera sentecia select
-            String strSQL = "SELECT COUNT(*) AS NUMERO FROM EQUIPO WHERE ID_SESION = "+ id_sesion +";";
+            String strSQL = "SELECT COUNT(*) AS NUMERO FROM EQUIPO WHERE ID_SESION = " + id_sesion + ";";
             //Se prepara la consulta.
             PreparedStatement ps = con.prepareStatement(strSQL);
             //ejecutar la consulta.
@@ -81,21 +107,21 @@ public class DaoJuegoEstudiante extends Conectar {
         }
         return numero_grupos;
     }
-    
+
     public String obtenerEstadoSesion(int id_sesion) {
         String estado = "";
         try {
             //Recuperar una conexión.
             Connection con = this.getConexion();
             //Se genera sentecia select
-            String strSQL = "SELECT ESTADO FROM SESION WHERE ID_SESION = "+ id_sesion +";";
+            String strSQL = "SELECT ESTADO FROM SESION WHERE ID_SESION = " + id_sesion + ";";
             //Se prepara la consulta.
             PreparedStatement ps = con.prepareStatement(strSQL);
             //ejecutar la consulta.
             ResultSet res = ps.executeQuery();
             //Se recorre el ResultSet.
             while (res.next()) {
-                    estado = res.getString("ESTADO");
+                estado = res.getString("ESTADO");
             }
             con.close();
         } catch (ClassNotFoundException ex) {
@@ -107,14 +133,14 @@ public class DaoJuegoEstudiante extends Conectar {
         }
         return estado;
     }
-    
+
     public boolean verificarNivel(int id_sesion, String estado) {
         boolean existencia = false;
         try {
             //Recuperar una conexión.
             Connection con = this.getConexion();
             //Se genera sentecia select
-            String strSQL = "SELECT MAX(NIVEL) FROM NIVEL WHERE ID_SESION = "+id_sesion+" AND ESTADO = '"+estado+"'";
+            String strSQL = "SELECT MAX(NIVEL) FROM NIVEL WHERE ID_SESION = " + id_sesion + " AND ESTADO = '" + estado + "'";
             //Se prepara la consulta.
             PreparedStatement ps = con.prepareStatement(strSQL);
             //ejecutar la consulta.
@@ -133,14 +159,14 @@ public class DaoJuegoEstudiante extends Conectar {
         }
         return existencia;
     }
-    
+
     public boolean verificarNivelPrevio(int id_sesion, String estado) {
         boolean existencia = false;
         try {
             //Recuperar una conexión.
             Connection con = this.getConexion();
             //Se genera sentecia select
-            String strSQL = "SELECT * FROM NIVEL WHERE ID_SESION = "+id_sesion+" AND ESTADO = '"+estado+"'";
+            String strSQL = "SELECT * FROM NIVEL WHERE ID_SESION = " + id_sesion + " AND ESTADO = '" + estado + "'";
             //Se prepara la consulta.
             PreparedStatement ps = con.prepareStatement(strSQL);
             //ejecutar la consulta.
@@ -159,14 +185,14 @@ public class DaoJuegoEstudiante extends Conectar {
         }
         return existencia;
     }
-    
+
     public int insertarNivel(String estado, int id_sesion) {
         int cantFilas = 0;
         try {
             //Recuperar una conexión.
             Connection con = this.getConexion();
             //Se genera sentecia select
-            String strSQL = "INSERT INTO NIVEL VALUES (NULL, '"+estado+"', 1, "+id_sesion+");";
+            String strSQL = "INSERT INTO NIVEL VALUES (NULL, '" + estado + "', 1, " + id_sesion + ");";
             //Se prepara la consulta.
             PreparedStatement ps = con.prepareStatement(strSQL);
 
@@ -179,21 +205,21 @@ public class DaoJuegoEstudiante extends Conectar {
         }
         return cantFilas;
     }
-    
+
     public int obtenerNivel(int id_sesion, String estado) {
         int nivel = 0;
         try {
             //Recuperar una conexión.
             Connection con = this.getConexion();
             //Se genera sentecia select
-            String strSQL = "SELECT NIVEL FROM NIVEL WHERE ID_SESION = "+id_sesion+" AND ESTADO = '"+estado+"';";
+            String strSQL = "SELECT NIVEL FROM NIVEL WHERE ID_SESION = " + id_sesion + " AND ESTADO = '" + estado + "';";
             //Se prepara la consulta.
             PreparedStatement ps = con.prepareStatement(strSQL);
             //ejecutar la consulta.
             ResultSet res = ps.executeQuery();
             //Se recorre el ResultSet.
             while (res.next()) {
-                    nivel = Integer.parseInt(res.getString("NIVEL"));
+                nivel = Integer.parseInt(res.getString("NIVEL"));
             }
             con.close();
         } catch (ClassNotFoundException ex) {
@@ -204,6 +230,46 @@ public class DaoJuegoEstudiante extends Conectar {
                     .log(Level.SEVERE, "Error en SQL.", ex);
         }
         return nivel;
+    }
+
+    public int cerrarDesafio(int id_desafio) {
+        int cantFilas = 0;
+
+        try {
+            //Recuperar una conexión.
+            Connection con = this.getConexion();
+            //Se genera sentecia select
+            String strSQL = "UPDATE DESAFIO SET ESTADO_DESAFIO = 'CERRADO' WHERE ID_DESAFIO = " + id_desafio + ";";
+            //Se prepara la consulta.
+            PreparedStatement ps = con.prepareStatement(strSQL);
+            cantFilas = ps.executeUpdate();
+            con.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DaoJuegoEstudiante.class.getName()).log(Level.SEVERE, "Problema registro del Driver", ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DaoJuegoEstudiante.class.getName()).log(Level.SEVERE, "Error SQL.", ex);
+        }
+        return cantFilas;
+    }
+    
+    public int resetearDados(int id_sesion) {
+        int cantFilas = 0;
+
+        try {
+            //Recuperar una conexión.
+            Connection con = this.getConexion();
+            //Se genera sentecia select
+            String strSQL = "UPDATE DADOS SET VALOR = 0 WHERE ID_SESION = " + id_sesion + ";";
+            //Se prepara la consulta.
+            PreparedStatement ps = con.prepareStatement(strSQL);
+            cantFilas = ps.executeUpdate();
+            con.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DaoJuegoEstudiante.class.getName()).log(Level.SEVERE, "Problema registro del Driver", ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DaoJuegoEstudiante.class.getName()).log(Level.SEVERE, "Error SQL.", ex);
+        }
+        return cantFilas;
     }
 //    
 //    public ArrayList<Comuna> listarComuna() {

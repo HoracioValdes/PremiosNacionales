@@ -64,6 +64,42 @@
             </div>
 
             <div class="row">
+                <div class="col s10 offset-s1">
+                    <div class="center" id="paso_resultado" hidden="true" style="margin-top: 45px; margin-bottom: 45px;">
+                        <button id="botonPasoResultado" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="verResultadosCalificaciones();">Ver resultados
+                            <i class="material-icons right">check_circle</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="card-panel col s10 offset-s1" hidden="true" id="divCalificaciones">
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s10 offset-s1">
+                    <div class="center" id="paso_desafio" hidden="true" style="margin-top: 45px; margin-bottom: 45px;">
+                        <form action="paso-docente.do">
+                            <input type="hidden" id="estado_sesion" name="estado_sesion">
+                            <input type="hidden" id="id_sesion" name="id_sesion">
+                            <input type="hidden" id="nivel_sesion" name="nivel_sesion">
+                            <button id="botonPasoResultado" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return pasar()">Pasar de desafío
+                                <i class="material-icons right">check_circle</i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!--<button id="sapeo" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="sapeo();">Sapeo
+                <i class="material-icons right">check_circle</i>
+            </button>-->
+
+
+            <div class="row">
                 <div class="col s10 offset-s1"  id="menuGeneral">
                     <div class="center" id="menu" style="margin-top: 45px; margin-bottom: 45px;">
 
@@ -90,7 +126,6 @@
             </div>
 
             <div class="row">
-                <p style="text-align: center; color: white;"><b>Califica a los estudiantes</b></p>
                 <div class="card-panel col s10 offset-s1" hidden="true" id="divResultados">
                 </div>
             </div>
@@ -169,12 +204,187 @@
                         });
         </script>
         <script>
+            function sapeo() {
+                var idSesion = document.getElementById("id_sesion").value;
+                var nivel = document.getElementById("nivel_sesion").value;
+                var estadoS = document.getElementById("estado_sesion").value;
+
+                console.log('id sesion: ' + idSesion);
+                console.log('nivel sesion: ' + nivel);
+                console.log('estado sesion: ' + estadoS);
+
+            }
+
+            function pasar() {
+
+                console.log('Pasando...');
+
+            }
+
+            function verResultadosCalificaciones() {
+                console.log('Evaluando resultados...');
+
+                console.log('Id sesión: ' + id_sesion);
+
+                // Obtención de id de desafío según el id de sesión y el estado 'ABIERTO'
+                var xmlhttpR = new XMLHttpRequest();
+                var urlR = 'http://localhost/juego/registroJuego.php/?opcion=25&id_sesion=' + id_sesion;
+
+                xmlhttpR.onreadystatechange = function () {
+                    if (xmlhttpR.readyState == 4 && xmlhttpR.status == 200) {
+                        var consulta = JSON.parse(xmlhttpR.responseText);
+
+                        if (consulta.length > 0) {
+
+                            var id_desafio = consulta[0].ID_DESAFIO;
+                            console.log('Id desafío: ' + id_desafio);
+
+                            // Consulta sobre cantidad de calificaciones según el id de desafio
+                            var xmlhttpL = new XMLHttpRequest();
+                            var urlL = 'http://localhost/juego/registroJuego.php/?opcion=34&id_desafio=' + id_desafio;
+
+                            xmlhttpL.onreadystatechange = function () {
+                                if (xmlhttpL.readyState == 4 && xmlhttpL.status == 200) {
+                                    var calificaciones = JSON.parse(xmlhttpL.responseText);
+
+                                    if (calificaciones.length > 0) {
+
+                                        var numero_calificaciones = calificaciones[0].CALIFICACIONES;
+                                        console.log('Número de calificaciones realizadas en el desafío: ' + numero_calificaciones);
+
+                                        if (numero_calificaciones == 42) {
+                                            Materialize.toast('El desafío ha sido completamente evaluado', 4000);
+
+                                            // Obtención de los promedios y datos del desafio
+
+                                            var xmlhttpZ = new XMLHttpRequest();
+                                            var urlZ = 'http://localhost/juego/registroJuego.php/?opcion=35&id_desafio=' + id_desafio;
+
+                                            xmlhttpZ.onreadystatechange = function () {
+                                                if (xmlhttpZ.readyState == 4 && xmlhttpZ.status == 200) {
+                                                    var promedios = JSON.parse(xmlhttpZ.responseText);
+
+                                                    if (promedios.length > 0) {
+
+                                                        document.getElementById("divCalificaciones").hidden = false;
+
+                                                        document.getElementById("paso_resultado").hidden = true;
+                                                        document.getElementById("paso_desafio").hidden = false;
+
+                                                        var contenedor = document.getElementById('divCalificaciones');
+
+                                                        contenedor.innerHTML = "";
+
+                                                        contenedor.innerHTML += "\
+                                                                    <div class='row'>\n\
+                                                                        <h5 style='text-align: center;'><b>" + promedios[0].NOMBRE_ARTISTA + "</b></h5>\n\
+                                                                        <h6 style='text-align: center;'><b>" + promedios[0].DESAFIO + "</b></h6>\n\
+                                                                    </div>";
+
+                                                        for (i = 0; i < promedios.length; i++) {
+
+                                                            if (i == 0) {
+                                                                contenedor.innerHTML += "\
+                                                                <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
+                                                                    <div class='row'>\n\
+                                                                        <h4 style='text-align: center;'><b>Primer Lugar</b></h4>\n\
+                                                                        <h6 style='text-align: center;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></p>\n\
+                                                                        <input hidden='true' id='equipoEvaluadoForm' value=" + promedios[i].NUMERO_EQUIPO + ">\n\
+                                                                    </div>\n\
+                                                                </form>";
+                                                            } else if (i == 1) {
+                                                                contenedor.innerHTML += "\
+                                                                <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
+                                                                    <div class='row'>\n\
+                                                                        <h4 style='text-align: center;'><b>Segundo Lugar</b></h4>\n\
+                                                                        <h6 style='text-align: center;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></p>\n\
+                                                                        <input hidden='true' id='equipoEvaluadoForm' value=" + promedios[i].NUMERO_EQUIPO + ">\n\
+                                                                    </div>\n\
+                                                                </form>";
+                                                            } else if (i == 2) {
+                                                                contenedor.innerHTML += "\
+                                                                <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
+                                                                    <div class='row'>\n\
+                                                                        <h4 style='text-align: center;'><b>Tercer Lugar</b></h4>\n\
+                                                                        <h6 style='text-align: center;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></p>\n\
+                                                                        <input hidden='true' id='equipoEvaluadoForm' value=" + promedios[i].NUMERO_EQUIPO + ">\n\
+                                                                    </div>\n\
+                                                                </form>";
+                                                            } else {
+                                                                contenedor.innerHTML += "\
+                                                                <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
+                                                                    <div class='row'>\n\
+                                                                        <h6 style='text-align: center;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></p>\n\
+                                                                        <input hidden='true' id='equipoEvaluadoForm' value=" + promedios[i].NUMERO_EQUIPO + ">\n\
+                                                                    </div>\n\
+                                                                </form>";
+                                                            }
+                                                        }
+
+                                                        // Carga de promedios en respuesta
+
+                                                        for (x = 0; x < promedios.length; x++) {
+
+                                                            var xmlhttpW = new XMLHttpRequest();
+                                                            var urlW = 'http://localhost/juego/registroJuego.php/?opcion=36&promedio=' + promedios[x].PROMEDIO + '&id_respuesta=' + promedios[x].ID_RESPUESTA;
+
+                                                            xmlhttpW.onreadystatechange = function () {
+                                                                if (xmlhttpW.readyState == 4 && xmlhttpW.status == 200) {
+                                                                    var comprobacion = JSON.parse(xmlhttpW.responseText);
+
+                                                                    if (comprobacion == true) {
+                                                                        Materialize.toast('Promedio ingresado', 4000);
+                                                                    }
+                                                                }
+                                                            }
+                                                            xmlhttpW.open("GET", urlW, true);
+                                                            xmlhttpW.send();
+
+                                                        }
+
+
+                                                    } else {
+                                                        Materialize.toast('No se pudo obetener los promedios del desafío', 4000);
+                                                    }
+                                                }
+                                            }
+                                            xmlhttpZ.open("GET", urlZ, true);
+                                            xmlhttpZ.send();
+
+                                        } else {
+                                            Materialize.toast('Debe esperar a que los equipo terminen de calificar las respuestas del desafío', 4000);
+                                        }
+
+                                    } else {
+                                        Materialize.toast('Problema al obtener el número de calificaciones', 4000);
+                                    }
+                                }
+                            }
+                            xmlhttpL.open("GET", urlL, true);
+                            xmlhttpL.send();
+
+
+                        } else {
+                            Materialize.toast('Problema al obtener el id de desafío', 4000);
+                        }
+
+
+                    }
+                }
+                xmlhttpR.open("GET", urlR, true);
+                xmlhttpR.send();
+            }
+
             function comprobacionValoracion() {
-                alert("Comprobando respuestas valoradas...");
+                console.log("Comprobando respuestas valoradas...");
 
                 // Obtención de id desafío
-                alert('Id de artista: ' + id_artista);
-                alert('Id sesion: ' + id_sesion);
+                console.log('Id de artista: ' + id_artista);
+                console.log('Id sesion: ' + id_sesion);
 
                 var xmlhttpF = new XMLHttpRequest();
                 var urlF = 'http://localhost/juego/registroJuego.php/?opcion=23&id_artista=' + id_artista + '&id_sesion=' + id_sesion;
@@ -184,7 +394,7 @@
                         var desafio = JSON.parse(xmlhttpF.responseText);
 
                         if (desafio.length > 0) {
-                            alert('Id desafio: ' + desafio[0].ID_DESAFIO);
+                            console.log('Id desafio: ' + desafio[0].ID_DESAFIO);
 
                             var id_desafio = desafio[0].ID_DESAFIO;
                             var numero_equipo = 7;
@@ -197,13 +407,20 @@
                                 if (xmlhttpR.readyState == 4 && xmlhttpR.status == 200) {
                                     var consulta = JSON.parse(xmlhttpR.responseText);
 
-                                    alert(consulta[0].CALIFICACIONES);
+                                    console.log(consulta[0].CALIFICACIONES);
 
                                     if (consulta[0].CALIFICACIONES == 6) {
 
-                                        alert('Número de calificaciones: ' + consulta[0].CALIFICACIONES);
+                                        console.log('Número de calificaciones: ' + consulta[0].CALIFICACIONES);
 
                                         Materialize.toast('Ya ha calificado a todos los equipo', 4000);
+
+                                        // Visibilizar el botón de resultados
+                                        document.getElementById("paso_resultado").hidden = false;
+
+                                        // Esconder tabla de resultados y botón de repuesta
+                                        document.getElementById("divResultados").hidden = true;
+                                        document.getElementById("respuestas").hidden = true;
 
                                     } else {
 
@@ -229,15 +446,15 @@
 
             function calificar(id_respuesta, rango) {
                 var id_respuesta = id_respuesta;
-                alert('id de respuesta: ' + id_respuesta);
+                console.log('id de respuesta: ' + id_respuesta);
                 var valor = rango;
-                alert('Valor de calificación: ' + valor);
+                console.log('Valor de calificación: ' + valor);
                 var numero_equipo = 7;
-                alert('Número de evaluador: ' + numero_equipo);
+                console.log('Número de evaluador: ' + numero_equipo);
 
                 // Obtención de id desafío
-                alert('Id de artista: ' + id_artista);
-                alert('Id sesion: ' + id_sesion);
+                console.log('Id de artista: ' + id_artista);
+                console.log('Id sesion: ' + id_sesion);
 
                 var xmlhttpF = new XMLHttpRequest();
                 var urlF = 'http://localhost/juego/registroJuego.php/?opcion=23&id_artista=' + id_artista + '&id_sesion=' + id_sesion;
@@ -247,7 +464,7 @@
                         var desafio = JSON.parse(xmlhttpF.responseText);
 
                         if (desafio.length > 0) {
-                            alert('Id desafio: ' + desafio[0].ID_DESAFIO);
+                            console.log('Id desafio: ' + desafio[0].ID_DESAFIO);
 
                             var id_desafio = desafio[0].ID_DESAFIO;
 
@@ -302,7 +519,7 @@
 
             function cargarResultados() {
                 // Comprobar si existen 6 respuestas
-                alert(id_sesion);
+                console.log(id_sesion);
                 var xmlhttpY = new XMLHttpRequest();
                 var urlY = 'http://localhost/juego/registroJuego.php/?opcion=26&id_sesion=' + id_sesion;
 
@@ -318,7 +535,7 @@
 
                             // Comprobar se hay 7 calificaciones
                             // Obtención de id desafío
-                            alert('Id sesion: ' + id_sesion);
+                            console.log('Id sesion: ' + id_sesion);
 
                             // Obtención de id de artista
                             var xmlhttpW = new XMLHttpRequest();
@@ -331,7 +548,7 @@
                                     if (respuesta.length > 0) {
 
                                         var id_artista_consulta = respuesta[0].ID_ARTISTA;
-                                        alert("Id de artista" + id_artista_consulta);
+                                        console.log("Id de artista" + id_artista_consulta);
 
                                         // Consulta de id desafio
                                         var xmlhttpF = new XMLHttpRequest();
@@ -342,12 +559,12 @@
                                                 var desafio = JSON.parse(xmlhttpF.responseText);
 
                                                 if (desafio.length > 0) {
-                                                    alert('Id desafio: ' + desafio[0].ID_DESAFIO);
+                                                    console.log('Id desafio: ' + desafio[0].ID_DESAFIO);
 
                                                     var id_desafio = desafio[0].ID_DESAFIO;
                                                     var numero_equipo = 7;
 
-                                                    // Consulta sobre calificaciones respecto al desafio (deben ser siete como máximo)
+                                                    // Consulta sobre calificaciones respecto al desafio (deben ser seis como máximo)
                                                     var xmlhttpR = new XMLHttpRequest();
                                                     var urlR = 'http://localhost/juego/registroJuego.php/?opcion=32&id_desafio=' + id_desafio + '&numero_equipo=' + numero_equipo;
 
@@ -355,13 +572,20 @@
                                                         if (xmlhttpR.readyState == 4 && xmlhttpR.status == 200) {
                                                             var consulta = JSON.parse(xmlhttpR.responseText);
 
-                                                            alert(consulta[0].CALIFICACIONES);
+                                                            console.log(consulta[0].CALIFICACIONES);
 
                                                             if (consulta[0].CALIFICACIONES == 6) {
 
-                                                                alert('Número de calificaciones: ' + consulta[0].CALIFICACIONES);
+                                                                console.log('Número de calificaciones: ' + consulta[0].CALIFICACIONES);
 
                                                                 Materialize.toast('Ya ha calificado a todos los equipos', 4000);
+
+                                                                /// Visibilizar el botón de resultados
+                                                                document.getElementById("paso_resultado").hidden = false;
+
+                                                                // Esconder tabla de resultados y botón de repuesta
+                                                                document.getElementById("divResultados").hidden = true;
+                                                                document.getElementById("respuestas").hidden = true;
 
                                                             } else {
 
@@ -401,8 +625,7 @@
                                                                     }
                                                                 }
                                                                 xmlhttp.open("GET", url, true);
-                                                                xmlhttp.send();S
-
+                                                                xmlhttp.send();
                                                             }
                                                         }
                                                     }
@@ -433,14 +656,14 @@
             }
 
             function cargarRespuesta(equipo) {
-                alert('Cargando respuesta...')
+                console.log('Cargando respuesta...')
 
                 // Obtención de equipo a evaluar
                 var equipoEvaluado = equipo;
-                alert('Equipo a evaluar: ' + equipoEvaluado);
+                console.log('Equipo a evaluar: ' + equipoEvaluado);
 
                 // Obtención de id de sesión
-                alert('Id de sesión' + id_sesion);
+                console.log('Id de sesión' + id_sesion);
 
                 // Obtener id de artista
                 var xmlhttpDos = new XMLHttpRequest();
@@ -453,7 +676,7 @@
                         if (array.length > 0) {
 
                             id_artista = array[0].ID_ARTISTA;
-                            alert('Id de artista: ' + id_artista);
+                            console.log('Id de artista: ' + id_artista);
 
                             // Obtención de respuesta a calificar
                             // Obtención de la respuesta a calificar
@@ -522,154 +745,393 @@
 
             function obtenerLanzamiento()
             {
-                if (estado_sesion == 'ABIERTA') {
+                console.log('Id sesión para preguntar por desafios: ' + id_sesion);
+                // Obtención de numero de desafios
+                // Agregar contador de desafios (0 - 5)
+                var xmlhttp = new XMLHttpRequest();
+                var url = 'http://localhost/juego/registroJuego.php/?opcion=40&id_sesion=' + id_sesion;
 
-                    // Obteniendo valor de los dados del equipo impar (primero)
-                    var xmlhttp = new XMLHttpRequest();
-                    var url = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 1 + '&id_sesion=' + id_sesion;
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 
-                    xmlhttp.onreadystatechange = function () {
-                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                            var array = JSON.parse(xmlhttp.responseText);
+                        var array = JSON.parse(xmlhttp.responseText);
+                        if (array.length > 0) {
 
-                            if (array.length > 0) {
+                            contador_desafio = array[0].DESAFIOS;
+                            console.log('Número de desafios: ' + contador_desafio);
+                            console.log('Estado de sesión: ' + estado_sesion);
 
-                                premio = array[0].VALOR;
+                            if (estado_sesion == 'ABIERTA' && contador_desafio == 0) {
 
-                                // Obteniendo valor de los dados del equipo par (segundo)
-                                var xmlhttpDos = new XMLHttpRequest();
-                                var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 2 + '&id_sesion=' + id_sesion;
+                                // Obteniendo valor de los dados del equipo impar (primero)
+                                var xmlhttpW = new XMLHttpRequest();
+                                var urlW = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 1 + '&id_sesion=' + id_sesion;
 
-                                xmlhttpDos.onreadystatechange = function () {
-                                    if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
-                                        var array = JSON.parse(xmlhttpDos.responseText);
-                                        subtematica = array[0].VALOR;
+                                xmlhttpW.onreadystatechange = function () {
+                                    if (xmlhttpW.readyState == 4 && xmlhttpW.status == 200) {
+                                        var array = JSON.parse(xmlhttpW.responseText);
 
+                                        // Filtro de carga de la bbdd
                                         if (array.length > 0) {
 
-                                            document.getElementById("botonLanzar").style.height = "0px";
+                                            // Filtro de valor superior a 0
+                                            if (array[0].VALOR != 0) {
 
-                                            // Cargando el primer dado (PREMIO)
-                                            cargarMapa(premio);
-                                            id_subtematica = array[0].VALOR;
+                                                premio = array[0].VALOR;
 
-                                            // Obteniendo Subtematicas
-                                            obtenerSubtematicas(id_subtematica);
+                                                // Obteniendo valor de los dados del equipo par (segundo)
+                                                var xmlhttpDos = new XMLHttpRequest();
+                                                var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 2 + '&id_sesion=' + id_sesion;
 
-                                        } else {
-                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
-                                        }
+                                                xmlhttpDos.onreadystatechange = function () {
+                                                    if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
+                                                        var array = JSON.parse(xmlhttpDos.responseText);
+                                                        subtematica = array[0].VALOR;
 
-                                    }
-                                }
-                                xmlhttpDos.open("GET", urlDos, true);
-                                xmlhttpDos.send();
+                                                        if (array.length > 0) {
 
-                            } else {
-                                Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
-                            }
-                        }
-                    }
-                    xmlhttp.open("GET", url, true);
-                    xmlhttp.send();
+                                                            document.getElementById("botonLanzar").style.height = "0px";
 
-                } else if (estado_sesion == 'SEGUNDA') {
+                                                            // Cargando el primer dado (PREMIO)
+                                                            cargarMapa(premio);
+                                                            id_subtematica = array[0].VALOR;
 
-                    var xmlhttp = new XMLHttpRequest();
-                    var url = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 3 + '&id_sesion=' + id_sesion;
+                                                            // Obteniendo Subtematicas
+                                                            obtenerSubtematicas(id_subtematica);
 
-                    xmlhttp.onreadystatechange = function () {
-                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                            var array = JSON.parse(xmlhttp.responseText);
+                                                        } else {
+                                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                                        }
 
-                            if (array.length > 0) {
+                                                    }
+                                                }
+                                                xmlhttpDos.open("GET", urlDos, true);
+                                                xmlhttpDos.send();
 
-                                premio = array[0].VALOR;
-
-                                var xmlhttpDos = new XMLHttpRequest();
-                                var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 4 + '&id_sesion=' + id_sesion;
-
-                                xmlhttpDos.onreadystatechange = function () {
-                                    if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
-                                        var array = JSON.parse(xmlhttpDos.responseText);
-
-                                        if (array.length > 0) {
-
-                                            document.getElementById("botonLanzar").style.height = "0px";
-                                            cargarMapa(premio);
-                                            subtematica = array[0].VALOR;
-                                            obtenerSubtematicas(premio);
+                                            } else {
+                                                Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                            }
 
                                         } else {
                                             Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
                                         }
                                     }
                                 }
-                                xmlhttpDos.open("GET", urlDos, true);
-                                xmlhttpDos.send();
+                                xmlhttpW.open("GET", urlW, true);
+                                xmlhttpW.send();
 
-                            } else {
-                                Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
-                            }
-                        }
-                    }
-                    xmlhttp.open("GET", url, true);
-                    xmlhttp.send();
+                            } else if (estado_sesion == 'ABIERTA' && contador_desafio == 1) {
 
-                } else if (estado_sesion == 'TERCERA') {
+                                // Obteniendo valor de los dados del equipo impar (primero)
+                                var xmlhttpW = new XMLHttpRequest();
+                                var urlW = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 3 + '&id_sesion=' + id_sesion;
 
-                    var xmlhttp = new XMLHttpRequest();
-                    var url = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 5 + '&id_sesion=' + id_sesion;
+                                xmlhttpW.onreadystatechange = function () {
+                                    if (xmlhttpW.readyState == 4 && xmlhttpW.status == 200) {
+                                        var array = JSON.parse(xmlhttpW.responseText);
 
-                    xmlhttp.onreadystatechange = function () {
-                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                            var array = JSON.parse(xmlhttp.responseText);
-
-                            if (array.length > 0) {
-
-                                premio = array[0].VALOR;
-
-                                var xmlhttpDos = new XMLHttpRequest();
-                                var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 6 + '&id_sesion=' + id_sesion;
-
-                                xmlhttpDos.onreadystatechange = function () {
-                                    if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
-                                        var array = JSON.parse(xmlhttpDos.responseText);
-
+                                        // Filtro de carga de la bbdd
                                         if (array.length > 0) {
 
-                                            document.getElementById("botonLanzar").style.height = "0px";
-                                            cargarMapa(premio);
-                                            subtematica = array[0].VALOR;
-                                            obtenerSubtematicas(premio);
+                                            // Filtro de valor superior a 0
+                                            if (array[0].VALOR != 0) {
+
+                                                premio = array[0].VALOR;
+
+                                                // Obteniendo valor de los dados del equipo par (segundo)
+                                                var xmlhttpDos = new XMLHttpRequest();
+                                                var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 4 + '&id_sesion=' + id_sesion;
+
+                                                xmlhttpDos.onreadystatechange = function () {
+                                                    if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
+                                                        var array = JSON.parse(xmlhttpDos.responseText);
+                                                        subtematica = array[0].VALOR;
+
+                                                        if (array.length > 0) {
+
+                                                            document.getElementById("botonLanzar").style.height = "0px";
+
+                                                            // Cargando el primer dado (PREMIO)
+                                                            cargarMapa(premio);
+                                                            id_subtematica = array[0].VALOR;
+
+                                                            // Obteniendo Subtematicas
+                                                            obtenerSubtematicas(id_subtematica);
+
+                                                        } else {
+                                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                                        }
+
+                                                    }
+                                                }
+                                                xmlhttpDos.open("GET", urlDos, true);
+                                                xmlhttpDos.send();
+
+                                            } else {
+                                                Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                            }
 
                                         } else {
                                             Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
                                         }
                                     }
                                 }
-                                xmlhttpDos.open("GET", urlDos, true);
-                                xmlhttpDos.send();
+                                xmlhttpW.open("GET", urlW, true);
+                                xmlhttpW.send();
 
-                            } else {
-                                Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                            } else if (estado_sesion == 'ABIERTA' && contador_desafio == 2) {
+
+                                // Obteniendo valor de los dados del equipo impar (primero)
+                                var xmlhttpW = new XMLHttpRequest();
+                                var urlW = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 5 + '&id_sesion=' + id_sesion;
+
+                                xmlhttpW.onreadystatechange = function () {
+                                    if (xmlhttpW.readyState == 4 && xmlhttpW.status == 200) {
+                                        var array = JSON.parse(xmlhttpW.responseText);
+
+                                        // Filtro de carga de la bbdd
+                                        if (array.length > 0) {
+
+                                            // Filtro de valor superior a 0
+                                            if (array[0].VALOR != 0) {
+
+                                                premio = array[0].VALOR;
+
+                                                // Obteniendo valor de los dados del equipo par (segundo)
+                                                var xmlhttpDos = new XMLHttpRequest();
+                                                var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 6 + '&id_sesion=' + id_sesion;
+
+                                                xmlhttpDos.onreadystatechange = function () {
+                                                    if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
+                                                        var array = JSON.parse(xmlhttpDos.responseText);
+                                                        subtematica = array[0].VALOR;
+
+                                                        if (array.length > 0) {
+
+                                                            document.getElementById("botonLanzar").style.height = "0px";
+
+                                                            // Cargando el primer dado (PREMIO)
+                                                            cargarMapa(premio);
+                                                            id_subtematica = array[0].VALOR;
+
+                                                            // Obteniendo Subtematicas
+                                                            obtenerSubtematicas(id_subtematica);
+
+                                                        } else {
+                                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                                        }
+
+                                                    }
+                                                }
+                                                xmlhttpDos.open("GET", urlDos, true);
+                                                xmlhttpDos.send();
+
+                                            } else {
+                                                Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                            }
+
+                                        } else {
+                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                        }
+                                    }
+                                }
+                                xmlhttpW.open("GET", urlW, true);
+                                xmlhttpW.send();
+                            } else if (estado_sesion == 'SEGUNDA' && contador_desafio == 0) {
+
+                                // Obteniendo valor de los dados del equipo impar (primero)
+                                var xmlhttpW = new XMLHttpRequest();
+                                var urlW = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 1 + '&id_sesion=' + id_sesion;
+
+                                xmlhttpW.onreadystatechange = function () {
+                                    if (xmlhttpW.readyState == 4 && xmlhttpW.status == 200) {
+                                        var array = JSON.parse(xmlhttpW.responseText);
+
+                                        // Filtro de carga de la bbdd
+                                        if (array.length > 0) {
+
+                                            // Filtro de valor superior a 0
+                                            if (array[0].VALOR != 0) {
+
+                                                premio = array[0].VALOR;
+
+                                                // Obteniendo valor de los dados del equipo par (segundo)
+                                                var xmlhttpDos = new XMLHttpRequest();
+                                                var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 2 + '&id_sesion=' + id_sesion;
+
+                                                xmlhttpDos.onreadystatechange = function () {
+                                                    if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
+                                                        var array = JSON.parse(xmlhttpDos.responseText);
+                                                        subtematica = array[0].VALOR;
+
+                                                        if (array.length > 0) {
+
+                                                            document.getElementById("botonLanzar").style.height = "0px";
+
+                                                            // Cargando el primer dado (PREMIO)
+                                                            cargarMapa(premio);
+                                                            id_subtematica = array[0].VALOR;
+
+                                                            // Obteniendo Subtematicas
+                                                            obtenerSubtematicas(id_subtematica);
+
+                                                        } else {
+                                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                                        }
+
+                                                    }
+                                                }
+                                                xmlhttpDos.open("GET", urlDos, true);
+                                                xmlhttpDos.send();
+
+                                            } else {
+                                                Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                            }
+
+                                        } else {
+                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                        }
+                                    }
+                                }
+                                xmlhttpW.open("GET", urlW, true);
+                                xmlhttpW.send();
+
+                            } else if (estado_sesion == 'SEGUNDA' && contador_desafio == 1) {
+
+                                // Obteniendo valor de los dados del equipo impar (primero)
+                                var xmlhttpW = new XMLHttpRequest();
+                                var urlW = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 3 + '&id_sesion=' + id_sesion;
+
+                                xmlhttpW.onreadystatechange = function () {
+                                    if (xmlhttpW.readyState == 4 && xmlhttpW.status == 200) {
+                                        var array = JSON.parse(xmlhttpW.responseText);
+
+                                        // Filtro de carga de la bbdd
+                                        if (array.length > 0) {
+
+                                            // Filtro de valor superior a 0
+                                            if (array[0].VALOR != 0) {
+
+                                                premio = array[0].VALOR;
+
+                                                // Obteniendo valor de los dados del equipo par (segundo)
+                                                var xmlhttpDos = new XMLHttpRequest();
+                                                var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 4 + '&id_sesion=' + id_sesion;
+
+                                                xmlhttpDos.onreadystatechange = function () {
+                                                    if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
+                                                        var array = JSON.parse(xmlhttpDos.responseText);
+                                                        subtematica = array[0].VALOR;
+
+                                                        if (array.length > 0) {
+
+                                                            document.getElementById("botonLanzar").style.height = "0px";
+
+                                                            // Cargando el primer dado (PREMIO)
+                                                            cargarMapa(premio);
+                                                            id_subtematica = array[0].VALOR;
+
+                                                            // Obteniendo Subtematicas
+                                                            obtenerSubtematicas(id_subtematica);
+
+                                                        } else {
+                                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                                        }
+
+                                                    }
+                                                }
+                                                xmlhttpDos.open("GET", urlDos, true);
+                                                xmlhttpDos.send();
+
+                                            } else {
+                                                Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                            }
+
+                                        } else {
+                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                        }
+                                    }
+                                }
+                                xmlhttpW.open("GET", urlW, true);
+                                xmlhttpW.send();
+
+                            } else if (estado_sesion == 'SEGUNDA' && contador_desafio == 2) {
+
+                                // Obteniendo valor de los dados del equipo impar (primero)
+                                var xmlhttpW = new XMLHttpRequest();
+                                var urlW = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 5 + '&id_sesion=' + id_sesion;
+
+                                xmlhttpW.onreadystatechange = function () {
+                                    if (xmlhttpW.readyState == 4 && xmlhttpW.status == 200) {
+                                        var array = JSON.parse(xmlhttpW.responseText);
+
+                                        // Filtro de carga de la bbdd
+                                        if (array.length > 0) {
+
+                                            // Filtro de valor superior a 0
+                                            if (array[0].VALOR != 0) {
+
+                                                premio = array[0].VALOR;
+
+                                                // Obteniendo valor de los dados del equipo par (segundo)
+                                                var xmlhttpDos = new XMLHttpRequest();
+                                                var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 6 + '&id_sesion=' + id_sesion;
+
+                                                xmlhttpDos.onreadystatechange = function () {
+                                                    if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
+                                                        var array = JSON.parse(xmlhttpDos.responseText);
+                                                        subtematica = array[0].VALOR;
+
+                                                        if (array.length > 0) {
+
+                                                            document.getElementById("botonLanzar").style.height = "0px";
+
+                                                            // Cargando el primer dado (PREMIO)
+                                                            cargarMapa(premio);
+                                                            id_subtematica = array[0].VALOR;
+
+                                                            // Obteniendo Subtematicas
+                                                            obtenerSubtematicas(id_subtematica);
+
+                                                        } else {
+                                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                                        }
+
+                                                    }
+                                                }
+                                                xmlhttpDos.open("GET", urlDos, true);
+                                                xmlhttpDos.send();
+
+                                            } else {
+                                                Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                            }
+
+                                        } else {
+                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                        }
+                                    }
+                                }
+                                xmlhttpW.open("GET", urlW, true);
+                                xmlhttpW.send();
                             }
+
+                        } else {
+                            Materialize.toast('Problemas al contar el número de desafíos realizados', 4000);
                         }
                     }
-                    xmlhttp.open("GET", url, true);
-                    xmlhttp.send();
-
                 }
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
             }
 
             function cargarSubtematica() {
-                //alert('Carga de subtemática');
+                //console.log('Carga de subtemática');
                 document.getElementById("dado").style.height = "0px";
                 obtenerSubtematicas(premio);
             }
 
             function cargarMapa(premio) {
-                // alert(posicion);
+                // console.log(posicion);
                 if (premio === 4) {
                     document.getElementById("myDiv").style.backgroundPosition = "right 70%";
                 } else if (premio === 3) {
@@ -682,9 +1144,9 @@
             }
 
             function obtenerSubtematicas(id_subtematica) {
-                //alert('obteniendo subtemáticas');
-                //alert('premio: ' + premio);
-                alert(id_subtematica);
+                //console.log('obteniendo subtemáticas');
+                //console.log('premio: ' + premio);
+                console.log(id_subtematica);
 
                 var xmlhttp = new XMLHttpRequest();
                 var url = 'http://localhost/juego/registroJuego.php/?opcion=24&id_subtematica=' + id_subtematica;
@@ -692,10 +1154,9 @@
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                         var array = JSON.parse(xmlhttp.responseText);
-                        //alert(array);
+                        //console.log(array);
 
                         document.getElementById('subtematica').innerHTML = array[0].DESCRIPCION_SUBTEMATICA;
-                        ;
 
                         // Carga de artistas según niveles de avance en el turno
                         obtenerArtistas(id_subtematica);
@@ -706,8 +1167,8 @@
             }
 
             function obtenerArtistas(id_subtematica) {
-                //alert('obteniendo artistas');
-                //alert('id subtematica: ' + id_subtematica);
+                //console.log('obteniendo artistas');
+                //console.log('id subtematica: ' + id_subtematica);
 
                 // Identificación de desafíos pendientes
                 var xmlhttpX = new XMLHttpRequest();
@@ -739,7 +1200,7 @@
                                         xmlhttpDos.onreadystatechange = function () {
                                             if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
                                                 var arrayPasado = JSON.parse(xmlhttpDos.responseText);
-                                                //alert(array);
+                                                //console.log(array);
 
                                                 if (arrayPasado.length > 0) {
                                                     for (i = 0; i < arrayPasado.length; i++) {
@@ -747,10 +1208,10 @@
                                                         for (x = 0; x < artistas_disponibles.length; x++) {
 
                                                             if (arrayPasado[i].ID_ARTISTA == artistas_disponibles[x].ID_ARTISTA) {
-                                                                alert('eliminando repetidos!');
-                                                                alert(artistas_disponibles.length);
+                                                                console.log('eliminando repetidos!');
+                                                                console.log(artistas_disponibles.length);
                                                                 artistas_disponibles.splice(x, 1);
-                                                                alert(artistas_disponibles.length);
+                                                                console.log(artistas_disponibles.length);
                                                             }
                                                         }
                                                     }
@@ -765,7 +1226,7 @@
                                         xmlhttpDos.send();
                                     }
                                 }
-                                alert(artistas_disponibles);
+                                console.log(artistas_disponibles);
                             }
                             xmlhttpSiete.open("GET", url, true);
                             xmlhttpSiete.send();
@@ -795,7 +1256,7 @@
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                         var array = JSON.parse(xmlhttp.responseText);
-                        //alert(array);
+                        //console.log(array);
 
                         document.getElementById('nombreArtista').innerHTML = array[0].NOMBRE_ARTISTA;
                         document.getElementById('biografiaArtista').innerHTML = array[0].BIOGRAFIA_ARTISTA;
@@ -811,7 +1272,7 @@
                 xmlhttpDos.onreadystatechange = function () {
                     if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
                         var arrayDos = JSON.parse(xmlhttpDos.responseText);
-                        //alert(array);
+                        //console.log(array);
 
                         for (i = 0; i < arrayDos.length; i++) {
 
@@ -920,9 +1381,15 @@
                 estado_sesion = '${estado_sesion}';
                 id_sesion = '${id_sesion}';
                 nivel_sesion = '${nivel_sesion}';
-                alert('estado_sesion: ' + estado_sesion);
-                alert('id_sesion: ' + id_sesion);
-                alert('nivel_sesion: ' + nivel_sesion);
+                console.log('estado_sesion: ' + estado_sesion);
+                console.log('id_sesion: ' + id_sesion);
+                console.log('nivel_sesion: ' + nivel_sesion);
+
+                // Grabar datos en formulario de paso de desafío
+                document.getElementById("estado_sesion").value = estado_sesion;
+                document.getElementById("id_sesion").value = id_sesion;
+                document.getElementById("nivel_sesion").value = nivel_sesion;
+
 
                 if (estado_sesion == 'ABIERTA') {
 
@@ -940,8 +1407,13 @@
 
                                 desplegarMenu();
 
+                                // HABILITAR MENU DE FINAL DE NIVEL
+
+
                             } else {
+
                                 document.getElementById('botonLanzar').disabled = false;
+
                             }
                         }
                     }
