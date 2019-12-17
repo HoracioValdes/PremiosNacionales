@@ -78,6 +78,12 @@
 
                 </div>
             </div>
+            
+            <div class="row">
+                <div class="card-panel col s10 offset-s1" hidden="true" id="divCalificacionesNivel">
+
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col s10 offset-s1">
@@ -86,7 +92,22 @@
                             <input type="hidden" id="estado_sesion" name="estado_sesion">
                             <input type="hidden" id="id_sesion" name="id_sesion">
                             <input type="hidden" id="nivel_sesion" name="nivel_sesion">
-                            <button id="botonPasoResultado" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return pasar()">Pasar de desafío
+                            <button id="botonPasoResultado" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return pasar()">Cerrar desafío
+                                <i class="material-icons right">check_circle</i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s10 offset-s1">
+                    <div class="center" id="paso_nivel" hidden="true" style="margin-top: 45px; margin-bottom: 45px;">
+                        <form action="paso-docente.do">
+                            <input type="hidden" id="estado_sesion" name="estado_sesion">
+                            <input type="hidden" id="id_sesion" name="id_sesion">
+                            <input type="hidden" id="nivel_sesion" name="nivel_sesion">
+                            <button id="botonPasoResultado" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return pasarNivel()">Cerrar último desafío de nivel 
                                 <i class="material-icons right">check_circle</i>
                             </button>
                         </form>
@@ -221,6 +242,13 @@
 
             }
 
+            function pasarNivel() {
+
+                console.log('Pasando nivel...');
+                return false;
+
+            }
+
             function verResultadosCalificaciones() {
                 console.log('Evaluando resultados...');
 
@@ -269,9 +297,41 @@
                                                         document.getElementById("divCalificaciones").hidden = false;
 
                                                         document.getElementById("paso_resultado").hidden = true;
-                                                        document.getElementById("paso_desafio").hidden = false;
 
-                                                        var contenedor = document.getElementById('divCalificaciones');
+                                                        // Condicionar el paso desafío o paso nivel según el número de desafíos acumulados
+                                                        // Los desafíos se deben eliminar según el número de ellos sea 2 (porque el tercero se cierra en la consumación de la acción)
+                                                        // Si hay dos desafíos se debe se debe activar un botón 'paso_nivel'
+                                                        // Agregar contador de desafios (0 - 2)
+                                                        var xmlhttp = new XMLHttpRequest();
+                                                        var url = 'http://localhost/juego/registroJuego.php/?opcion=40&id_sesion=' + id_sesion;
+
+                                                        xmlhttp.onreadystatechange = function () {
+                                                            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+                                                                var array = JSON.parse(xmlhttp.responseText);
+                                                                if (array.length > 0) {
+
+                                                                    contador_desafio = array[0].DESAFIOS;
+                                                                    console.log('Número de desafios: ' + contador_desafio);
+
+                                                                    if (contador_desafio == 2) {
+                                                                        document.getElementById("paso_nivel").hidden = false;
+                                                                    } else {
+                                                                        document.getElementById("paso_desafio").hidden = false;
+                                                                    }
+
+                                                                } else {
+                                                                    Materialize.toast('Problemas al contar el número de desafíos realizados', 4000);
+                                                                }
+                                                            }
+                                                        }
+                                                        xmlhttp.open("GET", url, true);
+                                                        xmlhttp.send();
+                                                        
+                                                        // ARREGLAR
+
+                                                        
+                                                        var contenedor = document.getElementById('divCalificacionesNivel');
 
                                                         contenedor.innerHTML = "";
 
@@ -747,7 +807,7 @@
             {
                 console.log('Id sesión para preguntar por desafios: ' + id_sesion);
                 // Obtención de numero de desafios
-                // Agregar contador de desafios (0 - 5)
+                // Agregar contador de desafios (0 - 2)
                 var xmlhttp = new XMLHttpRequest();
                 var url = 'http://localhost/juego/registroJuego.php/?opcion=40&id_sesion=' + id_sesion;
 
@@ -1390,37 +1450,71 @@
                 document.getElementById("id_sesion").value = id_sesion;
                 document.getElementById("nivel_sesion").value = nivel_sesion;
 
+                // Obtención de numero de desafios
+                // Agregar contador de desafios (0 - 3)
+                var xmlhttp = new XMLHttpRequest();
+                var url = 'http://localhost/juego/registroJuego.php/?opcion=40&id_sesion=' + id_sesion;
 
-                if (estado_sesion == 'ABIERTA') {
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+                        var array = JSON.parse(xmlhttp.responseText);
+                        if (array.length > 0) {
+
+                            contador_desafio = array[0].DESAFIOS;
+                            console.log('Número de desafios: ' + contador_desafio);
+
+                            if (estado_sesion == 'ABIERTA') {
+
+                                // Consulta de inicio de partida
+
+                                var xmlhttpTres = new XMLHttpRequest();
+                                var urlTres = 'http://localhost/juego/registroJuego.php/?opcion=14&id_sesion=' + id_sesion;
+
+                                xmlhttpTres.onreadystatechange = function () {
+                                    if (xmlhttpTres.readyState == 4 && xmlhttpTres.status == 200) {
+                                        var arrayTres = JSON.parse(xmlhttpTres.responseText);
+
+                                        if (arrayTres[0].PLAY == 0) {
+
+                                            desplegarMenu();
+
+                                            // HABILITAR MENU DE FINAL DE NIVEL
 
 
-                    // Consulta de inicio de partida
+                                        } else {
 
-                    var xmlhttpTres = new XMLHttpRequest();
-                    var urlTres = 'http://localhost/juego/registroJuego.php/?opcion=14&id_sesion=' + id_sesion;
+                                            // Condición de habilitar botón de inicio de partida, si es el tercer desafío cerrado
+                                            console.log('Número de desafíos en carga de botón: ' + contador_desafio);
 
-                    xmlhttpTres.onreadystatechange = function () {
-                        if (xmlhttpTres.readyState == 4 && xmlhttpTres.status == 200) {
-                            var arrayTres = JSON.parse(xmlhttpTres.responseText);
+                                            if (contador_desafio == 3) {
+                                                
+                                                console.log('Cargando resultados de nivel...');
+                                                // Carga de tabla de resultados finales
+                                                
+                                                
+                                                // Carga de botón de cerrar nivel
 
-                            if (arrayTres[0].PLAY == 0) {
+                                            } else {
+                                                
+                                                document.getElementById('botonLanzar').disabled = false;
+                                                
+                                            }
 
-                                desplegarMenu();
-
-                                // HABILITAR MENU DE FINAL DE NIVEL
-
-
-                            } else {
-
-                                document.getElementById('botonLanzar').disabled = false;
+                                        }
+                                    }
+                                }
+                                xmlhttpTres.open("GET", urlTres, true);
+                                xmlhttpTres.send();
 
                             }
+                        } else {
+                            Materialize.toast('Problemas al contar el número de desafíos realizados', 4000);
                         }
                     }
-                    xmlhttpTres.open("GET", urlTres, true);
-                    xmlhttpTres.send();
-
                 }
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
             }
         </script>
     </body>
