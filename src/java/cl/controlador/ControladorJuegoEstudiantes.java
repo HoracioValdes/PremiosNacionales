@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Horacio
  */
-@WebServlet(name = "ControladorEncuesta", urlPatterns = {"/entrar.do", "/entrar_dos.do", "/entrar_profesor.do", "/paso-docente.do", "/paso-estudiante.do", "/paso-docente-final-nivel.do"})
+@WebServlet(name = "ControladorEncuesta", urlPatterns = {"/entrar.do", "/entrar_dos.do", "/entrar_profesor.do", "/paso-docente.do", "/paso-estudiante.do", "/paso-docente-final-nivel.do", "/paso-docente-final-juego.do"})
 public class ControladorJuegoEstudiantes extends HttpServlet {
 
     /**
@@ -81,6 +81,20 @@ public class ControladorJuegoEstudiantes extends HttpServlet {
                     request.setAttribute("msg", msg);
                     request.getRequestDispatcher("index_equipos.jsp").forward(request, response);
                 }
+            } else if (estado_sesion.equalsIgnoreCase("SEGUNDA")) {
+                msg = "Ya existe el número máximo de grupos; seleccione el equipo en el cual estaba jugando";
+                request.setAttribute("id_sesion", id_sesion);
+                estado_sesion = "SEGUNDA";
+                request.setAttribute("estado_sesion", estado_sesion);
+                request.setAttribute("msg", msg);
+                request.getRequestDispatcher("index_equipos.jsp").forward(request, response);
+            } else if (estado_sesion.equalsIgnoreCase("TERCERA")) {
+                msg = "Ya existe el número máximo de grupos; seleccione el equipo en el cual estaba jugando";
+                request.setAttribute("id_sesion", id_sesion);
+                estado_sesion = "TERCERA";
+                request.setAttribute("estado_sesion", estado_sesion);
+                request.setAttribute("msg", msg);
+                request.getRequestDispatcher("index_equipos.jsp").forward(request, response);
             }
 
         } else if (userPath.equals("/entrar_dos.do")) {
@@ -98,8 +112,18 @@ public class ControladorJuegoEstudiantes extends HttpServlet {
                 request.getRequestDispatcher("panel-estudiante.jsp").forward(request, response);
 
             } else if (estado_sesion.equalsIgnoreCase("SEGUNDA")) {
+                
+                request.setAttribute("estado_sesion", estado_sesion);
+                request.setAttribute("id_sesion", id_sesion);
+                request.setAttribute("numero_equipo", numero_equipo_dos);
+                request.getRequestDispatcher("panel-estudiante.jsp").forward(request, response);
 
             } else if (estado_sesion.equalsIgnoreCase("TERCERA")) {
+                
+                request.setAttribute("estado_sesion", estado_sesion);
+                request.setAttribute("id_sesion", id_sesion);
+                request.setAttribute("numero_equipo", numero_equipo_dos);
+                request.getRequestDispatcher("panel-estudiante.jsp").forward(request, response);
 
             }
 
@@ -162,6 +186,8 @@ public class ControladorJuegoEstudiantes extends HttpServlet {
             int id_sesion = Integer.parseInt(request.getParameter("id_sesion"));
             String estado_sesion = (request.getParameter("estado_sesion"));
             int numero_equipo_paso = Integer.parseInt(request.getParameter("numero_equipo"));
+            
+            estado_sesion = dao.obtenerEstadoSesion(id_sesion);
 
             request.setAttribute("estado_sesion", estado_sesion);
             request.setAttribute("id_sesion", id_sesion);
@@ -174,22 +200,79 @@ public class ControladorJuegoEstudiantes extends HttpServlet {
             int id_sesion = Integer.parseInt(request.getParameter("id_sesion"));
             String estado_sesion = (request.getParameter("estado_sesion"));
             int nivel_sesion = Integer.parseInt(request.getParameter("nivel_sesion"));
+            
+            // Obtener id de desafío
+            int id_desafio = dao.idDesafio(id_sesion);
+
+            if (id_desafio != 0) {
+
+                // Cerrar desafio
+                if (dao.cerrarDesafio(id_desafio) > 0) {
+
+                    // Resetear dados
+                    dao.resetearDados(id_sesion);
+
+                }
+
+            }
 
             // Cambiar el estado de la sesión
             if (estado_sesion.equalsIgnoreCase("ABIERTA")) {
                 estado_sesion = "SEGUNDA";
+
+                // Fijar nivel
+                nivel_sesion = nivel_sesion + 1;
+
+                if (nivel_sesion > 3) {
+                    nivel_sesion = 3;
+                }
+                dao.insertarNivelSegunda(estado_sesion, id_sesion, nivel_sesion);
+
                 dao.actualizarSesion(estado_sesion, id_sesion);
+
             } else if (estado_sesion.equalsIgnoreCase("SEGUNDA")) {
                 estado_sesion = "TERCERA";
+
+                //Fijar nivel
+                // Fijar nivel
+                nivel_sesion = nivel_sesion + 1;
+
+                if (nivel_sesion > 3) {
+                    nivel_sesion = 3;
+                }
+                dao.insertarNivelSegunda(estado_sesion, id_sesion, nivel_sesion);
+
                 dao.actualizarSesion(estado_sesion, id_sesion);
+
             } else if (estado_sesion.equalsIgnoreCase("TERCERA")) {
                 // Terminar el juego
+                estado_sesion = "CIERRE";
+                dao.actualizarSesion(estado_sesion, id_sesion);
+            }
+
+            request.setAttribute("nivel_sesion", nivel_sesion);
+            request.setAttribute("estado_sesion", estado_sesion);
+            request.setAttribute("id_sesion", id_sesion);
+            request.getRequestDispatcher("cartografia-profesor.jsp").forward(request, response);
+            
+        } else if (userPath.equals("/paso-docente-final-juego.do")) {
+
+            // Recepción de datos de sesión
+            int id_sesion = Integer.parseInt(request.getParameter("id_sesion"));
+            String estado_sesion = (request.getParameter("estado_sesion"));
+            int nivel_sesion = Integer.parseInt(request.getParameter("nivel_sesion"));
+            
+            if (estado_sesion.equalsIgnoreCase("TERCERA")) {
+                // Terminar el juego
+                estado_sesion = "CIERRE";
+                dao.actualizarSesion(estado_sesion, id_sesion);
             }
             
-            // Borrar los desafíos
+            // Eliminar datos
             
             
-
+            
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }
 

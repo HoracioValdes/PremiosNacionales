@@ -114,15 +114,30 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="row">
                 <div class="col s10 offset-s1">
                     <div class="center" id="paso_nivel_final" hidden="true" style="margin-top: 45px; margin-bottom: 45px;">
-                        <form action="paso-docente-final-nivel.do">
+                        <form action="paso-docente-final-juego.do">
+                            <input type="hidden" id="estado_sesion_cuatro" name="estado_sesion">
+                            <input type="hidden" id="id_sesion_cuatro" name="id_sesion">
+                            <input type="hidden" id="nivel_sesion_cuatro" name="nivel_sesion">
+                            <button id="botonPasoResultado_cinco" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return pasarNivel()">Cerrar Nivel
+                                <i class="material-icons right">check_circle</i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col s10 offset-s1">
+                    <div class="center" id="paso_nivel_final_dos" hidden="true" style="margin-top: 45px; margin-bottom: 45px;">
+                        <form action="paso-docente-final-juego.do">
                             <input type="hidden" id="estado_sesion_tres" name="estado_sesion">
                             <input type="hidden" id="id_sesion_tres" name="id_sesion">
                             <input type="hidden" id="nivel_sesion_tres" name="nivel_sesion">
-                            <button id="botonPasoResultado_cuatro" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return pasarNivel()">Cerrar Nivel
+                            <button id="botonPasoResultado_cuatro" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return pasarNivel()">Cerrar Juego
                                 <i class="material-icons right">check_circle</i>
                             </button>
                         </form>
@@ -155,6 +170,27 @@
                             <option  value="3">3</option>
                         </select>
                         <button id="botonNivel" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="fijarNivel();">Fijar Nivel
+                            <i class="material-icons right">assignment_turned_in</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s10 offset-s1" >
+                    <div class="center card-panel" id="menuOpcionesNivel" style="margin-top: 45px; margin-bottom: 45px;" hidden="true">
+                        <h4>Opciones</h4>
+                        <p><b>Seleccione el nivel del juego</b></p>
+                        <select name="cboNivel" id="nivelDos" class="browser-default">
+                            <option  value="NULO" disabled selected>SELECCIONE EL NIVEL DEL JUEGO</option>
+                            <option  value="1">1</option>
+                            <option  value="2">2</option>
+                            <option  value="3">3</option>
+                        </select>
+                        <button id="botonNivel" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="fijarNivelSegunda();">Fijar Nivel
+                            <i class="material-icons right">assignment_turned_in</i>
+                        </button>
+                        <button id="botonCerrarOpcionNivel" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="cerrarMenuOpciones();">Cerrar
                             <i class="material-icons right">assignment_turned_in</i>
                         </button>
                     </div>
@@ -257,10 +293,16 @@
 
             }
 
+            function cerrarMenuOpciones() {
+                document.getElementById('menuOpcionesNivel').hidden = true;
+                document.getElementById('menu').hidden = true;
+                document.getElementById('botonLanzar').disabled = false;
+            }
+
             function pasarNivel() {
 
                 console.log('Pasando nivel...');
-                return false;
+                // return false;
 
             }
 
@@ -313,6 +355,90 @@
 
                                                         document.getElementById("paso_resultado").hidden = true;
 
+                                                        // Cargar resultados de desafío
+                                                        // Carga de tabla de calificaciones por desafíos
+
+                                                        var contenedor = document.getElementById('divCalificaciones');
+
+                                                        contenedor.innerHTML = "";
+
+                                                        contenedor.innerHTML += "\
+                                                                            <div class='row'>\n\
+                                                                                <h5 style='text-align: center;'>Artista: <b>" + promedios[0].NOMBRE_ARTISTA + "</b></h5>\n\
+                                                                                <h5 style='text-align: center;'>Desafío: <b>" + promedios[0].DESAFIO + "</b></h5>\n\
+                                                                            </div>";
+
+                                                        for (i = 0; i < promedios.length; i++) {
+
+                                                            if (i == 0) {
+                                                                contenedor.innerHTML += "\
+                                                                    <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
+                                                                        <div class='row'>\n\
+                                                                            <h4 style='text-align: center;'><b>Primer Lugar</b></h4>\n\
+                                                                            <h6 style='text-align: center;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                            <p style='text-align: center;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></p>\n\
+                                                                            <input hidden='true' id='equipoEvaluadoForm' value=" + promedios[i].NUMERO_EQUIPO + ">\n\
+                                                                        </div>\n\
+                                                                    </form>";
+                                                            } else if (i == 1) {
+                                                                contenedor.innerHTML += "\
+                                                                    <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
+                                                                        <div class='row'>\n\
+                                                                            <h4 style='text-align: center;'><b>Segundo Lugar</b></h4>\n\
+                                                                            <h6 style='text-align: center;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                            <p style='text-align: center;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></p>\n\
+                                                                            <input hidden='true' id='equipoEvaluadoForm' value=" + promedios[i].NUMERO_EQUIPO + ">\n\
+                                                                        </div>\n\
+                                                                    </form>";
+                                                            } else if (i == 2) {
+                                                                contenedor.innerHTML += "\
+                                                                    <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
+                                                                        <div class='row'>\n\
+                                                                            <h4 style='text-align: center;'><b>Tercer Lugar</b></h4>\n\
+                                                                            <h6 style='text-align: center;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                            <p style='text-align: center;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></p>\n\
+                                                                            <input hidden='true' id='equipoEvaluadoForm' value=" + promedios[i].NUMERO_EQUIPO + ">\n\
+                                                                        </div>\n\
+                                                                    </form>";
+                                                            } else {
+                                                                contenedor.innerHTML += "\
+                                                                    <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
+                                                                        <div class='row'>\n\
+                                                                            <h6 style='text-align: center;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                            <p style='text-align: center;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></p>\n\
+                                                                            <input hidden='true' id='equipoEvaluadoForm' value=" + promedios[i].NUMERO_EQUIPO + ">\n\
+                                                                        </div>\n\
+                                                                    </form>";
+                                                            }
+                                                        }
+
+                                                        // Insertar calificaciones en respuestas
+                                                        for (x = 0; x < promedios.length; x++) {
+
+                                                            // Update de respuestas
+                                                            var xmlhttpG = new XMLHttpRequest();
+                                                            var urlG = 'http://localhost/juego/registroJuego.php/?opcion=36&promedio=' + promedios[x].PROMEDIO + '&id_respuesta=' + promedios[x].ID_RESPUESTA;
+
+                                                            xmlhttpG.onreadystatechange = function () {
+                                                                if (xmlhttpG.readyState == 4 && xmlhttpG.status == 200) {
+                                                                    var control = JSON.parse(xmlhttpG.responseText);
+
+                                                                    if (control == true) {
+
+                                                                        console.log('Promedio insertado en respuesta');
+
+                                                                    } else {
+
+                                                                        console.log('Problema al insertar promedio en respuesta');
+
+                                                                    }
+                                                                }
+                                                            }
+                                                            xmlhttpG.open("GET", urlG, true);
+                                                            xmlhttpG.send();
+                                                        }
+
+
                                                         // Condicionar el paso desafío o paso nivel según el número de desafíos acumulados
                                                         // Los desafíos se deben eliminar según el número de ellos sea 2 (porque el tercero se cierra en la consumación de la acción)
                                                         // Si hay dos desafíos se debe se debe activar un botón 'paso_nivel'
@@ -334,6 +460,8 @@
                                                                     } else {
                                                                         document.getElementById("paso_desafio").hidden = false;
                                                                     }
+
+
 
                                                                 } else {
                                                                     Materialize.toast('Problemas al contar el número de desafíos realizados', 4000);
@@ -712,6 +840,36 @@
                 document.getElementById("myDiv").style.backgroundPosition = "left top";
             }
 
+            function fijarNivelSegunda() {
+                var nuevoNivel = document.getElementById("nivelDos").selectedIndex;
+
+                if (nuevoNivel == null || nuevoNivel == 0) {
+
+                    Materialize.toast('Debe seleccionar un nivel', 4000);
+
+                } else {
+
+                    var xmlhttp = new XMLHttpRequest();
+                    var url = 'http://localhost/juego/registroJuego.php/?opcion=13&nivel=' + nuevoNivel + '&id_sesion=' + id_sesion + '&estado=' + estado_sesion;
+
+                    xmlhttp.onreadystatechange = function () {
+                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                            nivel_sesion = nuevoNivel;
+                        }
+                    }
+                    xmlhttp.open("GET", url, true);
+                    xmlhttp.send();
+
+                    Materialize.toast('Nivel fijado', 4000);
+
+                    document.getElementById('menuOpcionesNivel').hidden = true;
+                    document.getElementById('menu').hidden = true;
+                    document.getElementById('botonLanzar').disabled = false;
+
+                }
+
+            }
+
             function fijarNivel() {
                 var nuevoNivel = document.getElementById("nivel").selectedIndex;
 
@@ -933,7 +1091,7 @@
                                 }
                                 xmlhttpW.open("GET", urlW, true);
                                 xmlhttpW.send();
-                            } else if (estado_sesion == 'SEGUNDA' && contador_desafio == 0) {
+                            } else if (estado_sesion == 'SEGUNDA' && contador_desafio == 3) {
 
                                 // Obteniendo valor de los dados del equipo impar (primero)
                                 var xmlhttpW = new XMLHttpRequest();
@@ -992,7 +1150,7 @@
                                 xmlhttpW.open("GET", urlW, true);
                                 xmlhttpW.send();
 
-                            } else if (estado_sesion == 'SEGUNDA' && contador_desafio == 1) {
+                            } else if (estado_sesion == 'SEGUNDA' && contador_desafio == 4) {
 
                                 // Obteniendo valor de los dados del equipo impar (primero)
                                 var xmlhttpW = new XMLHttpRequest();
@@ -1051,7 +1209,183 @@
                                 xmlhttpW.open("GET", urlW, true);
                                 xmlhttpW.send();
 
-                            } else if (estado_sesion == 'SEGUNDA' && contador_desafio == 2) {
+                            } else if (estado_sesion == 'SEGUNDA' && contador_desafio == 5) {
+
+                                // Obteniendo valor de los dados del equipo impar (primero)
+                                var xmlhttpW = new XMLHttpRequest();
+                                var urlW = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 5 + '&id_sesion=' + id_sesion;
+
+                                xmlhttpW.onreadystatechange = function () {
+                                    if (xmlhttpW.readyState == 4 && xmlhttpW.status == 200) {
+                                        var array = JSON.parse(xmlhttpW.responseText);
+
+                                        // Filtro de carga de la bbdd
+                                        if (array.length > 0) {
+
+                                            // Filtro de valor superior a 0
+                                            if (array[0].VALOR != 0) {
+
+                                                premio = array[0].VALOR;
+
+                                                // Obteniendo valor de los dados del equipo par (segundo)
+                                                var xmlhttpDos = new XMLHttpRequest();
+                                                var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 6 + '&id_sesion=' + id_sesion;
+
+                                                xmlhttpDos.onreadystatechange = function () {
+                                                    if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
+                                                        var array = JSON.parse(xmlhttpDos.responseText);
+                                                        subtematica = array[0].VALOR;
+
+                                                        if (array.length > 0) {
+
+                                                            document.getElementById("botonLanzar").style.height = "0px";
+
+                                                            // Cargando el primer dado (PREMIO)
+                                                            cargarMapa(premio);
+                                                            id_subtematica = array[0].VALOR;
+
+                                                            // Obteniendo Subtematicas
+                                                            obtenerSubtematicas(id_subtematica);
+
+                                                        } else {
+                                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                                        }
+
+                                                    }
+                                                }
+                                                xmlhttpDos.open("GET", urlDos, true);
+                                                xmlhttpDos.send();
+
+                                            } else {
+                                                Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                            }
+
+                                        } else {
+                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                        }
+                                    }
+                                }
+                                xmlhttpW.open("GET", urlW, true);
+                                xmlhttpW.send();
+                            } else if (estado_sesion == 'TERCERA' && contador_desafio == 6) {
+
+                                // Obteniendo valor de los dados del equipo impar (primero)
+                                var xmlhttpW = new XMLHttpRequest();
+                                var urlW = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 1 + '&id_sesion=' + id_sesion;
+
+                                xmlhttpW.onreadystatechange = function () {
+                                    if (xmlhttpW.readyState == 4 && xmlhttpW.status == 200) {
+                                        var array = JSON.parse(xmlhttpW.responseText);
+
+                                        // Filtro de carga de la bbdd
+                                        if (array.length > 0) {
+
+                                            // Filtro de valor superior a 0
+                                            if (array[0].VALOR != 0) {
+
+                                                premio = array[0].VALOR;
+
+                                                // Obteniendo valor de los dados del equipo par (segundo)
+                                                var xmlhttpDos = new XMLHttpRequest();
+                                                var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 2 + '&id_sesion=' + id_sesion;
+
+                                                xmlhttpDos.onreadystatechange = function () {
+                                                    if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
+                                                        var array = JSON.parse(xmlhttpDos.responseText);
+                                                        subtematica = array[0].VALOR;
+
+                                                        if (array.length > 0) {
+
+                                                            document.getElementById("botonLanzar").style.height = "0px";
+
+                                                            // Cargando el primer dado (PREMIO)
+                                                            cargarMapa(premio);
+                                                            id_subtematica = array[0].VALOR;
+
+                                                            // Obteniendo Subtematicas
+                                                            obtenerSubtematicas(id_subtematica);
+
+                                                        } else {
+                                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                                        }
+
+                                                    }
+                                                }
+                                                xmlhttpDos.open("GET", urlDos, true);
+                                                xmlhttpDos.send();
+
+                                            } else {
+                                                Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                            }
+
+                                        } else {
+                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                        }
+                                    }
+                                }
+                                xmlhttpW.open("GET", urlW, true);
+                                xmlhttpW.send();
+
+                            } else if (estado_sesion == 'TERCERA' && contador_desafio == 7) {
+
+                                // Obteniendo valor de los dados del equipo impar (primero)
+                                var xmlhttpW = new XMLHttpRequest();
+                                var urlW = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 3 + '&id_sesion=' + id_sesion;
+
+                                xmlhttpW.onreadystatechange = function () {
+                                    if (xmlhttpW.readyState == 4 && xmlhttpW.status == 200) {
+                                        var array = JSON.parse(xmlhttpW.responseText);
+
+                                        // Filtro de carga de la bbdd
+                                        if (array.length > 0) {
+
+                                            // Filtro de valor superior a 0
+                                            if (array[0].VALOR != 0) {
+
+                                                premio = array[0].VALOR;
+
+                                                // Obteniendo valor de los dados del equipo par (segundo)
+                                                var xmlhttpDos = new XMLHttpRequest();
+                                                var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=9&numero_equipo=' + 4 + '&id_sesion=' + id_sesion;
+
+                                                xmlhttpDos.onreadystatechange = function () {
+                                                    if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
+                                                        var array = JSON.parse(xmlhttpDos.responseText);
+                                                        subtematica = array[0].VALOR;
+
+                                                        if (array.length > 0) {
+
+                                                            document.getElementById("botonLanzar").style.height = "0px";
+
+                                                            // Cargando el primer dado (PREMIO)
+                                                            cargarMapa(premio);
+                                                            id_subtematica = array[0].VALOR;
+
+                                                            // Obteniendo Subtematicas
+                                                            obtenerSubtematicas(id_subtematica);
+
+                                                        } else {
+                                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                                        }
+
+                                                    }
+                                                }
+                                                xmlhttpDos.open("GET", urlDos, true);
+                                                xmlhttpDos.send();
+
+                                            } else {
+                                                Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                            }
+
+                                        } else {
+                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                        }
+                                    }
+                                }
+                                xmlhttpW.open("GET", urlW, true);
+                                xmlhttpW.send();
+
+                            } else if (estado_sesion == 'TERCERA' && contador_desafio == 8) {
 
                                 // Obteniendo valor de los dados del equipo impar (primero)
                                 var xmlhttpW = new XMLHttpRequest();
@@ -1319,6 +1653,18 @@
                 contenedor.innerHTML += "<div class='row' id='botonJugar'><a style='margin: 10px auto;' class='btn waves-effect blue lighten-1 modal-trigger' onclick='habilitarPartida()'>JUGAR<i class='material-icons right'>play_circle_outline</i></button></div>";
             }
 
+            function desplegarMenuNivel() {
+                var contenedor = document.getElementById('menu');
+                contenedor.innerHTML += "<p style='color: white;'>Nivel Actual: <b>" + nivel_sesion + "</b></p>";
+                contenedor.innerHTML += "<p style='color: white;'>Si desea otro nivel, selecciónelo en las siguientes opciones; si desea mantener el nivel actual, presione Cerrar</p>";
+                contenedor.innerHTML += "<p style='color: white;'><b>Seleccione el nivel del siguiente ciclo:</b></p>";
+                contenedor.innerHTML += "<div class='row' id='botonOpciones'><a style='margin: 10px auto;' class='btn waves-effect blue lighten-1 modal-trigger' onclick='habilitarOpcionesNivel()'>OPCIONES<i class='material-icons right'>settings</i></button></div>";
+            }
+
+            function cerrar() {
+                document.getElementById('menu').hidden = true;
+            }
+
             function habilitarPartida() {
 
                 var xmlhttp = new XMLHttpRequest();
@@ -1359,11 +1705,21 @@
                 document.getElementById('menuOpciones').hidden = false;
             }
 
+            function habilitarOpcionesNivel() {
+                deshabilitarMenuNivel();
+
+                document.getElementById('menuOpcionesNivel').hidden = false;
+            }
+
             function deshabilitarMenu() {
                 document.getElementById('botonInstrucciones').hidden = true;
                 document.getElementById('botonOpciones').hidden = true;
                 document.getElementById('botonCreditos').hidden = true;
                 document.getElementById('botonJugar').hidden = true;
+            }
+
+            function deshabilitarMenuNivel() {
+                document.getElementById('botonOpciones').hidden = true;
             }
 
             function habilitarMenu() {
@@ -1390,11 +1746,16 @@
                 document.getElementById("estado_sesion_dos").value = estado_sesion;
                 document.getElementById("id_sesion_dos").value = id_sesion;
                 document.getElementById("nivel_sesion_dos").value = nivel_sesion;
-                
+
                 // Grabar datos en formulario de paso de desafío final de nivel final
                 document.getElementById("estado_sesion_tres").value = estado_sesion;
                 document.getElementById("id_sesion_tres").value = id_sesion;
                 document.getElementById("nivel_sesion_tres").value = nivel_sesion;
+                
+                // Grabar datos en formulario de paso de desafío final de juego
+                document.getElementById("estado_sesion_cuatro").value = estado_sesion;
+                document.getElementById("id_sesion_cuatro").value = id_sesion;
+                document.getElementById("nivel_sesion_cuatro").value = nivel_sesion;
 
                 // Obtención de numero de desafios
                 // Agregar contador de desafios (0 - 3)
@@ -1463,7 +1824,7 @@
                                                                     <div class='row'>\n\
                                                                         <h5 style='text-align: center;'><b>RESULTADOS DE CIERRE DE NIVEL</b></h5>\n\
                                                                     </div>";
-            
+
                                                         for (i = 0; i < resultados.length; i++) {
 
                                                             if (i == 0) {
@@ -1514,7 +1875,7 @@
                                                 xmlhttpDos.send();
 
                                                 // Carga de botón de cerrar nivel
-                                                
+
                                                 document.getElementById("paso_nivel_final").hidden = false;
 
 
@@ -1530,6 +1891,281 @@
                                 xmlhttpTres.open("GET", urlTres, true);
                                 xmlhttpTres.send();
 
+                            } else if (estado_sesion == 'SEGUNDA' && contador_desafio == 3) {
+
+                                desplegarMenuNivel();
+
+                            } else if (estado_sesion == 'SEGUNDA' && contador_desafio == 4) {
+
+                                document.getElementById('botonLanzar').disabled = false;
+
+                            } else if (estado_sesion == 'SEGUNDA' && contador_desafio == 5) {
+
+                                document.getElementById('botonLanzar').disabled = false;
+
+                            } else if (estado_sesion == 'SEGUNDA' && contador_desafio == 6) {
+
+                                // Condición de habilitar botón de inicio de partida, si es el tercer desafío cerrado
+                                console.log('Número de desafíos en carga de botón: ' + contador_desafio);
+
+
+                                // Carga de tabla de resultados finales
+
+
+                                console.log('Id de sesión para consulta de respuestas según id de sesion y estado (AVG(VALORACION)): ' + id_sesion);
+                                console.log('Estado de sesión para consulta de respuestas según id de sesion y estado (AVG(VALORACION)): ' + estado_sesion);
+
+                                // Obtención de los resultados de las respuestas de los equipos
+                                var xmlhttpDos = new XMLHttpRequest();
+                                var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=42&id_sesion=' + id_sesion + '&estado=' + estado_sesion;
+
+                                xmlhttpDos.onreadystatechange = function () {
+                                    if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
+                                        var resultados = JSON.parse(xmlhttpDos.responseText);
+
+                                        console.log(resultados);
+
+                                        document.getElementById('divCalificacionesNivel').hidden = false;
+
+                                        var contenedor = document.getElementById('divCalificacionesNivel');
+
+                                        contenedor.innerHTML = "";
+
+                                        contenedor.innerHTML += "\
+                                                                    <div class='row'>\n\
+                                                                        <h5 style='text-align: center;'><b>RESULTADOS DE CIERRE DE NIVEL</b></h5>\n\
+                                                                    </div>";
+
+                                        for (i = 0; i < resultados.length; i++) {
+
+                                            if (i == 0) {
+                                                contenedor.innerHTML += "\
+                                                                <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
+                                                                    <div class='row'>\n\
+                                                                        <h4 style='text-align: center;'><b>Primer Lugar</b></h4>\n\
+                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
+                                                                    </div>\n\
+                                                                </form>";
+                                            } else if (i == 1) {
+                                                contenedor.innerHTML += "\
+                                                                <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
+                                                                    <div class='row'>\n\
+                                                                        <h4 style='text-align: center;'><b>Segundo Lugar</b></h4>\n\
+                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
+                                                                    </div>\n\
+                                                                </form>";
+                                            } else if (i == 2) {
+                                                contenedor.innerHTML += "\
+                                                                <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
+                                                                    <div class='row'>\n\
+                                                                        <h4 style='text-align: center;'><b>Tercer Lugar</b></h4>\n\
+                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
+                                                                    </div>\n\
+                                                                </form>";
+                                            } else {
+                                                contenedor.innerHTML += "\
+                                                                <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
+                                                                    <div class='row'>\n\
+                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
+                                                                    </div>\n\
+                                                                </form>";
+                                            }
+                                        }
+
+                                    }
+                                }
+                                xmlhttpDos.open("GET", urlDos, true);
+                                xmlhttpDos.send();
+
+                                // Carga de botón de cerrar nivel
+
+                                document.getElementById("paso_nivel_final").hidden = false;
+
+
+                            } else if (estado_sesion == 'TERCERA' && contador_desafio == 6) {
+
+                                desplegarMenuNivel();
+
+                            } else if (estado_sesion == 'TERCERA' && contador_desafio == 7) {
+
+                                document.getElementById('botonLanzar').disabled = false;
+
+                            } else if (estado_sesion == 'TERCERA' && contador_desafio == 8) {
+
+                                document.getElementById('botonLanzar').disabled = false;
+
+                            } else if (estado_sesion == 'TERCERA' && contador_desafio == 9) {
+
+                                // Condición de habilitar botón de inicio de partida, si es el tercer desafío cerrado
+                                console.log('Número de desafíos en carga de botón: ' + contador_desafio);
+
+
+                                // Carga de tabla de resultados finales
+
+
+                                console.log('Id de sesión para consulta de respuestas según id de sesion y estado (AVG(VALORACION)): ' + id_sesion);
+                                console.log('Estado de sesión para consulta de respuestas según id de sesion y estado (AVG(VALORACION)): ' + estado_sesion);
+
+                                // Obtención de los resultados de las respuestas de los equipos
+                                var xmlhttpDos = new XMLHttpRequest();
+                                var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=42&id_sesion=' + id_sesion + '&estado=' + estado_sesion;
+
+                                xmlhttpDos.onreadystatechange = function () {
+                                    if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
+                                        var resultados = JSON.parse(xmlhttpDos.responseText);
+
+                                        console.log(resultados);
+
+                                        document.getElementById('divCalificacionesNivel').hidden = false;
+
+                                        var contenedor = document.getElementById('divCalificacionesNivel');
+
+                                        contenedor.innerHTML = "";
+
+                                        contenedor.innerHTML += "\
+                                                                    <div class='row'>\n\
+                                                                        <h5 style='text-align: center;'><b>RESULTADOS DE CIERRE DE NIVEL</b></h5>\n\
+                                                                    </div>";
+
+                                        for (i = 0; i < resultados.length; i++) {
+
+                                            if (i == 0) {
+                                                contenedor.innerHTML += "\
+                                                                <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
+                                                                    <div class='row'>\n\
+                                                                        <h4 style='text-align: center;'><b>Primer Lugar</b></h4>\n\
+                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
+                                                                    </div>\n\
+                                                                </form>";
+                                            } else if (i == 1) {
+                                                contenedor.innerHTML += "\
+                                                                <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
+                                                                    <div class='row'>\n\
+                                                                        <h4 style='text-align: center;'><b>Segundo Lugar</b></h4>\n\
+                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
+                                                                    </div>\n\
+                                                                </form>";
+                                            } else if (i == 2) {
+                                                contenedor.innerHTML += "\
+                                                                <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
+                                                                    <div class='row'>\n\
+                                                                        <h4 style='text-align: center;'><b>Tercer Lugar</b></h4>\n\
+                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
+                                                                    </div>\n\
+                                                                </form>";
+                                            } else {
+                                                contenedor.innerHTML += "\
+                                                                <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
+                                                                    <div class='row'>\n\
+                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
+                                                                    </div>\n\
+                                                                </form>";
+                                            }
+                                        }
+
+                                    }
+                                }
+                                xmlhttpDos.open("GET", urlDos, true);
+                                xmlhttpDos.send();
+
+                                // Carga de botón de cerrar nivel
+
+                                document.getElementById("paso_nivel_final").hidden = false;
+
+                            } else if (estado_sesion == 'CIERRE') {
+                                
+                                // Última pantalla del juego
+                                
+                                // Obtención de los resultados de las respuestas de los equipos totales
+                                var xmlhttpDos = new XMLHttpRequest();
+                                var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=44&id_sesion=' + id_sesion;
+
+                                xmlhttpDos.onreadystatechange = function () {
+                                    if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
+                                        var resultados = JSON.parse(xmlhttpDos.responseText);
+
+                                        console.log(resultados);
+
+                                        document.getElementById('divCalificacionesNivel').hidden = false;
+
+                                        var contenedor = document.getElementById('divCalificacionesNivel');
+
+                                        contenedor.innerHTML = "";
+
+                                        contenedor.innerHTML += "\
+                                                                    <div class='row'>\n\
+                                                                        <h5 style='text-align: center;'><b>RESULTADOS DE JUEGO</b></h5>\n\
+                                                                    </div>";
+
+                                        for (i = 0; i < resultados.length; i++) {
+
+                                            if (i == 0) {
+                                                contenedor.innerHTML += "\
+                                                                <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
+                                                                    <div class='row'>\n\
+                                                                        <h4 style='text-align: center;'><b>Primer Lugar</b></h4>\n\
+                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_JUEGO + "</b></p>\n\
+                                                                        <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
+                                                                    </div>\n\
+                                                                </form>";
+                                            } else if (i == 1) {
+                                                contenedor.innerHTML += "\
+                                                                <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
+                                                                    <div class='row'>\n\
+                                                                        <h4 style='text-align: center;'><b>Segundo Lugar</b></h4>\n\
+                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_JUEGO + "</b></p>\n\
+                                                                        <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
+                                                                    </div>\n\
+                                                                </form>";
+                                            } else if (i == 2) {
+                                                contenedor.innerHTML += "\
+                                                                <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
+                                                                    <div class='row'>\n\
+                                                                        <h4 style='text-align: center;'><b>Tercer Lugar</b></h4>\n\
+                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_JUEGO + "</b></p>\n\
+                                                                        <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
+                                                                    </div>\n\
+                                                                </form>";
+                                            } else {
+                                                contenedor.innerHTML += "\
+                                                                <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
+                                                                    <div class='row'>\n\
+                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_JUEGO + "</b></p>\n\
+                                                                        <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
+                                                                    </div>\n\
+                                                                </form>";
+                                            }
+                                        }
+
+                                    }
+                                }
+                                xmlhttpDos.open("GET", urlDos, true);
+                                xmlhttpDos.send();
+
+                                // Carga de botón de cerrar nivel
+
+                                document.getElementById("paso_nivel_final_dos").hidden = false;
+                                
                             }
                         } else {
                             Materialize.toast('Problemas al contar el número de desafíos realizados', 4000);
