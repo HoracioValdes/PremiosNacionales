@@ -78,7 +78,7 @@
 
                 </div>
             </div>
-            
+
             <div class="row">
                 <div class="card-panel col s10 offset-s1" hidden="true" id="divCalificacionesNivel">
 
@@ -92,7 +92,7 @@
                             <input type="hidden" id="estado_sesion" name="estado_sesion">
                             <input type="hidden" id="id_sesion" name="id_sesion">
                             <input type="hidden" id="nivel_sesion" name="nivel_sesion">
-                            <button id="botonPasoResultado" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return pasar()">Cerrar desafío
+                            <button id="botonPasoResultado_tres" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return pasar()">Cerrar desafío
                                 <i class="material-icons right">check_circle</i>
                             </button>
                         </form>
@@ -104,10 +104,25 @@
                 <div class="col s10 offset-s1">
                     <div class="center" id="paso_nivel" hidden="true" style="margin-top: 45px; margin-bottom: 45px;">
                         <form action="paso-docente.do">
-                            <input type="hidden" id="estado_sesion" name="estado_sesion">
-                            <input type="hidden" id="id_sesion" name="id_sesion">
-                            <input type="hidden" id="nivel_sesion" name="nivel_sesion">
-                            <button id="botonPasoResultado" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return pasarNivel()">Cerrar último desafío de nivel 
+                            <input type="hidden" id="estado_sesion_dos" name="estado_sesion">
+                            <input type="hidden" id="id_sesion_dos" name="id_sesion">
+                            <input type="hidden" id="nivel_sesion_dos" name="nivel_sesion">
+                            <button id="botonPasoResultado_dos" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return pasarNivel()">Cerrar último desafío de nivel 
+                                <i class="material-icons right">check_circle</i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col s10 offset-s1">
+                    <div class="center" id="paso_nivel_final" hidden="true" style="margin-top: 45px; margin-bottom: 45px;">
+                        <form action="paso-docente-final-nivel.do">
+                            <input type="hidden" id="estado_sesion_tres" name="estado_sesion">
+                            <input type="hidden" id="id_sesion_tres" name="id_sesion">
+                            <input type="hidden" id="nivel_sesion_tres" name="nivel_sesion">
+                            <button id="botonPasoResultado_cuatro" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return pasarNivel()">Cerrar Nivel
                                 <i class="material-icons right">check_circle</i>
                             </button>
                         </form>
@@ -327,85 +342,6 @@
                                                         }
                                                         xmlhttp.open("GET", url, true);
                                                         xmlhttp.send();
-                                                        
-                                                        // ARREGLAR
-
-                                                        
-                                                        var contenedor = document.getElementById('divCalificacionesNivel');
-
-                                                        contenedor.innerHTML = "";
-
-                                                        contenedor.innerHTML += "\
-                                                                    <div class='row'>\n\
-                                                                        <h5 style='text-align: center;'><b>" + promedios[0].NOMBRE_ARTISTA + "</b></h5>\n\
-                                                                        <h6 style='text-align: center;'><b>" + promedios[0].DESAFIO + "</b></h6>\n\
-                                                                    </div>";
-
-                                                        for (i = 0; i < promedios.length; i++) {
-
-                                                            if (i == 0) {
-                                                                contenedor.innerHTML += "\
-                                                                <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
-                                                                    <div class='row'>\n\
-                                                                        <h4 style='text-align: center;'><b>Primer Lugar</b></h4>\n\
-                                                                        <h6 style='text-align: center;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></p>\n\
-                                                                        <input hidden='true' id='equipoEvaluadoForm' value=" + promedios[i].NUMERO_EQUIPO + ">\n\
-                                                                    </div>\n\
-                                                                </form>";
-                                                            } else if (i == 1) {
-                                                                contenedor.innerHTML += "\
-                                                                <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
-                                                                    <div class='row'>\n\
-                                                                        <h4 style='text-align: center;'><b>Segundo Lugar</b></h4>\n\
-                                                                        <h6 style='text-align: center;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></p>\n\
-                                                                        <input hidden='true' id='equipoEvaluadoForm' value=" + promedios[i].NUMERO_EQUIPO + ">\n\
-                                                                    </div>\n\
-                                                                </form>";
-                                                            } else if (i == 2) {
-                                                                contenedor.innerHTML += "\
-                                                                <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
-                                                                    <div class='row'>\n\
-                                                                        <h4 style='text-align: center;'><b>Tercer Lugar</b></h4>\n\
-                                                                        <h6 style='text-align: center;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></p>\n\
-                                                                        <input hidden='true' id='equipoEvaluadoForm' value=" + promedios[i].NUMERO_EQUIPO + ">\n\
-                                                                    </div>\n\
-                                                                </form>";
-                                                            } else {
-                                                                contenedor.innerHTML += "\
-                                                                <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
-                                                                    <div class='row'>\n\
-                                                                        <h6 style='text-align: center;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></p>\n\
-                                                                        <input hidden='true' id='equipoEvaluadoForm' value=" + promedios[i].NUMERO_EQUIPO + ">\n\
-                                                                    </div>\n\
-                                                                </form>";
-                                                            }
-                                                        }
-
-                                                        // Carga de promedios en respuesta
-
-                                                        for (x = 0; x < promedios.length; x++) {
-
-                                                            var xmlhttpW = new XMLHttpRequest();
-                                                            var urlW = 'http://localhost/juego/registroJuego.php/?opcion=36&promedio=' + promedios[x].PROMEDIO + '&id_respuesta=' + promedios[x].ID_RESPUESTA;
-
-                                                            xmlhttpW.onreadystatechange = function () {
-                                                                if (xmlhttpW.readyState == 4 && xmlhttpW.status == 200) {
-                                                                    var comprobacion = JSON.parse(xmlhttpW.responseText);
-
-                                                                    if (comprobacion == true) {
-                                                                        Materialize.toast('Promedio ingresado', 4000);
-                                                                    }
-                                                                }
-                                                            }
-                                                            xmlhttpW.open("GET", urlW, true);
-                                                            xmlhttpW.send();
-
-                                                        }
-
 
                                                     } else {
                                                         Materialize.toast('No se pudo obetener los promedios del desafío', 4000);
@@ -1450,6 +1386,16 @@
                 document.getElementById("id_sesion").value = id_sesion;
                 document.getElementById("nivel_sesion").value = nivel_sesion;
 
+                // Grabar datos en formulario de paso de desafío final de nivel
+                document.getElementById("estado_sesion_dos").value = estado_sesion;
+                document.getElementById("id_sesion_dos").value = id_sesion;
+                document.getElementById("nivel_sesion_dos").value = nivel_sesion;
+                
+                // Grabar datos en formulario de paso de desafío final de nivel final
+                document.getElementById("estado_sesion_tres").value = estado_sesion;
+                document.getElementById("id_sesion_tres").value = id_sesion;
+                document.getElementById("nivel_sesion_tres").value = nivel_sesion;
+
                 // Obtención de numero de desafios
                 // Agregar contador de desafios (0 - 3)
                 var xmlhttp = new XMLHttpRequest();
@@ -1463,6 +1409,8 @@
 
                             contador_desafio = array[0].DESAFIOS;
                             console.log('Número de desafios: ' + contador_desafio);
+
+                            // HABILITAR MENU DE FINAL DE NIVEL (IF SEGUNDA O TERCERA)
 
                             if (estado_sesion == 'ABIERTA') {
 
@@ -1479,8 +1427,6 @@
 
                                             desplegarMenu();
 
-                                            // HABILITAR MENU DE FINAL DE NIVEL
-
 
                                         } else {
 
@@ -1488,17 +1434,94 @@
                                             console.log('Número de desafíos en carga de botón: ' + contador_desafio);
 
                                             if (contador_desafio == 3) {
-                                                
+
                                                 console.log('Cargando resultados de nivel...');
+
                                                 // Carga de tabla de resultados finales
-                                                
-                                                
+
+
+                                                console.log('Id de sesión para consulta de respuestas según id de sesion y estado (AVG(VALORACION)): ' + id_sesion);
+                                                console.log('Estado de sesión para consulta de respuestas según id de sesion y estado (AVG(VALORACION)): ' + estado_sesion);
+
+                                                // Obtención de los resultados de las respuestas de los equipos
+                                                var xmlhttpDos = new XMLHttpRequest();
+                                                var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=42&id_sesion=' + id_sesion + '&estado=' + estado_sesion;
+
+                                                xmlhttpDos.onreadystatechange = function () {
+                                                    if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
+                                                        var resultados = JSON.parse(xmlhttpDos.responseText);
+
+                                                        console.log(resultados);
+
+                                                        document.getElementById('divCalificacionesNivel').hidden = false;
+
+                                                        var contenedor = document.getElementById('divCalificacionesNivel');
+
+                                                        contenedor.innerHTML = "";
+
+                                                        contenedor.innerHTML += "\
+                                                                    <div class='row'>\n\
+                                                                        <h5 style='text-align: center;'><b>RESULTADOS DE CIERRE DE NIVEL</b></h5>\n\
+                                                                    </div>";
+            
+                                                        for (i = 0; i < resultados.length; i++) {
+
+                                                            if (i == 0) {
+                                                                contenedor.innerHTML += "\
+                                                                <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
+                                                                    <div class='row'>\n\
+                                                                        <h4 style='text-align: center;'><b>Primer Lugar</b></h4>\n\
+                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
+                                                                    </div>\n\
+                                                                </form>";
+                                                            } else if (i == 1) {
+                                                                contenedor.innerHTML += "\
+                                                                <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
+                                                                    <div class='row'>\n\
+                                                                        <h4 style='text-align: center;'><b>Segundo Lugar</b></h4>\n\
+                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
+                                                                    </div>\n\
+                                                                </form>";
+                                                            } else if (i == 2) {
+                                                                contenedor.innerHTML += "\
+                                                                <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
+                                                                    <div class='row'>\n\
+                                                                        <h4 style='text-align: center;'><b>Tercer Lugar</b></h4>\n\
+                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
+                                                                    </div>\n\
+                                                                </form>";
+                                                            } else {
+                                                                contenedor.innerHTML += "\
+                                                                <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
+                                                                    <div class='row'>\n\
+                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
+                                                                    </div>\n\
+                                                                </form>";
+                                                            }
+                                                        }
+
+                                                    }
+                                                }
+                                                xmlhttpDos.open("GET", urlDos, true);
+                                                xmlhttpDos.send();
+
                                                 // Carga de botón de cerrar nivel
+                                                
+                                                document.getElementById("paso_nivel_final").hidden = false;
+
 
                                             } else {
-                                                
+
                                                 document.getElementById('botonLanzar').disabled = false;
-                                                
+
                                             }
 
                                         }

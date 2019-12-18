@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Horacio
  */
-@WebServlet(name = "ControladorEncuesta", urlPatterns = {"/entrar.do", "/entrar_dos.do", "/entrar_profesor.do", "/paso-docente.do", "/paso-estudiante.do"})
+@WebServlet(name = "ControladorEncuesta", urlPatterns = {"/entrar.do", "/entrar_dos.do", "/entrar_profesor.do", "/paso-docente.do", "/paso-estudiante.do", "/paso-docente-final-nivel.do"})
 public class ControladorJuegoEstudiantes extends HttpServlet {
 
     /**
@@ -167,6 +167,28 @@ public class ControladorJuegoEstudiantes extends HttpServlet {
             request.setAttribute("id_sesion", id_sesion);
             request.setAttribute("numero_equipo", numero_equipo_paso);
             request.getRequestDispatcher("panel-estudiante.jsp").forward(request, response);
+
+        } else if (userPath.equals("/paso-docente-final-nivel.do")) {
+
+            // Recepción de datos de sesión
+            int id_sesion = Integer.parseInt(request.getParameter("id_sesion"));
+            String estado_sesion = (request.getParameter("estado_sesion"));
+            int nivel_sesion = Integer.parseInt(request.getParameter("nivel_sesion"));
+
+            // Cambiar el estado de la sesión
+            if (estado_sesion.equalsIgnoreCase("ABIERTA")) {
+                estado_sesion = "SEGUNDA";
+                dao.actualizarSesion(estado_sesion, id_sesion);
+            } else if (estado_sesion.equalsIgnoreCase("SEGUNDA")) {
+                estado_sesion = "TERCERA";
+                dao.actualizarSesion(estado_sesion, id_sesion);
+            } else if (estado_sesion.equalsIgnoreCase("TERCERA")) {
+                // Terminar el juego
+            }
+            
+            // Borrar los desafíos
+            
+            
 
         }
     }

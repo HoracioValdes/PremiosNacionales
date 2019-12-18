@@ -271,6 +271,26 @@ public class DaoJuegoEstudiante extends Conectar {
         }
         return cantFilas;
     }
+    
+    public int actualizarSesion(String estado_sesion, int id_sesion) {
+        int cantFilas = 0;
+
+        try {
+            //Recuperar una conexión.
+            Connection con = this.getConexion();
+            //Se genera sentecia select
+            String strSQL = "UPDATE SESION SET ESTADO = '" + estado_sesion + "' WHERE ID_SESION = " + id_sesion + ";";
+            //Se prepara la consulta.
+            PreparedStatement ps = con.prepareStatement(strSQL);
+            cantFilas = ps.executeUpdate();
+            con.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DaoJuegoEstudiante.class.getName()).log(Level.SEVERE, "Problema registro del Driver", ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DaoJuegoEstudiante.class.getName()).log(Level.SEVERE, "Error SQL.", ex);
+        }
+        return cantFilas;
+    }
 //    
 //    public ArrayList<Comuna> listarComuna() {
 //        ArrayList<Comuna> lstComuna = new ArrayList();
