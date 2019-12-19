@@ -62,7 +62,7 @@ public class DaoJuegoEstudiante extends Conectar {
             //Recuperar una conexión.
             Connection con = this.getConexion();
             //Se genera sentecia select
-            String strSQL = "SELECT ID_DESAFIO FROM DESAFIO WHERE ID_SESION = " + id_sesion + " AND ESTADO_DESAFIO = 'ABIERTO';";
+            String strSQL = "SELECT MAX(ID_DESAFIO) AS ID_DESAFIO FROM DESAFIO WHERE ID_SESION = " + id_sesion + ";";
             //Se prepara la consulta.
             PreparedStatement ps = con.prepareStatement(strSQL);
             //ejecutar la consulta.
@@ -337,6 +337,108 @@ public class DaoJuegoEstudiante extends Conectar {
             Connection con = this.getConexion();
             PreparedStatement eliminarSocio;
             eliminarSocio = con.prepareStatement("DELETE DESAFIO FROM DESAFIO WHERE ID_SESION = " + id_sesion + ";");
+            eliminarSocio.execute();
+            confirmacion = true;
+        } catch (ClassNotFoundException | SQLException error) {
+            confirmacion = false;
+        }
+
+        return confirmacion;
+    }
+    
+    public boolean eliminarCalificacion(int id_sesion) {
+        boolean confirmacion = false;
+
+        try {
+            //Recuperar una conexión.
+            Connection con = this.getConexion();
+            PreparedStatement eliminarSocio;
+            eliminarSocio = con.prepareStatement("DELETE CALIFICACION FROM CALIFICACION INNER JOIN DESAFIO ON CALIFICACION.`ID_DESAFIO` = DESAFIO.`ID_DESAFIO` WHERE DESAFIO.ID_SESION = " + id_sesion + ";");
+            eliminarSocio.execute();
+            confirmacion = true;
+        } catch (ClassNotFoundException | SQLException error) {
+            confirmacion = false;
+        }
+
+        return confirmacion;
+    }
+    
+    public boolean eliminarRespuesta(int id_sesion) {
+        boolean confirmacion = false;
+
+        try {
+            //Recuperar una conexión.
+            Connection con = this.getConexion();
+            PreparedStatement eliminarSocio;
+            eliminarSocio = con.prepareStatement("DELETE RESPUESTA FROM RESPUESTA WHERE ID_SESION = " + id_sesion +";");
+            eliminarSocio.execute();
+            confirmacion = true;
+        } catch (ClassNotFoundException | SQLException error) {
+            confirmacion = false;
+        }
+
+        return confirmacion;
+    }
+    
+    public boolean eliminarDesafio(int id_sesion) {
+        boolean confirmacion = false;
+
+        try {
+            //Recuperar una conexión.
+            Connection con = this.getConexion();
+            PreparedStatement eliminarSocio;
+            eliminarSocio = con.prepareStatement("DELETE DESAFIO FROM DESAFIO WHERE ID_SESION = " + id_sesion + ";");
+            eliminarSocio.execute();
+            confirmacion = true;
+        } catch (ClassNotFoundException | SQLException error) {
+            confirmacion = false;
+        }
+
+        return confirmacion;
+    }
+    
+    public boolean eliminarNivel(int id_sesion) {
+        boolean confirmacion = false;
+
+        try {
+            //Recuperar una conexión.
+            Connection con = this.getConexion();
+            PreparedStatement eliminarSocio;
+            eliminarSocio = con.prepareStatement("DELETE NIVEL FROM NIVEL WHERE ID_SESION = " + id_sesion + ";");
+            eliminarSocio.execute();
+            confirmacion = true;
+        } catch (ClassNotFoundException | SQLException error) {
+            confirmacion = false;
+        }
+
+        return confirmacion;
+    }
+    
+    public boolean eliminarJugar(int id_sesion) {
+        boolean confirmacion = false;
+
+        try {
+            //Recuperar una conexión.
+            Connection con = this.getConexion();
+            PreparedStatement eliminarSocio;
+            eliminarSocio = con.prepareStatement("DELETE JUGAR FROM JUGAR WHERE ID_SESION = " + id_sesion + ";");
+            eliminarSocio.execute();
+            confirmacion = true;
+        } catch (ClassNotFoundException | SQLException error) {
+            confirmacion = false;
+        }
+
+        return confirmacion;
+    }
+    
+    public boolean eliminarDados(int id_sesion) {
+        boolean confirmacion = false;
+
+        try {
+            //Recuperar una conexión.
+            Connection con = this.getConexion();
+            PreparedStatement eliminarSocio;
+            eliminarSocio = con.prepareStatement("DELETE DADOS FROM DADOS WHERE ID_SESION = " + id_sesion + ";");
             eliminarSocio.execute();
             confirmacion = true;
         } catch (ClassNotFoundException | SQLException error) {

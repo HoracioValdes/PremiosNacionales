@@ -270,9 +270,21 @@ public class ControladorJuegoEstudiantes extends HttpServlet {
             
             // Eliminar datos
             
-            
-            
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            if (dao.eliminarCalificacion(id_sesion)) {
+                if (dao.eliminarRespuesta(id_sesion)) {
+                    if(dao.eliminarDesafio(id_sesion)) {
+                        if(dao.eliminarNivel(id_sesion)) {
+                            if(dao.eliminarJugar(id_sesion)) {
+                                if(dao.eliminarDados(id_sesion)) {
+                                    // Envío al index
+                                    
+                                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

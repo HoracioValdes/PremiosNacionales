@@ -23,7 +23,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('.modal').modal();
+            $('.modal').modal({
+                dismissible: false
+            });
         });
     </script>
     <body id="myDiv" onload="recibirDatos(), centrarMapa()" style="background: url('img/MAPA.png'); background-repeat: no-repeat; width: 100%; height: 100%;
@@ -118,7 +120,7 @@
             <div class="row">
                 <div class="col s10 offset-s1">
                     <div class="center" id="paso_nivel_final" hidden="true" style="margin-top: 45px; margin-bottom: 45px;">
-                        <form action="paso-docente-final-juego.do">
+                        <form action="paso-docente-final-nivel.do">
                             <input type="hidden" id="estado_sesion_cuatro" name="estado_sesion">
                             <input type="hidden" id="id_sesion_cuatro" name="id_sesion">
                             <input type="hidden" id="nivel_sesion_cuatro" name="nivel_sesion">
@@ -212,7 +214,7 @@
         </div>
 
         <!-- Modal Structure -->
-        <div id="modal2" class="modal">
+        <div id="modal2" class="modal dismissible">
             <div class="modal-content">
                 <h4 align="center">Desafío de artista</h4>
                 <p><b>Nombre de artista</b></p>
@@ -231,7 +233,7 @@
         </div>
 
         <!-- Modal Structure -->
-        <div id="modal3" class="modal">
+        <div id="modal3" class="modal dismissible">
             <div class="modal-content">
 
                 <h4 align="center">Evaluación de respuesta</h4>

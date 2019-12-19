@@ -23,7 +23,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('.modal').modal();
+            $('.modal').modal({
+                dismissible: false
+            });
         });
     </script>
     <script>
@@ -62,6 +64,8 @@
                             if (estado_sesion == 'TERCERA') {
                                 estado_sesion = 'CIERRE';
                             }
+                        } else if (estado_sesion == 'CIERRE') {
+                            location.href = 'index.jsp';
                         }
                     } else {
                         Materialize.toast('Problemas al contar el número de desafíos realizados', 4000);
@@ -277,11 +281,15 @@
                                                 var array = JSON.parse(xmlhttp.responseText);
                                                 if (array.length > 0) {
 
-                                                    document.getElementById("dadoDos").style.height = "150px";
-                                                    setTimeout(function () {
-                                                        cargarDado();
-                                                    }, 5000); // 5000ms = 5s
-
+                                                    if (array[0].VALOR != 0) {
+                                                        document.getElementById("dado").hidden = true;
+                                                        document.getElementById("dadoDos").style.height = "150px";
+                                                        setTimeout(function () {
+                                                            cargarDado();
+                                                        }, 5000); // 5000ms = 5s
+                                                    } else {
+                                                        Materialize.toast('El equipo anterior aún no ha lanzado el dado', 4000);
+                                                    }
                                                 } else {
                                                     Materialize.toast('El equipo anterior aún no ha lanzado el dado', 4000);
                                                 }
@@ -291,6 +299,7 @@
                                         xmlhttp.send();
                                     } else if (numero_equipo == 1 || numero_equipo == 3 || numero_equipo == 5) {
 
+                                        document.getElementById("dado").hidden = true;
                                         document.getElementById("dadoDos").style.height = "150px";
                                         setTimeout(function () {
                                             cargarDado();
@@ -365,7 +374,7 @@
                             <input type="hidden" id="id_sesion" name="id_sesion">
                             <input type="hidden" id="numero_equipo" name="numero_equipo">
                             <input type="hidden" id="respuesta_desafio" value="false">
-                            <button id="botonPasoResultado" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return pasarDesafio();">Pasar de desafío
+                            <button id="botonPasoResultado" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return pasarDesafio();">Cerrar desafío
                                 <i class="material-icons right">check_circle</i>
                             </button>
                         </form>
@@ -380,14 +389,14 @@
 
             <div class="col s6 offset-s4">
                 <div id="divDesafio" class="blue-text" style="position:fixed; bottom:0; margin-bottom: 50px; margin-left: 50px;">
-                    <a id="botonDesafio" style="margin-top: 10px;" class="btn waves-effect blue lighten-1 modal-trigger" type="submit" name="action" onclick="obtenerDesafio();" href='#modal2'>Obtener Desafío
+                    <a id="botonDesafio" style="margin-top: 10px;" class="btn waves-effect blue lighten-1 modal-trigger" type="submit" name="action" onclick="obtenerDesafio();" dismissible="true" href='#modal2'>Obtener Desafío
                         <i class="material-icons right">loop</i>
                     </a>
                 </div>
             </div>
 
             <!-- Modal Structure -->
-            <div id="modal2" class="modal">
+            <div id="modal2" class="modal dismissible">
                 <div class="modal-content">
                     <h4 align="center">Desafío de artista</h4>
 
@@ -415,7 +424,7 @@
             </div>
 
             <!-- Modal Structure -->
-            <div id="modal3" class="modal">
+            <div id="modal3" class="modal dismissible">
                 <div class="modal-content">
 
                     <h4 align="center">Evaluación de respuesta</h4>
@@ -454,7 +463,6 @@
         <script type="text/javascript" src="js/materialize.min.js"></script>
         <script>
                             $(function () {
-
                                 $(".button-collapse").sideNav();
                             });
         </script>
@@ -521,6 +529,7 @@
 
                         } else {
                             Materialize.toast('Problemas para obtener el id del desafío', 4000);
+                            location.href = 'index.jsp';
                         }
                     }
                 }
@@ -639,6 +648,8 @@
                                         console.log('Número de calificaciones: ' + consulta[0].CALIFICACIONES);
 
                                         Materialize.toast('Ya ha calificado a todos los equipos', 4000);
+                                        
+                                        Materialize.toast('Debe hacer doble click en cerrar desafío', 4000);
 
                                         // Borrar botón respuestas y tabla de resultados
                                         document.getElementById("respuestas").hidden = true;
@@ -1088,8 +1099,10 @@
 
                                         xmlhttpDos.onreadystatechange = function () {
                                             if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
-                                                var arrayDos = JSON.parse(xmlhttpDos.responseText);
+                                                var arrayDos = JSON.parse(xmlhttpDos.responseText)
                                                 //console.log(array);
+                                                
+                                                document.getElementById("enlaces").innerHTML = "";
 
                                                 for (i = 0; i < arrayDos.length; i++) {
 

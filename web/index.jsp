@@ -74,7 +74,7 @@
                 xmlhttp.open("GET", url, true);
                 xmlhttp.send();
             }
-            
+
             function cargarAsignatura() {
                 // alert('cargando asignaturas');
 
@@ -99,7 +99,7 @@
                 xmlhttp.open("GET", url, true);
                 xmlhttp.send();
             }
-            
+
             function cargarComunas() {
                 // alert('cargando asignaturas');
 
@@ -126,7 +126,8 @@
             }
         </script>
     </head>
-    <body onload="cargarSesiones(); recibirData(); cargarAsignatura(); cargarComunas();">
+    <body onload="cargarSesiones(); recibirData(); cargarAsignatura();
+            cargarComunas();">
         <div class="container">
 
             <nav>
@@ -249,7 +250,7 @@
             </div>
 
             <!-- Modal Structure -->
-            <div id="modal1" class="modal">
+            <div id="modal1" class="modal dismissible">
                 <div class="modal-content">
                     <h4>Datos de ingreso necesarios</h4>
                     <p>Ingrese su correo y la contraseña.</p>
@@ -272,7 +273,7 @@
             </div>
 
             <!-- Modal Structure -->
-            <div id="modal2" class="modal">
+            <div id="modal2" class="modal dismissible">
                 <div class="modal-content">
                     <h4>Datos de ingreso necesarios</h4>
                     <p>Ingrese la contraseña de la sesión.</p>
@@ -318,7 +319,9 @@
         </script>
         <script>
             $(document).ready(function () {
-                $('.modal').modal();
+                $('.modal').modal({
+                    dismissible: false
+                });
             });
         </script>
         <script type="text/javascript">
@@ -496,7 +499,7 @@
 
                 }
             }
-            
+
             function agregarBotonSesionAzul(id_sesion) {
                 var contenedor = document.getElementById('sesionesDocentes');
                 contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect blue lighten-1 modal-trigger' onclick='enviarSesion(" + id_sesion + ")' href='#modal1'>Sesión " + id_sesion + "<i class='material-icons right'>perm_identity</i></button></div>";
@@ -504,15 +507,15 @@
                 var contenedorDos = document.getElementById('sesionesEstudiantes');
                 contenedorDos.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect blue lighten-1 modal-trigger' onclick='enviarSesionDos(" + id_sesion + ")' href='#modal2'>Sesión " + id_sesion + "<i class='material-icons right'>people_outline</i></button></div>";
             }
-            
+
             function agregarAsignaturas(id_asignatura, descripcion) {
                 var contenedor = document.getElementById('asignatura');
-                contenedor.innerHTML += "<option value="+id_asignatura+">"+descripcion+"</option>";
+                contenedor.innerHTML += "<option value=" + id_asignatura + ">" + descripcion + "</option>";
             }
-            
+
             function agregarComunas(cut, nombre_comuna) {
                 var contenedor = document.getElementById('comuna');
-                contenedor.innerHTML += "<option value="+cut+">"+nombre_comuna+"</option>";
+                contenedor.innerHTML += "<option value=" + cut + ">" + nombre_comuna + "</option>";
             }
 
             function enviarSesion(id_sesion) {
@@ -534,11 +537,11 @@
             function noHayAsignaturas() {
                 alert('Error al cargar las asignaturas');
             }
-            
+
             function noHayComunas() {
                 alert('Error al cargar las comunas');
             }
-            
+
             function redireccionDocente(id_sesion) {
                 //alert('Sesión ' + id_sesion);
                 window.location = 'cartografia-profesor.jsp?sesion=' + id_sesion;
