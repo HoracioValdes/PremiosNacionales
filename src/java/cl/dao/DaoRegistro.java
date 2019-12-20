@@ -5,7 +5,9 @@
  */
 package cl.dao;
 
+import cl.modelo.Admin;
 import cl.modelo.Sesion;
+import cl.modelo.SesionesJuego;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -104,6 +106,38 @@ public class DaoRegistro extends Conectar{
                     .log(Level.SEVERE, "Error en SQL.", ex);
         }
         return lstSesiones;
+    }
+    
+    public ArrayList<Admin> listarAdmins() {
+        ArrayList<Admin> lstAdmins = new ArrayList();
+        Admin admin;
+        try {
+            //Recuperar una conexión.
+            Connection con = this.getConexion();
+            //Se genera sentecia select
+            String strSQL = "SELECT * FROM ADMINISTRADOR;";
+            //Se prepara la consulta.
+            PreparedStatement ps = con.prepareStatement(strSQL);
+            //ejecutar la consulta.
+            ResultSet res = ps.executeQuery();
+            //Se recorre el ResultSet.
+            while (res.next()) {
+                admin = new Admin();
+                admin.setId_admin(Integer.parseInt(res.getString("ID_ADMIN")));
+                admin.setNombre_usuario(res.getString("NOMBRE_USUARIO"));
+                admin.setClave(res.getString("CLAVE"));
+                //Se agrega la sesión a la lista.
+                lstAdmins.add(admin);
+            }
+            con.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DaoRegistro.class.getName())
+                    .log(Level.SEVERE, "Error en registro del Driver.", ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DaoRegistro.class.getName())
+                    .log(Level.SEVERE, "Error en SQL.", ex);
+        }
+        return lstAdmins;
     }
     
 }

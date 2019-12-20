@@ -6,6 +6,8 @@
 package cl.controlador;
 
 import cl.dao.DaoRegistro;
+import cl.modelo.Admin;
+import cl.modelo.SesionesJuego;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -82,33 +84,34 @@ public class ControladorRegistroLogin extends HttpServlet {
 
         } else if (userPath.equals("/ingreso.do")) {
 
-//            //Se recuperan los parámetros desde la petición.
-//            String correo_ingreso = request.getParameter("txtCorreoIngreso");
-//            String clave_ingreso = request.getParameter("txtClaveIngreso");
-//
-//            //Recuperamos el listado de socios registrados
-//            ArrayList<Socio_corporativo> lstSocios = dao.listarSocios_corporativos();
-//
-//            //Se verifica si el usuario es válido.
-//            Socio_corporativo socioValido = null;
-//            
-//            for (Socio_corporativo s : lstSocios) {
-//                if (s.getCorreo_corporativo().equals(correo_ingreso) && s.getClave().equals(clave_ingreso)) {
-//                    socioValido = s;
-//                    break;
-//                }
-//            }
-//            //Verirficar si se da acceso al usuario
-//            if (socioValido != null) {//Usuario autorizado
-//                //Se genera una sesión para el usuario.
-//                request.getSession().setAttribute("socioValido", socioValido);
-//                //Se le da acceso al formulario socio de la aplicación.
-//                request.getRequestDispatcher("encuesta.do").forward(request, response);
-//            } else {
-//                msgDos = "Correo y/o Clave inválidas";
-//                request.setAttribute("msgDos", msgDos);
-//                request.getRequestDispatcher("index.jsp").forward(request, response);
-//            }
+            //Se recuperan los parámetros desde la petición.
+            String nombre_ingreso = request.getParameter("nombreIngreso");
+            String clave_ingreso = request.getParameter("claveIngreso");
+
+            //Recuperamos el listado de admin registrados
+            ArrayList<Admin> lstAdmin = dao.listarAdmins();
+
+            //Se verifica si el usuario es válido.
+            Admin adminValido = null;
+            
+            for (Admin a : lstAdmin) {
+                if (a.getNombre_usuario().equals(nombre_ingreso) && a.getClave().equals(clave_ingreso)) {
+                    adminValido = a;
+                    break;
+                }
+            }
+            //Verirficar si se da acceso al usuario
+            if (adminValido != null) {//Usuario autorizado
+                                
+                //Se genera una sesión para el usuario.
+                request.getSession().setAttribute("adminValido", adminValido);  
+                //Se le da acceso al formulario socio de la aplicación.
+                request.getRequestDispatcher("listaSesiones.jsp").forward(request, response);
+            } else {
+                msgDos = "Nombre y/o clave inválidas";
+                request.setAttribute("msgDos", msgDos);
+                request.getRequestDispatcher("admin.jsp").forward(request, response);
+            }
 
         }
     }

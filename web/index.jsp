@@ -18,8 +18,17 @@
         <link rel="shortcut icon" type="image/x-icon" href="img/icono.ico" />
         <!--Let browser know website is optimized for mobile-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>Juego de Premios Nacionales</title>
+        <title>Cartografía de Artistas</title>
+
+        <!--Import Google Icon Font-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!--Import materialize.css-->
+        <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
         <script>
             var array = '';
             var arrayAsignatura = '';
@@ -126,15 +135,30 @@
             }
         </script>
     </head>
-    <body onload="cargarSesiones(); recibirData(); cargarAsignatura();
+    <body onload="cargarSesiones();
+            recibirData();
+            cargarAsignatura();
             cargarComunas();">
-        <div class="container">
+        <script type="text/javascript" src="js/materialize.min.js"></script>
 
-            <nav>
-                <div class="nav-wrapper blue darken-3">
-                    <a href="#" class="brand-logo" style="margin-left: 10px;">Premios Nacionales</a>
-                </div>
-            </nav>
+        <div class="container">
+            <!-- Caja del menú de navegación -->
+            <div class="row">
+                <nav>
+                    <div class="nav-wrapper">
+                        <a href="index.jsp" class="brand-logo center">Cartografía de Artistas</a>
+                        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                        <ul class="right hide-on-med-and-down">
+                            <li><a href="index.jsp">Cartografía</a></li>
+                            <li><a href="admin.jsp">Admin</a></li>
+                        </ul>
+                        <ul class="side-nav" id="mobile-demo">
+                            <li><a href="index.jsp">Cartografía</a></li>
+                            <li><a href="admin.jsp">Admin</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
 
             <div class="row">
                 <div class="col s10 offset-s1">
@@ -313,9 +337,7 @@
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="js/materialize.min.js"></script>
         <script>
-                                $(function () {
-                                    $(".button-collapse").sideNav();
-                                });
+
         </script>
         <script>
             $(document).ready(function () {
@@ -323,6 +345,12 @@
                     dismissible: false
                 });
             });
+        </script>
+        <script>
+            // Initialize collapse button
+            $(".button-collapse").sideNav();
+
+
         </script>
         <script type="text/javascript">
             function refrescar() {
