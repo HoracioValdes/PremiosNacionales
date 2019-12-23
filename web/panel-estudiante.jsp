@@ -367,7 +367,7 @@
             <div class="row">
                 <div class="col s10 offset-s1">
                     <div id="eleccionTerritorio" hidden="true;">
-                        <h4 class="center" style="color: #FFFFFF;"><b>Selección de Territorio</b></h4>
+                        <h4 class="center" style="color: #FFFFFF;"><b>Selección de Categoría</b></h4>
                         <ul class="left collection">
                             <li class="collection-item">Premio Nacional de Literatura</li>
                             <li class="collection-item">Premios Nacionales de la Representación y Audiovisuales</li>
@@ -382,7 +382,7 @@
                 <div class="col s10 offset-s1">
                     <div class="center" id="eleccionSubcategoria" hidden="true;">
                         <h4 style="color: #FFFFFF;"><b>Selección de Subcategoría</b></h4>
-                        <p style="color: #FFFFFF;">Las categorías pueden ser sociedad, política.  medio ambiente, emociones, género, arte, ccultura y patrimonio, derechos humanos, vida cotidiana, diversidad cultural y creatividad.</p>
+                        <p style="color: #FFFFFF;">Las categorías pueden ser Sociedad y política.  Medioambiente, Emociones, Género, Arte y Patrimonio, Derechos Humanos, Vida cotidiana, Diversidad cultural y Creatividad.</p>
                     </div>
                 </div>
             </div>
@@ -390,7 +390,7 @@
             <div class="row">
                 <div class="col s10 offset-s1">
                     <div class="center" id="espera" hidden="true;">
-                        <p style="color: #FFFFFF;">Debes esperar los lanzamientos de los otros equipos y presionar 'Obtener Desafío' cuando el o la docente haya seleccionado un artista.</p>
+                        <p style="color: #FFFFFF;">Esperen su turno para jugar.</p>
                     </div>
                 </div>
             </div>

@@ -69,13 +69,13 @@
             </div>
 
             <div class="row">
-                <div class="card-panel col s10 offset-s1" hidden="true" id="divCalificaciones">
+                <div class="card-panel col s10 offset-s1" style="border-radius: 10px; border: #408077; border-style: solid;" hidden="true" id="divCalificaciones">
 
                 </div>
             </div>
 
             <div class="row">
-                <div class="card-panel col s10 offset-s1" hidden="true" id="divCalificacionesNivel">
+                <div class="card-panel col s10 offset-s1" style="border-radius: 10px; border: #408077; border-style: solid;" hidden="true" id="divCalificacionesNivel">
 
                 </div>
             </div>
@@ -175,7 +175,8 @@
                 <div class="col s10 offset-s1" >
                     <div class="center card-panel" id="menuOpcionesNivel" style="margin-top: 45px; margin-bottom: 300px;" hidden="true">
                         <h4 style="color: #1a237e;">Opciones</h4>
-                        <p style="color: #1a237e;"><b>Seleccione el nivel del juego</b></p>
+                        <p style="color: #1a237e;"><b>Si desea modificar el nivel actual, seleccione una de las siguientes opciones y presiones el botón 'Fijar Nivel'.</b></p>
+                        <p style="color: #1a237e;"><b>Si desea mantener el nivel actual, presione cerrar.</b></p>
                         <select name="cboNivel" id="nivelDos" class="browser-default">
                             <option  value="NULO" disabled selected>SELECCIONE EL NIVEL DEL JUEGO</option>
                             <option  value="1">1</option>
@@ -351,7 +352,7 @@
 
                                                         contenedor.innerHTML += "\
                                                                             <div class='row'>\n\
-                                                                                <h5 style='text-align: center; color: #1a237e;'><b>" + promedios[0].NOMBRE_ARTISTA + "</b></h5>\n\
+                                                                                <h5 style='text-align: center; color: #1a237e;'><b>Desafío: " + promedios[0].NOMBRE_ARTISTA + "</b></h5>\n\
                                                                             </div>";
 
                                                         for (i = 0; i < promedios.length; i++) {
@@ -360,9 +361,9 @@
                                                                 contenedor.innerHTML += "\
                                                                     <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                         <div class='row'>\n\
-                                                                            <h4 style='text-align: center; color: #1a237e;'><b>Primer Lugar</b></h4>\n\
-                                                                            <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                            <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></p>\n\
+                                                                            <h5 style='text-align: center; color: #1a237e;'><b>Primer Lugar</b></h5>\n\
+                                                                            <h5 style='text-align: center; color: #1a237e;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h5>\n\
+                                                                            <h5 style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></h5>\n\
                                                                             <input hidden='true' id='equipoEvaluadoForm' value=" + promedios[i].NUMERO_EQUIPO + ">\n\
                                                                         </div>\n\
                                                                     </form>";
@@ -370,9 +371,9 @@
                                                                 contenedor.innerHTML += "\
                                                                     <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                         <div class='row'>\n\
-                                                                            <h4 style='text-align: center; color: #1a237e;'><b>Segundo Lugar</b></h4>\n\
-                                                                            <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                            <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></p>\n\
+                                                                            <h5 style='text-align: center; color: #1a237e;'><b>Segundo Lugar</b></h5>\n\
+                                                                            <h5 style='text-align: center; color: #1a237e;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h5>\n\
+                                                                            <h5 style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></h5>\n\
                                                                             <input hidden='true' id='equipoEvaluadoForm' value=" + promedios[i].NUMERO_EQUIPO + ">\n\
                                                                         </div>\n\
                                                                     </form>";
@@ -380,9 +381,9 @@
                                                                 contenedor.innerHTML += "\
                                                                     <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                         <div class='row'>\n\
-                                                                            <h4 style='text-align: center; color: #1a237e;'><b>Tercer Lugar</b></h4>\n\
-                                                                            <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                            <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></p>\n\
+                                                                            <h5 style='text-align: center; color: #1a237e;'><b>Tercer Lugar</b></h5>\n\
+                                                                            <h5 style='text-align: center; color: #1a237e;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h5>\n\
+                                                                            <h5 style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></h5>\n\
                                                                             <input hidden='true' id='equipoEvaluadoForm' value=" + promedios[i].NUMERO_EQUIPO + ">\n\
                                                                         </div>\n\
                                                                     </form>";
@@ -390,8 +391,8 @@
                                                                 contenedor.innerHTML += "\
                                                                     <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                         <div class='row'>\n\
-                                                                            <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                            <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></p>\n\
+                                                                            <h5 style='text-align: center; color: #1a237e;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h5>\n\
+                                                                            <h5 style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></h5>\n\
                                                                             <input hidden='true' id='equipoEvaluadoForm' value=" + promedios[i].NUMERO_EQUIPO + ">\n\
                                                                         </div>\n\
                                                                     </form>";
@@ -1650,8 +1651,6 @@
             function desplegarMenuNivel() {
                 var contenedor = document.getElementById('menu');
                 contenedor.innerHTML += "<span style='color: white; background-color: #e57373; text-align: rigth; font-size: 200%;'><b>Nivel Actual: " + nivel_sesion + "</b></span><br>";
-                contenedor.innerHTML += "<span class='flow-text' style='color: white; background-color: #e57373;'>Si desea otro nivel, selecciónelo en las siguientes opciones; si desea mantener el nivel actual, presione Cerrar</span><br>";
-                contenedor.innerHTML += "<span style='color: white; background-color: #e57373;'><b>Seleccione el nivel del siguiente ciclo:</b></span>";
                 contenedor.innerHTML += "<div class='row' id='botonOpciones'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2 modal-trigger' onclick='habilitarOpcionesNivel()'>OPCIONES<i class='material-icons right'>settings</i></button></div>";
             }
 
@@ -1825,9 +1824,9 @@
                                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h4 style='text-align: center; color: #1a237e;'><b>Primer Lugar</b></h4>\n\
-                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Primer Lugar</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></h5>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -1835,9 +1834,9 @@
                                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h4 style='text-align: center; color: #1a237e;'><b>Segundo Lugar</b></h4>\n\
-                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Segundo Lugar</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></h5>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -1845,9 +1844,9 @@
                                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h4 style='text-align: center; color: #1a237e;'><b>Tercer Lugar</b></h4>\n\
-                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Tercer Lugar</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></h5>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -1855,8 +1854,8 @@
                                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></h5>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -1936,9 +1935,9 @@
                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h4 style='text-align: center; color: #1a237e;'><b>Primer Lugar</b></h4>\n\
-                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Primer Lugar</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></h5>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -1946,9 +1945,9 @@
                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h4 style='text-align: center; color: #1a237e;'><b>Segundo Lugar</b></h4>\n\
-                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Segundo Lugar</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></h5>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -1956,9 +1955,9 @@
                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h4 style='text-align: center; color: #1a237e;'><b>Tercer Lugar</b></h4>\n\
-                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Tercer Lugar</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></h5>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -1966,8 +1965,8 @@
                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></h5>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -2035,9 +2034,9 @@
                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h4 style='text-align: center; color: #1a237e;'><b>Primer Lugar</b></h4>\n\
-                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Primer Lugar</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></h5>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -2045,9 +2044,9 @@
                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h4 style='text-align: center; color: #1a237e;'><b>Segundo Lugar</b></h4>\n\
-                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Segundo Lugar</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></h5>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -2055,9 +2054,9 @@
                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h4 style='text-align: center; color: #1a237e;'><b>Tercer Lugar</b></h4>\n\
-                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Tercer Lugar</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></h5>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -2065,8 +2064,8 @@
                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></h5>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -2113,9 +2112,9 @@
                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h4 style='text-align: center; color: #1a237e;'><b>Primer Lugar</b></h4>\n\
-                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_JUEGO + "</b></p>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Primer Lugar</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_JUEGO + "</b></h5>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -2123,9 +2122,9 @@
                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h4 style='text-align: center; color: #1a237e;'><b>Segundo Lugar</b></h4>\n\
-                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_JUEGO + "</b></p>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Segundo Lugar</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_JUEGO + "</b></h5>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -2133,9 +2132,9 @@
                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h4 style='text-align: center; color: #1a237e;'><b>Tercer Lugar</b></h4>\n\
-                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_JUEGO + "</b></p>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Tercer Lugar</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_JUEGO + "</b></h5>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -2143,8 +2142,8 @@
                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_JUEGO + "</b></p>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_JUEGO + "</b></h5>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";

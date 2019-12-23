@@ -95,6 +95,8 @@ public class ControladorJuegoEstudiantes extends HttpServlet {
                 request.setAttribute("estado_sesion", estado_sesion);
                 request.setAttribute("msg", msg);
                 request.getRequestDispatcher("index_equipos.jsp").forward(request, response);
+            } else if (estado_sesion.equalsIgnoreCase("CIERRE")) {
+                request.getRequestDispatcher("index.jsp").forward(request, response);
             }
 
         } else if (userPath.equals("/entrar_dos.do")) {

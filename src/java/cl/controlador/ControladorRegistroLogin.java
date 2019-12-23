@@ -62,7 +62,7 @@ public class ControladorRegistroLogin extends HttpServlet {
                 if (cantFilas > 0) {
                     int numeroSesion = dao.obtenerSesion(correo, nombre);
                     if (numeroSesion > 0) {
-                        msg = "Ya pueden jugar en la sesión número " + numeroSesion;
+                        msg = "Ya puedes jugar en la sesión número " + numeroSesion;
                          request.setAttribute("numeroSesion", numeroSesion);
                     } else {
                         msg = "Error al obtener el número de la sesión";

@@ -164,12 +164,9 @@
             <div class="row">
                 <div class="col s10 offset-s1">
                     <div class="center">
-                        <h2 style="color: #1a237e;"><b>Como jugar</b></h2>
+                        <!--<h2 style="color: #1a237e;"><b>Como jugar</b></h2>-->
                     </div>  
-                    <p style="color: #1a237e;" class="flow-text" align="justify">Para jugar en esta aplicación, el o la profesora deberá crear una sesión.</p>
-                    <p style="color: #1a237e;" class="flow-text" align="justify">Las y los estudiantes deberán seleccionar la sesión disponible previamente creada por el o la profesora.</p>
-                    <p style="color: #1a237e;" class="flow-text" align="justify">¡Deben dejar fluir su creatividad para jugar este juego!</p>
-
+                    <p style="color: #1a237e;" class="flow-text" align="justify">Bienvenido a la “Cartografía de Artistas”, un juego didáctico sobre los premios nacionales de Literatura, Artes Plásticas, Artes Musicales, y Artes de la Representación y Audiovisuales.</p>
                 </div>
             </div>
 
@@ -185,7 +182,7 @@
             </div>
 
             <div class="col s12">
-                <h4 class="center-align" style="color: #1a237e;"><b>Crear Sesión</b></h4>
+                <h4 class="center-align" style="color: #1a237e;"><b>Crear Sesión/ solo docentes</b></h4>
             </div>
             <div class="col s6 offset-s4">
                 <div class="blue-text center-align">
@@ -267,7 +264,7 @@
             <div class="col s12">
                 <h4 class="center-align" style="color: #1a237e;" id="textoEstudiantes"><b>Lista de Sesiones Disponibles de Juego (Estudiantes)</b></h4>
                 <blockquote style="color: #1a237e;">
-                    Si el docente acaba de crear una sesión, presiona el botón 'Refrescar' para volver a cargar la página y que el botón de la sesión aparezca.
+                    Presiona el botón refrescar para verificar la sesión que se encuentra disponible.
                 </blockquote>
                 <div class='center'>
                     <button style="margin-top: 10px; margin-bottom: 10px;" class="btn waves-effect red lighten-2" type="submit" name="action" onclick="refrescar();">Refrescar
@@ -407,6 +404,7 @@
                     M.toast({html: 'El campo que indica la clave no puede estar vacío', classes: 'rounded'});
                     return false;
                 }
+                M.toast({html: 'Nunca olvides tu clave de sesión', classes: 'rounded'});
                 return true;
             }
 
