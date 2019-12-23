@@ -21,13 +21,6 @@
         <title>Cartografía de Artistas</title>
     </head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('.modal').modal({
-                dismissible: false
-            });
-        });
-    </script>
     <body id="myDiv" onload="recibirDatos(), centrarMapa()" style="background: url('img/MAPA.png'); background-repeat: no-repeat; width: 100%; height: 100%;
           -webkit-transition:background-position .20s ease-in;  
           -moz-transition:background-position .20s ease-in;  
@@ -35,21 +28,21 @@
           transition:background-position .20s ease-in; ">
         <div class="container">
 
-            <nav>
-                <div class="nav-wrapper blue darken-3">
-                    <a href="#" class="brand-logo" style="margin-left: 10px;">Premios Nacionales</a>
-                </div>
-            </nav>
-
             <div class="row">
-                <div class="col s8 offset-s2 card-panel #3949ab indigo darken-1"> 
+                <div class="col s6 offset-s3 card-panel red lighten-2" id='divSubtematica' hidden ="true"> 
                     <h5 id="subtematica" align="center" style="color: #ffffff"></h5>
+                    <div hidden="true" id="divBotonArtistas" class="right-align" style="margin: 5px;">
+                        <a id="botonArtistas" style="margin-top: 10px" class="btn waves-effect indigo" hidden="true" onclick="ocultarMostrarArtistas()">Ver Artistas
+                            <i class="material-icons right">bookmark_border</i>
+                        </a>
+                    </div>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col s10 offset-s1">
-                    <div class="center" id="artistas" style="margin-top: 45px; margin-bottom: 45px;">
+                    
+                    <div class="center" hidden ="true" id="artistas" style="margin-top: 45px; margin-bottom: 45px;">
 
                     </div>
                 </div>
@@ -58,7 +51,7 @@
             <div class="row">
                 <div class="col s10 offset-s1">
                     <div class="center" id="respuestas" hidden="true" style="margin-top: 45px; margin-bottom: 45px;">
-                        <button id="botonRespuestas" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="cargarResultados();">Obtener respuestas
+                        <button id="botonRespuestas" style="margin-top: 10px;" class="btn waves-effect red lighten-2" type="submit" name="action" onclick="cargarResultados();">Obtener respuestas
                             <i class="material-icons right">check_circle</i>
                         </button>
                     </div>
@@ -68,7 +61,7 @@
             <div class="row">
                 <div class="col s10 offset-s1">
                     <div class="center" id="paso_resultado" hidden="true" style="margin-top: 45px; margin-bottom: 45px;">
-                        <button id="botonPasoResultado" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="verResultadosCalificaciones();">Ver resultados
+                        <button id="botonPasoResultado" style="margin-top: 10px;" class="btn waves-effect red lighten-2" type="submit" name="action" onclick="verResultadosCalificaciones();">Ver resultados
                             <i class="material-icons right">check_circle</i>
                         </button>
                     </div>
@@ -89,12 +82,27 @@
 
             <div class="row">
                 <div class="col s10 offset-s1">
+                    <div class="center" id="paso_nivel_final_dos" hidden="true" style="margin-top: 15px; margin-bottom: 15px;">
+                        <form action="paso-docente-final-juego.do">
+                            <input type="hidden" id="estado_sesion_tres" name="estado_sesion">
+                            <input type="hidden" id="id_sesion_tres" name="id_sesion">
+                            <input type="hidden" id="nivel_sesion_tres" name="nivel_sesion">
+                            <button id="botonPasoResultado_cuatro" style="margin-top: 10px;" class="btn waves-effect red lighten-2" type="submit" name="action" onclick="return pasarNivel()">Cerrar Juego
+                                <i class="material-icons right">check_circle</i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s10 offset-s1">
                     <div class="center" id="paso_desafio" hidden="true" style="margin-top: 45px; margin-bottom: 45px;">
                         <form action="paso-docente.do">
                             <input type="hidden" id="estado_sesion" name="estado_sesion">
                             <input type="hidden" id="id_sesion" name="id_sesion">
                             <input type="hidden" id="nivel_sesion" name="nivel_sesion">
-                            <button id="botonPasoResultado_tres" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return pasar()">Cerrar desafío
+                            <button id="botonPasoResultado_tres" style="margin-top: 10px;" class="btn waves-effect red lighten-2" type="submit" name="action" onclick="return pasar()">Cerrar desafío
                                 <i class="material-icons right">check_circle</i>
                             </button>
                         </form>
@@ -109,7 +117,7 @@
                             <input type="hidden" id="estado_sesion_dos" name="estado_sesion">
                             <input type="hidden" id="id_sesion_dos" name="id_sesion">
                             <input type="hidden" id="nivel_sesion_dos" name="nivel_sesion">
-                            <button id="botonPasoResultado_dos" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return pasarNivel()">Cerrar último desafío de nivel 
+                            <button id="botonPasoResultado_dos" style="margin-top: 10px;" class="btn waves-effect red lighten-2" type="submit" name="action" onclick="return pasarNivel()">Cerrar desafío 
                                 <i class="material-icons right">check_circle</i>
                             </button>
                         </form>
@@ -124,37 +132,22 @@
                             <input type="hidden" id="estado_sesion_cuatro" name="estado_sesion">
                             <input type="hidden" id="id_sesion_cuatro" name="id_sesion">
                             <input type="hidden" id="nivel_sesion_cuatro" name="nivel_sesion">
-                            <button id="botonPasoResultado_cinco" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return pasarNivel()">Cerrar Nivel
+                            <button id="botonPasoResultado_cinco" style="margin-top: 10px;" class="btn waves-effect red lighten-2" type="submit" name="action" onclick="return pasarNivel()">Cerrar Nivel
                                 <i class="material-icons right">check_circle</i>
                             </button>
                         </form>
                     </div>
                 </div>
             </div>
-            
+
             <div class="row">
-                <div class="col s10 offset-s1">
-                    <div class="center" id="paso_nivel_final_dos" hidden="true" style="margin-top: 45px; margin-bottom: 45px;">
-                        <form action="paso-docente-final-juego.do">
-                            <input type="hidden" id="estado_sesion_tres" name="estado_sesion">
-                            <input type="hidden" id="id_sesion_tres" name="id_sesion">
-                            <input type="hidden" id="nivel_sesion_tres" name="nivel_sesion">
-                            <button id="botonPasoResultado_cuatro" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return pasarNivel()">Cerrar Juego
-                                <i class="material-icons right">check_circle</i>
-                            </button>
-                        </form>
-                    </div>
+                <div class="card-panel col s6 offset-s3" hidden="true" id="divResultados" style="margin-bottom: 100px;">
                 </div>
             </div>
-
-            <!--<button id="sapeo" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="sapeo();">Sapeo
-                <i class="material-icons right">check_circle</i>
-            </button>-->
-
 
             <div class="row">
                 <div class="col s10 offset-s1"  id="menuGeneral">
-                    <div class="center" id="menu" style="margin-top: 45px; margin-bottom: 45px;">
+                    <div class="right" id="menu" style="margin-top: 45px; margin-bottom: 45px; text-align: right; width: 50%;">
 
                     </div>
                 </div>
@@ -163,15 +156,15 @@
             <div class="row">
                 <div class="col s10 offset-s1" >
                     <div class="center card-panel" id="menuOpciones" style="margin-top: 45px; margin-bottom: 45px;" hidden="true">
-                        <h4>Opciones</h4>
-                        <p><b>Seleccione el nivel del juego</b></p>
+                        <h4 style="color: #1a237e;">Opciones</h4>
+                        <p style="color: #1a237e;"><b>Seleccione el nivel del juego</b></p>
                         <select name="cboNivel" id="nivel" class="browser-default">
                             <option  value="NULO" disabled selected>SELECCIONE EL NIVEL DEL JUEGO</option>
                             <option  value="1">1</option>
                             <option  value="2">2</option>
                             <option  value="3">3</option>
                         </select>
-                        <button id="botonNivel" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="fijarNivel();">Fijar Nivel
+                        <button id="botonNivel" style="margin-top: 10px;" class="btn waves-effect red lighten-2" type="submit" name="action" onclick="fijarNivel();">Fijar Nivel
                             <i class="material-icons right">assignment_turned_in</i>
                         </button>
                     </div>
@@ -180,35 +173,38 @@
 
             <div class="row">
                 <div class="col s10 offset-s1" >
-                    <div class="center card-panel" id="menuOpcionesNivel" style="margin-top: 45px; margin-bottom: 45px;" hidden="true">
-                        <h4>Opciones</h4>
-                        <p><b>Seleccione el nivel del juego</b></p>
+                    <div class="center card-panel" id="menuOpcionesNivel" style="margin-top: 45px; margin-bottom: 300px;" hidden="true">
+                        <h4 style="color: #1a237e;">Opciones</h4>
+                        <p style="color: #1a237e;"><b>Seleccione el nivel del juego</b></p>
                         <select name="cboNivel" id="nivelDos" class="browser-default">
                             <option  value="NULO" disabled selected>SELECCIONE EL NIVEL DEL JUEGO</option>
                             <option  value="1">1</option>
                             <option  value="2">2</option>
                             <option  value="3">3</option>
                         </select>
-                        <button id="botonNivel" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="fijarNivelSegunda();">Fijar Nivel
+                        <button id="botonNivel" style="margin-top: 10px;" class="btn waves-effect red lighten-2" type="submit" name="action" onclick="fijarNivelSegunda();">Fijar Nivel
                             <i class="material-icons right">assignment_turned_in</i>
                         </button>
-                        <button id="botonCerrarOpcionNivel" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="cerrarMenuOpciones();">Cerrar
-                            <i class="material-icons right">assignment_turned_in</i>
+                        <button id="botonCerrarOpcionNivel" style="margin-top: 10px;" class="btn waves-effect red lighten-2" type="submit" name="action" onclick="cerrarMenuOpciones();">Cerrar
+                            <i class="material-icons right">backspace</i>
                         </button>
                     </div>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="card-panel col s10 offset-s1" hidden="true" id="divResultados">
+            <div class="col s6 offset-s4">
+                <div class="blue-text center-align" style="position:fixed; bottom:10%; margin-bottom: 50px; margin-left: 50px;">
+                    <button id="botonLanzar" style="margin-top: 10px;" class="btn waves-effect red lighten-2" type="submit" name="action" onclick="return obtenerLanzamiento();" disabled="true">Obtener Lanzamientos
+                        <i class="material-icons right">loop</i>
+                    </button>
                 </div>
             </div>
 
             <div class="col s6 offset-s4">
-                <div class="blue-text center-align" style="position:fixed; bottom:0; margin-bottom: 50px; margin-left: 50px;">
-                    <button id="botonLanzar" style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return obtenerLanzamiento();" disabled="true">Obtener Lanzamientos
-                        <i class="material-icons right">loop</i>
-                    </button>
+                <div class="blue-text center-align" style="position:fixed; bottom:0%; margin-bottom: 50px; margin-left: 50px;">
+                    <a id="botonSalir" style="margin-top: 10px;" class="btn waves-effect red lighten-2" href="index.jsp">Salir
+                        <i class="material-icons right">cancel</i>
+                    </a>
                 </div>
             </div>
         </div>
@@ -216,14 +212,10 @@
         <!-- Modal Structure -->
         <div id="modal2" class="modal dismissible">
             <div class="modal-content">
-                <h4 align="center">Desafío de artista</h4>
-                <p><b>Nombre de artista</b></p>
-                <p id="nombreArtista">.</p>
-                <p><b>Biografía de artista</b></p>
-                <p id="biografiaArtista">.</p>
-                <p style="font-size: 30px;"><b>Desafío de artista</b></p>
-                <p id="desafioArtista" style="font-size: 30px;">.</p>
-                <p><b>Enlaces de artista</b></p>
+                <p id="nombreArtista" style="color: #1a237e;">.</p>
+                <p id="biografiaArtista" style="color: #1a237e;">.</p>
+                <p style="font-size: 30px; color: #1a237e;"><b>Desafío</b></p>
+                <p id="desafioArtista" style="font-size: 30px; color: #1a237e;">.</p>
                 <div id="enlaces">
                 </div>
             </div>
@@ -236,15 +228,12 @@
         <div id="modal3" class="modal dismissible">
             <div class="modal-content">
 
-                <h4 align="center">Evaluación de respuesta</h4>
+                <h4 align="center" id="tituloRespuesta" style="color: #1a237e;"></h4>
 
-                <p><b>Nombre de artista</b></p>
-                <p id="nombreArtistaDesafio">.</p>
-                <p><b>Desafío</b></p>
-                <p id="desafioPregunta">.</p>
-                <p><b>Respuesta</b></p>
-                <p id="respuestaPregunta">.</p>
-                <p><b>Calificación</b></p>
+                <p id="nombreArtistaDesafio" style="color: #1a237e;">.</p>
+                <p style="color: #1a237e;"><b>Respuesta</b></p>
+                <p id="respuestaPregunta" style="color: #1a237e;">.</p>
+                <p style="color: #1a237e;"><b>Calificación</b></p>
 
                 <form>
                     <input type="hidden" id="id_respuesta">
@@ -254,13 +243,11 @@
                     </p>
 
                     <div class="row" style="margin-top: 40px;">
-                        <a class="btn waves-effect blue lighten-1" id="botonCalificacion" onclick="calificar(document.getElementById('id_respuesta').value, document.getElementById('rango').value)">Calificar
+                        <a class="btn waves-effect red lighten-2" id="botonCalificacion" onclick="calificar(document.getElementById('id_respuesta').value, document.getElementById('rango').value)">Calificar
                             <i class="material-icons right">send</i>
                         </a>
                     </div>
                 </form>
-
-
 
                 <div class="modal-footer">
                     <a href="#!" onclick="comprobacionValoracion()" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
@@ -272,21 +259,19 @@
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="js/materialize.min.js"></script>
         <script>
-                        $(function () {
-
-                            $(".button-collapse").sideNav();
+                        $(document).ready(function () {
+                            $('.modal').modal({
+                                dismissible: false
+                            });
                         });
         </script>
         <script>
-            function sapeo() {
-                var idSesion = document.getElementById("id_sesion").value;
-                var nivel = document.getElementById("nivel_sesion").value;
-                var estadoS = document.getElementById("estado_sesion").value;
-
-                console.log('id sesion: ' + idSesion);
-                console.log('nivel sesion: ' + nivel);
-                console.log('estado sesion: ' + estadoS);
-
+            function ocultarMostrarArtistas() {
+                if (document.getElementById('artistas').hidden == true) {
+                    document.getElementById('artistas').hidden = false;
+                } else {
+                    document.getElementById('artistas').hidden = true;
+                }
             }
 
             function pasar() {
@@ -340,7 +325,7 @@
                                         console.log('Número de calificaciones realizadas en el desafío: ' + numero_calificaciones);
 
                                         if (numero_calificaciones == 42) {
-                                            Materialize.toast('El desafío ha sido completamente evaluado', 4000);
+                                            M.toast({html: 'El desafío ha sido completamente evaluado', classes: 'rounded'});
 
                                             // Obtención de los promedios y datos del desafio
 
@@ -366,8 +351,7 @@
 
                                                         contenedor.innerHTML += "\
                                                                             <div class='row'>\n\
-                                                                                <h5 style='text-align: center;'>Artista: <b>" + promedios[0].NOMBRE_ARTISTA + "</b></h5>\n\
-                                                                                <h5 style='text-align: center;'>Desafío: <b>" + promedios[0].DESAFIO + "</b></h5>\n\
+                                                                                <h5 style='text-align: center; color: #1a237e;'><b>" + promedios[0].NOMBRE_ARTISTA + "</b></h5>\n\
                                                                             </div>";
 
                                                         for (i = 0; i < promedios.length; i++) {
@@ -376,9 +360,9 @@
                                                                 contenedor.innerHTML += "\
                                                                     <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                         <div class='row'>\n\
-                                                                            <h4 style='text-align: center;'><b>Primer Lugar</b></h4>\n\
-                                                                            <h6 style='text-align: center;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                            <p style='text-align: center;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></p>\n\
+                                                                            <h4 style='text-align: center; color: #1a237e;'><b>Primer Lugar</b></h4>\n\
+                                                                            <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                            <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></p>\n\
                                                                             <input hidden='true' id='equipoEvaluadoForm' value=" + promedios[i].NUMERO_EQUIPO + ">\n\
                                                                         </div>\n\
                                                                     </form>";
@@ -386,9 +370,9 @@
                                                                 contenedor.innerHTML += "\
                                                                     <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                         <div class='row'>\n\
-                                                                            <h4 style='text-align: center;'><b>Segundo Lugar</b></h4>\n\
-                                                                            <h6 style='text-align: center;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                            <p style='text-align: center;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></p>\n\
+                                                                            <h4 style='text-align: center; color: #1a237e;'><b>Segundo Lugar</b></h4>\n\
+                                                                            <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                            <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></p>\n\
                                                                             <input hidden='true' id='equipoEvaluadoForm' value=" + promedios[i].NUMERO_EQUIPO + ">\n\
                                                                         </div>\n\
                                                                     </form>";
@@ -396,9 +380,9 @@
                                                                 contenedor.innerHTML += "\
                                                                     <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                         <div class='row'>\n\
-                                                                            <h4 style='text-align: center;'><b>Tercer Lugar</b></h4>\n\
-                                                                            <h6 style='text-align: center;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                            <p style='text-align: center;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></p>\n\
+                                                                            <h4 style='text-align: center; color: #1a237e;'><b>Tercer Lugar</b></h4>\n\
+                                                                            <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                            <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></p>\n\
                                                                             <input hidden='true' id='equipoEvaluadoForm' value=" + promedios[i].NUMERO_EQUIPO + ">\n\
                                                                         </div>\n\
                                                                     </form>";
@@ -406,8 +390,8 @@
                                                                 contenedor.innerHTML += "\
                                                                     <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                         <div class='row'>\n\
-                                                                            <h6 style='text-align: center;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                            <p style='text-align: center;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></p>\n\
+                                                                            <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + promedios[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                            <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + promedios[i].PROMEDIO + "</b></p>\n\
                                                                             <input hidden='true' id='equipoEvaluadoForm' value=" + promedios[i].NUMERO_EQUIPO + ">\n\
                                                                         </div>\n\
                                                                     </form>";
@@ -466,7 +450,7 @@
 
 
                                                                 } else {
-                                                                    Materialize.toast('Problemas al contar el número de desafíos realizados', 4000);
+                                                                    M.toast({html: 'Problemas al contar el número de desafíos realizados', classes: 'rounded'});
                                                                 }
                                                             }
                                                         }
@@ -474,7 +458,7 @@
                                                         xmlhttp.send();
 
                                                     } else {
-                                                        Materialize.toast('No se pudo obetener los promedios del desafío', 4000);
+                                                        M.toast({html: 'No se pudo obetener los promedios del desafío', classes: 'rounded'});
                                                     }
                                                 }
                                             }
@@ -482,11 +466,11 @@
                                             xmlhttpZ.send();
 
                                         } else {
-                                            Materialize.toast('Debe esperar a que los equipo terminen de calificar las respuestas del desafío', 4000);
+                                            M.toast({html: 'Debe esperar a que los equipo terminen de calificar las respuestas del desafío', classes: 'rounded'});
                                         }
 
                                     } else {
-                                        Materialize.toast('Problema al obtener el número de calificaciones', 4000);
+                                        M.toast({html: 'Problema al obtener el número de calificaciones', classes: 'rounded'});
                                     }
                                 }
                             }
@@ -495,7 +479,7 @@
 
 
                         } else {
-                            Materialize.toast('Problema al obtener el id de desafío', 4000);
+                            M.toast({html: 'Problema al obtener el id de desafío', classes: 'rounded'});
                         }
 
 
@@ -539,7 +523,7 @@
 
                                         console.log('Número de calificaciones: ' + consulta[0].CALIFICACIONES);
 
-                                        Materialize.toast('Ya ha calificado a todos los equipo', 4000);
+                                        M.toast({html: 'Ya ha calificado a todos los equipo', classes: 'rounded'});
 
                                         // Visibilizar el botón de resultados
                                         document.getElementById("paso_resultado").hidden = false;
@@ -550,7 +534,7 @@
 
                                     } else {
 
-                                        Materialize.toast('Aún le quedan equipos por calificar', 4000);
+                                        M.toast({html: 'Aún le quedan equipos por calificar', classes: 'rounded'});
 
                                     }
                                 }
@@ -558,7 +542,7 @@
                             xmlhttpR.open("GET", urlR, true);
                             xmlhttpR.send();
                         } else {
-                            Materialize.toast('Problemas para obtener el id del desafío', 4000);
+                            M.toast({html: 'Problemas para obtener el id del desafío', classes: 'rounded'});
                         }
                     }
                 }
@@ -604,7 +588,7 @@
 
                                     if (consulta[0].CALIFICACIONES > 0) {
 
-                                        Materialize.toast('Usted ya calificó a este equipo', 4000);
+                                        M.toast({html: 'Usted ya calificó a este equipo', classes: 'rounded'});
 
                                     } else {
 
@@ -617,7 +601,7 @@
                                                 var comprobacion = JSON.parse(xmlhttpL.responseText);
 
                                                 if (comprobacion == true) {
-                                                    Materialize.toast('Calificación ingresada', 4000);
+                                                    M.toast({html: 'Calificación ingresada', classes: 'rounded'});
                                                 }
                                             }
                                         }
@@ -631,7 +615,7 @@
                             xmlhttpR.open("GET", urlR, true);
                             xmlhttpR.send();
                         } else {
-                            Materialize.toast('Problemas para obtener el id del desafío', 4000);
+                            M.toast({html: 'Problemas para obtener el id del desafío', classes: 'rounded'});
                         }
                     }
                 }
@@ -655,7 +639,7 @@
 
                         if (numero_respuestas[0].RESPUESTAS < 6) {
 
-                            Materialize.toast('Aún no están las 6 respuestas ingresadas', 4000);
+                            M.toast({html: 'Aún no están las 6 respuestas ingresadas', classes: 'rounded'});
 
                         } else {
 
@@ -704,7 +688,7 @@
 
                                                                 console.log('Número de calificaciones: ' + consulta[0].CALIFICACIONES);
 
-                                                                Materialize.toast('Ya ha calificado a todos los equipos', 4000);
+                                                                M.toast({html: 'Ya ha calificado a todos los equipos', classes: 'rounded'});
 
                                                                 /// Visibilizar el botón de resultados
                                                                 document.getElementById("paso_resultado").hidden = false;
@@ -715,7 +699,7 @@
 
                                                             } else {
 
-                                                                Materialize.toast('Aún le quedan equipos por calificar', 4000);
+                                                                M.toast({html: 'Aún le quedan equipos por calificar', classes: 'rounded'});
 
                                                                 eliminarBotonRespuestas();
 
@@ -733,20 +717,21 @@
 
                                                                             contenedor.innerHTML = "";
 
+                                                                            contenedor.innerHTML = "<h4 style='text-align: center; margin-bottom: 50px;'>Califique a los equipos</h4>";
+
                                                                             document.getElementById("divResultados").hidden = false;
 
                                                                             for (i = 0; i < array.length; i++) {
                                                                                 contenedor.innerHTML += "\
                                                                                     <form style='margin-top: 10px; margin-bottom: 10px;'>\n\
-                                                                                        <div class='row'>\n\
-                                                                                            <h6 style='text-align: center;'>Equipo " + array[i].NUMERO_EQUIPO + "</h6>\n\
+                                                                                        <div class='center'>\n\
                                                                                             <input hidden='true' id='equipoEvaluadoForm' value=" + array[i].NUMERO_EQUIPO + ">\n\
-                                                                                            <a style='display: block; margin-left: auto; margin-right: auto;' class='btn-floating blue' href='#modal3' onclick='cargarRespuesta(" + array[i].NUMERO_EQUIPO + ")'><i class='material-icons left'>add</i></a>\n\
+                                                                                            <a style='float: none; text-align: center;' class='waves-effect waves-light btn red lighten-2 modal-trigger' href='#modal3' onclick='cargarRespuesta(" + array[i].NUMERO_EQUIPO + ")'><i class='material-icons right'>add</i>Equipo " + array[i].NUMERO_EQUIPO + "</a>\n\
                                                                                         </div>\n\
                                                                                     </form>";
                                                                             }
                                                                         } else {
-                                                                            Materialize.toast('Aún no hay respuestas ingresadas', 4000);
+                                                                            M.toast({html: 'Aún no hay respuestas ingresadas', classes: 'rounded'});
                                                                         }
                                                                     }
                                                                 }
@@ -758,7 +743,7 @@
                                                     xmlhttpR.open("GET", urlR, true);
                                                     xmlhttpR.send();
                                                 } else {
-                                                    Materialize.toast('Problemas para obtener el id del desafío', 4000);
+                                                    M.toast({html: 'Problemas para obtener el id del desafío', classes: 'rounded'});
                                                 }
                                             }
                                         }
@@ -767,7 +752,7 @@
 
 
                                     } else {
-                                        Materialize.toast('Problema al cargar el id de artista', 4000);
+                                        M.toast({html: 'Problema al cargar el id de artista', classes: 'rounded'});
                                     }
                                 }
                             }
@@ -815,13 +800,14 @@
 
                                     if (respuesta.length > 0) {
 
+                                        document.getElementById('tituloRespuesta').innerHTML = 'Equipo ' + respuesta[0].NUMERO_EQUIPO + ' a evaluar';
                                         document.getElementById('nombreArtistaDesafio').innerHTML = respuesta[0].NOMBRE_ARTISTA;
-                                        document.getElementById('desafioPregunta').innerHTML = respuesta[0].DESAFIO;
+                                        // document.getElementById('desafioPregunta').innerHTML = respuesta[0].DESAFIO;
                                         document.getElementById('respuestaPregunta').innerHTML = respuesta[0].RESPUESTA;
                                         document.getElementById('id_respuesta').value = respuesta[0].ID_RESPUESTA;
                                         document.getElementById('equipoEvaluado').value = respuesta[0].NUMERO_EQUIPO;
                                     } else {
-                                        Materialize.toast('Problema al cargar la respuesta al calificar', 4000);
+                                        M.toast({html: 'Problema al cargar la respuesta al calificar', classes: 'rounded'});
                                     }
                                 }
                             }
@@ -829,7 +815,7 @@
                             xmlhttpW.send();
 
                         } else {
-                            Materialize.toast('No se pudo obtener el Id del artista del desafío', 4000);
+                            M.toast({html: 'No se pudo obtener el Id del artista del desafío', classes: 'rounded'});
                         }
 
                     }
@@ -847,7 +833,7 @@
 
                 if (nuevoNivel == null || nuevoNivel == 0) {
 
-                    Materialize.toast('Debe seleccionar un nivel', 4000);
+                    M.toast({html: 'Debe seleccionar un nivel', classes: 'rounded'});
 
                 } else {
 
@@ -862,7 +848,7 @@
                     xmlhttp.open("GET", url, true);
                     xmlhttp.send();
 
-                    Materialize.toast('Nivel fijado', 4000);
+                    M.toast({html: 'Nivel fijado', classes: 'rounded'});
 
                     document.getElementById('menuOpcionesNivel').hidden = true;
                     document.getElementById('menu').hidden = true;
@@ -877,7 +863,7 @@
 
                 if (nuevoNivel == null || nuevoNivel == 0) {
 
-                    Materialize.toast('Debe seleccionar un nivel', 4000);
+                    M.toast({html: 'Debe seleccionar un nivel', classes: 'rounded'});
 
                 } else {
 
@@ -886,6 +872,7 @@
 
                     xmlhttp.onreadystatechange = function () {
                         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                            M.toast({html: 'Nivel fijado', classes: 'rounded'});
                             nivel_sesion = nuevoNivel;
                         }
                     }
@@ -944,7 +931,7 @@
                                                         var array = JSON.parse(xmlhttpDos.responseText);
                                                         subtematica = array[0].VALOR;
 
-                                                        if (array.length > 0) {
+                                                        if (array.length > 0 && subtematica > 0) {
 
                                                             document.getElementById("botonLanzar").style.height = "0px";
 
@@ -956,7 +943,9 @@
                                                             obtenerSubtematicas(id_subtematica);
 
                                                         } else {
-                                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+
+                                                            M.toast({html: 'Los equipos aún no han realizado el lanzamiento de dados', classes: 'rounded'});
+
                                                         }
 
                                                     }
@@ -965,11 +954,11 @@
                                                 xmlhttpDos.send();
 
                                             } else {
-                                                Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                                M.toast({html: 'Los equipos aún no han realizado el lanzamiento de dados', classes: 'rounded'});
                                             }
 
                                         } else {
-                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                            M.toast({html: 'Los equipos aún no han realizado el lanzamiento de dados', classes: 'rounded'});
                                         }
                                     }
                                 }
@@ -1003,7 +992,7 @@
                                                         var array = JSON.parse(xmlhttpDos.responseText);
                                                         subtematica = array[0].VALOR;
 
-                                                        if (array.length > 0) {
+                                                        if (array.length > 0 && subtematica > 0) {
 
                                                             document.getElementById("botonLanzar").style.height = "0px";
 
@@ -1015,7 +1004,7 @@
                                                             obtenerSubtematicas(id_subtematica);
 
                                                         } else {
-                                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                                            M.toast({html: 'Los equipos aún no han realizado el lanzamiento de dados', classes: 'rounded'});
                                                         }
 
                                                     }
@@ -1024,11 +1013,11 @@
                                                 xmlhttpDos.send();
 
                                             } else {
-                                                Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                                M.toast({html: 'Los equipos aún no han realizado el lanzamiento de dados', classes: 'rounded'});
                                             }
 
                                         } else {
-                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                            M.toast({html: 'Los equipos aún no han realizado el lanzamiento de dados', classes: 'rounded'});
                                         }
                                     }
                                 }
@@ -1062,7 +1051,7 @@
                                                         var array = JSON.parse(xmlhttpDos.responseText);
                                                         subtematica = array[0].VALOR;
 
-                                                        if (array.length > 0) {
+                                                        if (array.length > 0 && subtematica > 0) {
 
                                                             document.getElementById("botonLanzar").style.height = "0px";
 
@@ -1074,7 +1063,7 @@
                                                             obtenerSubtematicas(id_subtematica);
 
                                                         } else {
-                                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                                            M.toast({html: 'Los equipos aún no han realizado el lanzamiento de dados', classes: 'rounded'});
                                                         }
 
                                                     }
@@ -1083,11 +1072,11 @@
                                                 xmlhttpDos.send();
 
                                             } else {
-                                                Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                                M.toast({html: 'Los equipos aún no han realizado el lanzamiento de dados', classes: 'rounded'});
                                             }
 
                                         } else {
-                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                            M.toast({html: 'Los equipos aún no han realizado el lanzamiento de dados', classes: 'rounded'});
                                         }
                                     }
                                 }
@@ -1120,7 +1109,7 @@
                                                         var array = JSON.parse(xmlhttpDos.responseText);
                                                         subtematica = array[0].VALOR;
 
-                                                        if (array.length > 0) {
+                                                        if (array.length > 0 && subtematica > 0) {
 
                                                             document.getElementById("botonLanzar").style.height = "0px";
 
@@ -1132,7 +1121,7 @@
                                                             obtenerSubtematicas(id_subtematica);
 
                                                         } else {
-                                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                                            M.toast({html: 'Los equipos aún no han realizado el lanzamiento de dados', classes: 'rounded'});
                                                         }
 
                                                     }
@@ -1141,11 +1130,11 @@
                                                 xmlhttpDos.send();
 
                                             } else {
-                                                Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                                M.toast({html: 'Los equipos aún no han realizado el lanzamiento de dados', classes: 'rounded'});
                                             }
 
                                         } else {
-                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                            M.toast({html: 'Los equipos aún no han realizado el lanzamiento de dados', classes: 'rounded'});
                                         }
                                     }
                                 }
@@ -1179,7 +1168,7 @@
                                                         var array = JSON.parse(xmlhttpDos.responseText);
                                                         subtematica = array[0].VALOR;
 
-                                                        if (array.length > 0) {
+                                                        if (array.length > 0 && subtematica > 0) {
 
                                                             document.getElementById("botonLanzar").style.height = "0px";
 
@@ -1191,7 +1180,7 @@
                                                             obtenerSubtematicas(id_subtematica);
 
                                                         } else {
-                                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                                            M.toast({html: 'Los equipos aún no han realizado el lanzamiento de dados', classes: 'rounded'});
                                                         }
 
                                                     }
@@ -1200,11 +1189,11 @@
                                                 xmlhttpDos.send();
 
                                             } else {
-                                                Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                                M.toast({html: 'Los equipos aún no han realizado el lanzamiento de dados', classes: 'rounded'});
                                             }
 
                                         } else {
-                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                            M.toast({html: 'Los equipos aún no han realizado el lanzamiento de dados', classes: 'rounded'});
                                         }
                                     }
                                 }
@@ -1238,7 +1227,7 @@
                                                         var array = JSON.parse(xmlhttpDos.responseText);
                                                         subtematica = array[0].VALOR;
 
-                                                        if (array.length > 0) {
+                                                        if (array.length > 0 && subtematica > 0) {
 
                                                             document.getElementById("botonLanzar").style.height = "0px";
 
@@ -1250,7 +1239,7 @@
                                                             obtenerSubtematicas(id_subtematica);
 
                                                         } else {
-                                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                                            M.toast({html: 'Los equipos aún no han realizado el lanzamiento de dados', classes: 'rounded'});
                                                         }
 
                                                     }
@@ -1259,11 +1248,11 @@
                                                 xmlhttpDos.send();
 
                                             } else {
-                                                Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                                M.toast({html: 'Los equipos aún no han realizado el lanzamiento de dados', classes: 'rounded'});
                                             }
 
                                         } else {
-                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                            M.toast({html: 'Los equipos aún no han realizado el lanzamiento de dados', classes: 'rounded'});
                                         }
                                     }
                                 }
@@ -1296,7 +1285,7 @@
                                                         var array = JSON.parse(xmlhttpDos.responseText);
                                                         subtematica = array[0].VALOR;
 
-                                                        if (array.length > 0) {
+                                                        if (array.length > 0 && subtematica > 0) {
 
                                                             document.getElementById("botonLanzar").style.height = "0px";
 
@@ -1308,7 +1297,7 @@
                                                             obtenerSubtematicas(id_subtematica);
 
                                                         } else {
-                                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                                            M.toast({html: 'Los equipos aún no han realizado el lanzamiento de dados', classes: 'rounded'});
                                                         }
 
                                                     }
@@ -1317,11 +1306,11 @@
                                                 xmlhttpDos.send();
 
                                             } else {
-                                                Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                                M.toast({html: 'Los equipos aún no han realizado el lanzamiento de dados', classes: 'rounded'});
                                             }
 
                                         } else {
-                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                            M.toast({html: 'Los equipos aún no han realizado el lanzamiento de dados', classes: 'rounded'});
                                         }
                                     }
                                 }
@@ -1355,7 +1344,7 @@
                                                         var array = JSON.parse(xmlhttpDos.responseText);
                                                         subtematica = array[0].VALOR;
 
-                                                        if (array.length > 0) {
+                                                        if (array.length > 0 && subtematica > 0) {
 
                                                             document.getElementById("botonLanzar").style.height = "0px";
 
@@ -1367,7 +1356,7 @@
                                                             obtenerSubtematicas(id_subtematica);
 
                                                         } else {
-                                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                                            M.toast({html: 'Los equipos aún no han realizado el lanzamiento de dados', classes: 'rounded'});
                                                         }
 
                                                     }
@@ -1376,11 +1365,11 @@
                                                 xmlhttpDos.send();
 
                                             } else {
-                                                Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                                M.toast({html: 'Los equipos aún no han realizado el lanzamiento de dados', classes: 'rounded'});
                                             }
 
                                         } else {
-                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                            M.toast({html: 'Los equipos aún no han realizado el lanzamiento de dados', classes: 'rounded'});
                                         }
                                     }
                                 }
@@ -1414,7 +1403,7 @@
                                                         var array = JSON.parse(xmlhttpDos.responseText);
                                                         subtematica = array[0].VALOR;
 
-                                                        if (array.length > 0) {
+                                                        if (array.length > 0 && subtematica > 0) {
 
                                                             document.getElementById("botonLanzar").style.height = "0px";
 
@@ -1426,7 +1415,7 @@
                                                             obtenerSubtematicas(id_subtematica);
 
                                                         } else {
-                                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                                            M.toast({html: 'Los equipos aún no han realizado el lanzamiento de dados', classes: 'rounded'});
                                                         }
 
                                                     }
@@ -1435,11 +1424,11 @@
                                                 xmlhttpDos.send();
 
                                             } else {
-                                                Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                                M.toast({html: 'Los equipos aún no han realizado el lanzamiento de dados', classes: 'rounded'});
                                             }
 
                                         } else {
-                                            Materialize.toast('Los equipos aún no han realizado el lanzamiento de dados', 4000);
+                                            M.toast({html: 'Los equipos aún no han realizado el lanzamiento de dados', classes: 'rounded'});
                                         }
                                     }
                                 }
@@ -1448,7 +1437,7 @@
                             }
 
                         } else {
-                            Materialize.toast('Problemas al contar el número de desafíos realizados', 4000);
+                            M.toast({html: 'Problemas al contar el número de desafíos realizados', classes: 'rounded'});
                         }
                     }
                 }
@@ -1465,13 +1454,13 @@
             function cargarMapa(premio) {
                 // console.log(posicion);
                 if (premio === 4) {
-                    document.getElementById("myDiv").style.backgroundPosition = "right 70%";
+                    document.getElementById("myDiv").style.backgroundPosition = "right 65%";
                 } else if (premio === 3) {
-                    document.getElementById("myDiv").style.backgroundPosition = "left 70%";
+                    document.getElementById("myDiv").style.backgroundPosition = "left 65%";
                 } else if (premio === 2) {
                     document.getElementById("myDiv").style.backgroundPosition = "right top";
                 } else if (premio == 1) {
-                    document.getElementById("myDiv").style.backgroundPosition = "center 37%";
+                    document.getElementById("myDiv").style.backgroundPosition = "center 20%";
                 }
             }
 
@@ -1488,6 +1477,7 @@
                         var array = JSON.parse(xmlhttp.responseText);
                         //console.log(array);
 
+                        document.getElementById('divSubtematica').hidden = false;
                         document.getElementById('subtematica').innerHTML = array[0].DESCRIPCION_SUBTEMATICA;
 
                         // Carga de artistas según niveles de avance en el turno
@@ -1551,7 +1541,8 @@
                                                 for (z = 0; z < artistas_disponibles.length; z++) {
                                                     agregarBotonArtista(artistas_disponibles[z].ID_ARTISTA, artistas_disponibles[z].NOMBRE_ARTISTA);
                                                 }
-                                                Materialize.toast('¿Cuál artista escogerán?', 4000);
+                                                document.getElementById("divBotonArtistas").hidden = false;
+                                                M.toast({html: '¿Cuál artista escogerán?', classes: 'rounded'});
                                             }
                                         }
                                         xmlhttpDos.open("GET", urlDos, true);
@@ -1573,10 +1564,11 @@
 
             function agregarBotonArtista(id_artista, nombre_artista) {
                 var contenedor = document.getElementById('artistas');
-                contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect blue lighten-1 modal-trigger' onclick='deshabilitarListadoArtistas(), traerArtista(" + id_artista + ")' href='#modal2'>" + nombre_artista + "<i class='material-icons right'>assignment_ind</i></button></div>";
+                contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2 modal-trigger' onclick='deshabilitarListadoArtistas(), traerArtista(" + id_artista + ")' href='#modal2'>" + nombre_artista + "<i class='material-icons right'>assignment_ind</i></button></div>";
             }
 
             function deshabilitarListadoArtistas() {
+                document.getElementById('divBotonArtistas').hidden = true;
                 document.getElementById('artistas').hidden = true;
                 document.getElementById('respuestas').hidden = false;
             }
@@ -1631,7 +1623,7 @@
 
                             xmlhttpCuatro.onreadystatechange = function () {
                                 if (xmlhttpCuatro.readyState == 4 && xmlhttpCuatro.status == 200) {
-                                    Materialize.toast('Las y los estudiantes pueden cargar el desafío', 4000);
+                                    M.toast({html: 'Las y los estudiantes pueden cargar el desafío', classes: 'rounded'});
                                 }
                             }
                             xmlhttpCuatro.open("GET", urlCuatro, true);
@@ -1649,18 +1641,18 @@
 
             function desplegarMenu() {
                 var contenedor = document.getElementById('menu');
-                contenedor.innerHTML += "<div class='row' id='botonInstrucciones'><a style='margin: 10px auto;' class='btn waves-effect blue lighten-1 modal-trigger' onclick='' href='instrucciones.jsp' target='_blank'>INSTRUCCIONES<i class='material-icons right'>format_list_numbered</i></button></div>";
-                contenedor.innerHTML += "<div class='row' id='botonOpciones'><a style='margin: 10px auto;' class='btn waves-effect blue lighten-1 modal-trigger' onclick='habilitarOpciones()'>OPCIONES<i class='material-icons right'>settings</i></button></div>";
-                contenedor.innerHTML += "<div class='row' id='botonCreditos'><a style='margin: 10px auto;' class='btn waves-effect blue lighten-1 modal-trigger' onclick='' href='creditos.jsp' target='_blank'>CREDITOS<i class='material-icons right'>subject</i></button></div>";
-                contenedor.innerHTML += "<div class='row' id='botonJugar'><a style='margin: 10px auto;' class='btn waves-effect blue lighten-1 modal-trigger' onclick='habilitarPartida()'>JUGAR<i class='material-icons right'>play_circle_outline</i></button></div>";
+                contenedor.innerHTML += "<div class='row' id='botonInstrucciones'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2 modal-trigger' onclick='' href='instrucciones.jsp' target='_blank'>INSTRUCCIONES<i class='material-icons right'>format_list_numbered</i></button></div>";
+                contenedor.innerHTML += "<div class='row' id='botonOpciones'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2 modal-trigger' onclick='habilitarOpciones()'>OPCIONES<i class='material-icons right'>settings</i></button></div>";
+                contenedor.innerHTML += "<div class='row' id='botonCreditos'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2 modal-trigger' onclick='' href='creditos.jsp' target='_blank'>CREDITOS<i class='material-icons right'>subject</i></button></div>";
+                contenedor.innerHTML += "<div class='row' id='botonJugar'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2 modal-trigger' onclick='habilitarPartida()'>JUGAR<i class='material-icons right'>play_circle_outline</i></button></div>";
             }
 
             function desplegarMenuNivel() {
                 var contenedor = document.getElementById('menu');
-                contenedor.innerHTML += "<p style='color: white;'>Nivel Actual: <b>" + nivel_sesion + "</b></p>";
-                contenedor.innerHTML += "<p style='color: white;'>Si desea otro nivel, selecciónelo en las siguientes opciones; si desea mantener el nivel actual, presione Cerrar</p>";
-                contenedor.innerHTML += "<p style='color: white;'><b>Seleccione el nivel del siguiente ciclo:</b></p>";
-                contenedor.innerHTML += "<div class='row' id='botonOpciones'><a style='margin: 10px auto;' class='btn waves-effect blue lighten-1 modal-trigger' onclick='habilitarOpcionesNivel()'>OPCIONES<i class='material-icons right'>settings</i></button></div>";
+                contenedor.innerHTML += "<span style='color: white; background-color: #e57373; text-align: rigth; font-size: 200%;'><b>Nivel Actual: " + nivel_sesion + "</b></span><br>";
+                contenedor.innerHTML += "<span class='flow-text' style='color: white; background-color: #e57373;'>Si desea otro nivel, selecciónelo en las siguientes opciones; si desea mantener el nivel actual, presione Cerrar</span><br>";
+                contenedor.innerHTML += "<span style='color: white; background-color: #e57373;'><b>Seleccione el nivel del siguiente ciclo:</b></span>";
+                contenedor.innerHTML += "<div class='row' id='botonOpciones'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2 modal-trigger' onclick='habilitarOpcionesNivel()'>OPCIONES<i class='material-icons right'>settings</i></button></div>";
             }
 
             function cerrar() {
@@ -1693,7 +1685,7 @@
                             xmlhttpDos.send();
 
                         } else {
-                            Materialize.toast('No hay 6 equipos registrados en el sistema', 4000);
+                            M.toast({html: 'No hay 6 equipos registrados en el sistema', classes: 'rounded'});
                         }
                     }
                 }
@@ -1753,7 +1745,7 @@
                 document.getElementById("estado_sesion_tres").value = estado_sesion;
                 document.getElementById("id_sesion_tres").value = id_sesion;
                 document.getElementById("nivel_sesion_tres").value = nivel_sesion;
-                
+
                 // Grabar datos en formulario de paso de desafío final de juego
                 document.getElementById("estado_sesion_cuatro").value = estado_sesion;
                 document.getElementById("id_sesion_cuatro").value = id_sesion;
@@ -1824,7 +1816,7 @@
 
                                                         contenedor.innerHTML += "\
                                                                     <div class='row'>\n\
-                                                                        <h5 style='text-align: center;'><b>RESULTADOS DE CIERRE DE NIVEL</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>RESULTADOS DE CIERRE DE NIVEL</b></h5>\n\
                                                                     </div>";
 
                                                         for (i = 0; i < resultados.length; i++) {
@@ -1833,9 +1825,9 @@
                                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h4 style='text-align: center;'><b>Primer Lugar</b></h4>\n\
-                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <h4 style='text-align: center; color: #1a237e;'><b>Primer Lugar</b></h4>\n\
+                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -1843,9 +1835,9 @@
                                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h4 style='text-align: center;'><b>Segundo Lugar</b></h4>\n\
-                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <h4 style='text-align: center; color: #1a237e;'><b>Segundo Lugar</b></h4>\n\
+                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -1853,9 +1845,9 @@
                                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h4 style='text-align: center;'><b>Tercer Lugar</b></h4>\n\
-                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <h4 style='text-align: center; color: #1a237e;'><b>Tercer Lugar</b></h4>\n\
+                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -1863,8 +1855,8 @@
                                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -1935,7 +1927,7 @@
 
                                         contenedor.innerHTML += "\
                                                                     <div class='row'>\n\
-                                                                        <h5 style='text-align: center;'><b>RESULTADOS DE CIERRE DE NIVEL</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>RESULTADOS DE CIERRE DE NIVEL</b></h5>\n\
                                                                     </div>";
 
                                         for (i = 0; i < resultados.length; i++) {
@@ -1944,9 +1936,9 @@
                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h4 style='text-align: center;'><b>Primer Lugar</b></h4>\n\
-                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <h4 style='text-align: center; color: #1a237e;'><b>Primer Lugar</b></h4>\n\
+                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -1954,9 +1946,9 @@
                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h4 style='text-align: center;'><b>Segundo Lugar</b></h4>\n\
-                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <h4 style='text-align: center; color: #1a237e;'><b>Segundo Lugar</b></h4>\n\
+                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -1964,9 +1956,9 @@
                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h4 style='text-align: center;'><b>Tercer Lugar</b></h4>\n\
-                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <h4 style='text-align: center; color: #1a237e;'><b>Tercer Lugar</b></h4>\n\
+                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -1974,8 +1966,8 @@
                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -2034,7 +2026,7 @@
 
                                         contenedor.innerHTML += "\
                                                                     <div class='row'>\n\
-                                                                        <h5 style='text-align: center;'><b>RESULTADOS DE CIERRE DE NIVEL</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>RESULTADOS DE CIERRE DE NIVEL</b></h5>\n\
                                                                     </div>";
 
                                         for (i = 0; i < resultados.length; i++) {
@@ -2043,9 +2035,9 @@
                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h4 style='text-align: center;'><b>Primer Lugar</b></h4>\n\
-                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <h4 style='text-align: center; color: #1a237e;'><b>Primer Lugar</b></h4>\n\
+                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -2053,9 +2045,9 @@
                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h4 style='text-align: center;'><b>Segundo Lugar</b></h4>\n\
-                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <h4 style='text-align: center; color: #1a237e;'><b>Segundo Lugar</b></h4>\n\
+                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -2063,9 +2055,9 @@
                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h4 style='text-align: center;'><b>Tercer Lugar</b></h4>\n\
-                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <h4 style='text-align: center; color: #1a237e;'><b>Tercer Lugar</b></h4>\n\
+                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -2073,8 +2065,8 @@
                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
+                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_NIVEL + "</b></p>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -2091,9 +2083,9 @@
                                 document.getElementById("paso_nivel_final").hidden = false;
 
                             } else if (estado_sesion == 'CIERRE') {
-                                
+
                                 // Última pantalla del juego
-                                
+
                                 // Obtención de los resultados de las respuestas de los equipos totales
                                 var xmlhttpDos = new XMLHttpRequest();
                                 var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=44&id_sesion=' + id_sesion;
@@ -2112,7 +2104,7 @@
 
                                         contenedor.innerHTML += "\
                                                                     <div class='row'>\n\
-                                                                        <h5 style='text-align: center;'><b>RESULTADOS DE JUEGO</b></h5>\n\
+                                                                        <h5 style='text-align: center; color: #1a237e;'><b>RESULTADOS DE JUEGO</b></h5>\n\
                                                                     </div>";
 
                                         for (i = 0; i < resultados.length; i++) {
@@ -2121,9 +2113,9 @@
                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h4 style='text-align: center;'><b>Primer Lugar</b></h4>\n\
-                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_JUEGO + "</b></p>\n\
+                                                                        <h4 style='text-align: center; color: #1a237e;'><b>Primer Lugar</b></h4>\n\
+                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_JUEGO + "</b></p>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -2131,9 +2123,9 @@
                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h4 style='text-align: center;'><b>Segundo Lugar</b></h4>\n\
-                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_JUEGO + "</b></p>\n\
+                                                                        <h4 style='text-align: center; color: #1a237e;'><b>Segundo Lugar</b></h4>\n\
+                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_JUEGO + "</b></p>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -2141,9 +2133,9 @@
                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h4 style='text-align: center;'><b>Tercer Lugar</b></h4>\n\
-                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_JUEGO + "</b></p>\n\
+                                                                        <h4 style='text-align: center; color: #1a237e;'><b>Tercer Lugar</b></h4>\n\
+                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_JUEGO + "</b></p>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -2151,8 +2143,8 @@
                                                 contenedor.innerHTML += "\
                                                                 <form style='margin-top: 10px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;'>\n\
                                                                     <div class='row'>\n\
-                                                                        <h6 style='text-align: center;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
-                                                                        <p style='text-align: center;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_JUEGO + "</b></p>\n\
+                                                                        <h6 style='text-align: center; color: #1a237e;'><b>Equipo " + resultados[i].NUMERO_EQUIPO + "</b></h6>\n\
+                                                                        <p style='text-align: center; color: #1a237e;'>Calificación obtenida: <b>" + resultados[i].PROMEDIO_JUEGO + "</b></p>\n\
                                                                         <input hidden='true' id='equipoEvaluadoForm' value=" + resultados[i].NUMERO_EQUIPO + ">\n\
                                                                     </div>\n\
                                                                 </form>";
@@ -2167,10 +2159,10 @@
                                 // Carga de botón de cerrar nivel
 
                                 document.getElementById("paso_nivel_final_dos").hidden = false;
-                                
+
                             }
                         } else {
-                            Materialize.toast('Problemas al contar el número de desafíos realizados', 4000);
+                            M.toast({html: 'Problemas al contar el número de desafíos realizados', classes: 'rounded'});
                         }
                     }
                 }

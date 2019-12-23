@@ -52,10 +52,10 @@
 
             function agregarBotonSesionRojo(id_sesion) {
                 var contenedor = document.getElementById('sesionesDocentes');
-                contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect red lighten-1 modal-trigger' onclick='enviarSesion(" + id_sesion + ")' href='#modal1'>Sesión " + id_sesion + "<i class='material-icons right'>perm_identity</i></button></div>";
+                contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect indigo modal-trigger' onclick='enviarSesion(" + id_sesion + ")' href='#modal1'>Sesión " + id_sesion + "<i class='material-icons right'>perm_identity</i></button></div>";
 
                 var contenedorDos = document.getElementById('sesionesEstudiantes');
-                contenedorDos.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect red lighten-1 modal-trigger' onclick='enviarSesionDos(" + id_sesion + ")' href='#modal2'>Sesión " + id_sesion + "<i class='material-icons right'>people_outline</i></button></div>";
+                contenedorDos.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect indigo modal-trigger' onclick='enviarSesionDos(" + id_sesion + ")' href='#modal2'>Sesión " + id_sesion + "<i class='material-icons right'>people_outline</i></button></div>";
             }
 
 
@@ -146,13 +146,14 @@
             <div class="row">
                 <nav>
                     <div class="nav-wrapper">
-                        <a href="index.jsp" class="brand-logo center">Cartografía de Artistas</a>
-                        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                        <img src="img/logo-mcap.jpg" class="responsive-img" style="height: 100%; margin-left: 5%;">
+                        <a href="index.jsp" class="brand-logo center"><img src="img/LOGO JUEGO.png" style="height: 30%; width: 30%; margin-top: 5px;" class="responsive-img"></a>
+                        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                         <ul class="right hide-on-med-and-down">
                             <li><a href="index.jsp">Cartografía</a></li>
                             <li><a href="admin.jsp">Admin</a></li>
                         </ul>
-                        <ul class="side-nav" id="mobile-demo">
+                        <ul class="sidenav" id="mobile-demo">
                             <li><a href="index.jsp">Cartografía</a></li>
                             <li><a href="admin.jsp">Admin</a></li>
                         </ul>
@@ -163,21 +164,32 @@
             <div class="row">
                 <div class="col s10 offset-s1">
                     <div class="center">
-                        <h2><b>Como jugar</b></h2>
+                        <h2 style="color: #1a237e;"><b>Como jugar</b></h2>
                     </div>  
-                    <p class="flow-text" align="justify">Para jugar en esta aplicación, el o la profesora deberá crear una sesión.</p>
-                    <p class="flow-text" align="justify">Las y los estudiantes deberán seleccionar la sesión disponible previamente creada por el o la profesora.</p>
-                    <p class="flow-text" align="justify">¡Deben dejar fluir su creatividad para jugar este juego!</p>
+                    <p style="color: #1a237e;" class="flow-text" align="justify">Para jugar en esta aplicación, el o la profesora deberá crear una sesión.</p>
+                    <p style="color: #1a237e;" class="flow-text" align="justify">Las y los estudiantes deberán seleccionar la sesión disponible previamente creada por el o la profesora.</p>
+                    <p style="color: #1a237e;" class="flow-text" align="justify">¡Deben dejar fluir su creatividad para jugar este juego!</p>
 
                 </div>
             </div>
 
+            <div class="center" id="paso_resultado" style="">
+                <a id="botonPasoResultado" style="margin-top: 10px;" class="btn waves-effect red lighten-2" href="#textoDocentes">Ir a sesiones de docentes
+                    <i class="material-icons right">arrow_downward</i>
+                </a>
+            </div>
+            <div class="center" id="paso_resultado" style="margin-bottom: 100px;">
+                <a id="botonPasoResultado" style="margin-top: 10px;" class="btn waves-effect red lighten-2" href="#textoEstudiantes">Ir a sesiones de estudiantes
+                    <i class="material-icons right">arrow_downward</i>
+                </a>
+            </div>
+
             <div class="col s12">
-                <h4 class="center-align"><b>Crear Sesión</b></h4>
+                <h4 class="center-align" style="color: #1a237e;"><b>Crear Sesión</b></h4>
             </div>
             <div class="col s6 offset-s4">
                 <div class="blue-text center-align">
-                    <p class="flow-text"><b>${requestScope.msg}</b></p>
+                    <p class="flow-text" style="color: #1a237e;"><b>${requestScope.msg}</b></p>
                 </div>
                 <div class="row">
                     <form class="col s10 offset-s1 card-panel z-depth-5" action="registro.do" method="post">
@@ -229,7 +241,7 @@
                             </div>
                             <div class="row">
                                 <div class="center" style="position: relative; margin: 10px;">    
-                                    <button style="margin-top: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return validandoRegistro();">Crear
+                                    <button style="margin-top: 10px;" class="btn waves-effect red lighten-2" type="submit" name="action" onclick="return validandoRegistro()">Crear
                                         <i class="material-icons right">send</i>
                                     </button>
                                 </div>  
@@ -240,7 +252,7 @@
             </div>
 
             <div class="col s12">
-                <h4 class="center-align"><b>Lista de Sesiones Disponibles (Docentes)</b></h4>
+                <h4 class="center-align" style="color: #1a237e;" id="textoDocentes"><b>Lista de Sesiones Disponibles de Juego (Docentes)</b></h4>
             </div>
             <div class="col s6 offset-s4">
                 <div class="row">
@@ -253,12 +265,12 @@
             </div>
 
             <div class="col s12">
-                <h4 class="center-align"><b>Lista de Sesiones Disponibles (Estudiantes)</b></h4>
-                <blockquote>
+                <h4 class="center-align" style="color: #1a237e;" id="textoEstudiantes"><b>Lista de Sesiones Disponibles de Juego (Estudiantes)</b></h4>
+                <blockquote style="color: #1a237e;">
                     Si el docente acaba de crear una sesión, presiona el botón 'Refrescar' para volver a cargar la página y que el botón de la sesión aparezca.
                 </blockquote>
                 <div class='center'>
-                    <button style="margin-top: 10px; margin-bottom: 10px;" class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="refrescar();">Refrescar
+                    <button style="margin-top: 10px; margin-bottom: 10px;" class="btn waves-effect red lighten-2" type="submit" name="action" onclick="refrescar();">Refrescar
                         <i class="material-icons right">autorenew</i>
                     </button>
                 </div>
@@ -276,8 +288,8 @@
             <!-- Modal Structure -->
             <div id="modal1" class="modal dismissible">
                 <div class="modal-content">
-                    <h4>Datos de ingreso necesarios</h4>
-                    <p>Ingrese su correo y la contraseña.</p>
+                    <h4 style="color: #1a237e;">Datos de ingreso necesarios</h4>
+                    <p style="color: #1a237e;">Ingrese su correo y la contraseña.</p>
                     <form class="cols10" action="entrar_profesor.do">
                         <input type="hidden" id="id_sesion_profesor" name="id_sesion_profesor"/> 
                         <input placeholder="Ingrese su correo" id="correoIngreso" type="text" class="validate">
@@ -285,7 +297,7 @@
                         <input placeholder="Ingrese su clave" id="claveIngreso" type="text" class="validate">
                         <label for="claveIngreso">Clave</label>
                         <div class="row" style="margin-top: 40px;">
-                            <button class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return validandoIngreso();">Ingresar
+                            <button class="btn waves-effect  red lighten-2" type="submit" name="action" onclick="return validandoIngreso();">Ingresar
                                 <i class="material-icons right">send</i>
                             </button>
                         </div>
@@ -299,14 +311,14 @@
             <!-- Modal Structure -->
             <div id="modal2" class="modal dismissible">
                 <div class="modal-content">
-                    <h4>Datos de ingreso necesarios</h4>
-                    <p>Ingrese la contraseña de la sesión.</p>
+                    <h4 style="color: #1a237e;">Datos de ingreso necesarios</h4>
+                    <p style="color: #1a237e;">Ingrese la contraseña de la sesión.</p>
                     <form class="cols10" action="entrar.do">
                         <input type="hidden" id="id_sesion_estudiante" name="id_sesion_estudiante"/> 
                         <input placeholder="Ingrese la clave de la sesion" id="claveIngresoDos" type="text" class="validate">
                         <label for="claveIngresoDos">Clave</label>
                         <div class="row" style="margin-top: 40px;">
-                            <button class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return validandoIngresoDos();">Ingresar
+                            <button class="btn waves-effect  red lighten-2" type="submit" name="action" onclick="return validandoIngresoDos();">Ingresar
                                 <i class="material-icons right">send</i>
                             </button>
                         </div>
@@ -317,8 +329,9 @@
                 </div>
             </div>
 
-            <footer class="page-footer blue darken-3">
+            <footer class="page-footer  red lighten-2">
                 <div class="container">
+                    <img src="img/logo-mcap.jpg" class="responsive-img" style="height: 20%; width: 20%;">
                     <div class="row">
                         <div class="col l6 s12">
                             <h5 class="white-text">Contáctanos</h5>
@@ -328,7 +341,7 @@
                 </div>
                 <div class="footer-copyright">
                     <div class="container">
-                        © 2018 Juego Premios Nacionales
+                        © 2019 Cartografía de Artistas
                     </div>
                 </div>
             </footer>
@@ -348,9 +361,9 @@
         </script>
         <script>
             // Initialize collapse button
-            $(".button-collapse").sideNav();
-
-
+            $(document).ready(function () {
+                $('.sidenav').sidenav();
+            });
         </script>
         <script type="text/javascript">
             function refrescar() {
@@ -367,31 +380,31 @@
                 var campoClave = document.getElementById("clave").value;
 
                 if (campoNombre == null || campoNombre.length == 0 || /^\s+$/.test(campoNombre)) {
-                    Materialize.toast('El campo que indica su nombre no puede estar vacío', 4000);
+                    M.toast({html: 'El campo que indica su nombre no puede estar vacío', classes: 'rounded'});
                     return false;
                 } else if (campoNombre.length > 200) {
-                    Materialize.toast('El campo que indica su nombre no puede tener más de 200 caracteres', 4000);
+                    M.toast({html: 'El campo que indica su nombre no puede tener más de 200 caracteres', classes: 'rounded'});
                     return false;
                 } else if (campoCorreo == null || campoCorreo.length == 0 || /^\s+$/.test(campoCorreo)) {
-                    Materialize.toast('El campo que indica su correo electrónico no puede estar vacío', 4000);
+                    M.toast({html: 'El campo que indica su correo electrónico no puede estar vacío', classes: 'rounded'});
                     return false;
                 } else if (campoCorreo.length > 200) {
-                    Materialize.toast('El campo que indica su correo electrónico no puede tener más de 200 caracteres', 4000);
+                    M.toast({html: 'El campo que indica su correo electrónico no puede tener más de 200 caracteres', classes: 'rounded'});
                     return false;
                 } else if (asignatura == null || asignatura == 0) {
-                    Materialize.toast('Debe seleccionar una asignatura', 4000);
+                    M.toast({html: 'Debe seleccionar una asignatura', classes: 'rounded'});
                     return false;
                 } else if (campoInstitucion == null || campoInstitucion.length == 0 || /^\s+$/.test(campoInstitucion)) {
-                    Materialize.toast('El campo que indica su institución no puede estar vacío', 4000);
+                    M.toast({html: 'El campo que indica su institución no puede estar vacío', classes: 'rounded'});
                     return false;
                 } else if (campoInstitucion.length > 500) {
-                    Materialize.toast('El campo que indica su institución no puede tener más de 500 caracteres', 4000);
+                    M.toast({html: 'El campo que indica su institución no puede tener más de 500 caracteres', classes: 'rounded'});
                     return false;
                 } else if (comuna == null || comuna == 0) {
-                    Materialize.toast('Debe seleccionar una comuna donde está ubicada su institución', 4000);
+                    M.toast({html: 'Debe seleccionar una comuna donde está ubicada su institución', classes: 'rounded'});
                     return false;
                 } else if (campoClave == null || campoClave.length == 0 || /^\s+$/.test(campoClave)) {
-                    Materialize.toast('El campo que indica la clave no puede estar vacío', 4000);
+                    M.toast({html: 'El campo que indica la clave no puede estar vacío', classes: 'rounded'});
                     return false;
                 }
                 return true;
@@ -407,13 +420,13 @@
                 if (numeroSesion === id_sesion) {
 
                     if (correoIngreso == null || correoIngreso.length == 0 || /^\s+$/.test(correoIngreso)) {
-                        Materialize.toast('El campo que indica el correo no puede estar vacío', 4000);
+                        M.toast({html: 'El campo que indica el correo no puede estar vacío', classes: 'rounded'});
                         return false;
                     } else if (correoIngreso.length > 200) {
-                        Materialize.toast('El campo que indica su correo no puede tener más de 200 caracteres', 4000);
+                        M.toast({html: 'El campo que indica su correo no puede tener más de 200 caracteres', classes: 'rounded'});
                         return false;
                     } else if (claveIngreso == null || claveIngreso.length == 0 || /^\s+$/.test(claveIngreso)) {
-                        Materialize.toast('El campo que indica la clave no puede estar vacío', 4000);
+                        M.toast({html: 'El campo que indica la clave no puede estar vacío', classes: 'rounded'});
                         return false;
                     } else {
                         var i;
@@ -423,20 +436,20 @@
                             igualdad = true;
                             return true;
                         } else {
-                            Materialize.toast('Los datos ingresados no coinciden', 4000);
+                            M.toast({html: 'Los datos ingresados no coinciden', classes: 'rounded'});
                             return false;
                         }
                     }
 
                 } else {
                     if (correoIngreso == null || correoIngreso.length == 0 || /^\s+$/.test(correoIngreso)) {
-                        Materialize.toast('El campo que indica su correo no puede estar vacío', 4000);
+                        M.toast({html: 'El campo que indica su correo no puede estar vacío', classes: 'rounded'});
                         return false;
                     } else if (correoIngreso.length > 200) {
-                        Materialize.toast('El campo que indica su correo no puede tener más de 200 caracteres', 4000);
+                        M.toast({html: 'El campo que indica su correo no puede tener más de 200 caracteres', classes: 'rounded'});
                         return false;
                     } else if (claveIngreso == null || claveIngreso.length == 0 || /^\s+$/.test(claveIngreso)) {
-                        Materialize.toast('El campo que indica la clave no puede estar vacío', 4000);
+                        M.toast({html: 'El campo que indica la clave no puede estar vacío', classes: 'rounded'});
                         return false;
                     } else {
                         var i;
@@ -453,7 +466,7 @@
                             }
                             //alert(igualdad);
                         } else {
-                            Materialize.toast('Problema al cargar los datos de las sesiones', 4000);
+                            M.toast({html: 'Problema al cargar los datos de las sesiones', classes: 'rounded'});
                             return false;
                         }
 
@@ -461,7 +474,7 @@
                             // redireccionDocente(id_sesion);
                             return true;
                         } else {
-                            Materialize.toast('Los datos ingresados no coinciden', 4000);
+                            M.toast({html: 'Los datos ingresados no coinciden', classes: 'rounded'});
                             return false;
                         }
                     }
@@ -477,7 +490,7 @@
                     // alert('número de sesión recuperada :' + numeroSesion);
 
                     if (claveIngreso == null || claveIngreso.length == 0 || /^\s+$/.test(claveIngreso)) {
-                        Materialize.toast('El campo que indica la clave no puede estar vacío', 4000);
+                        M.toast({html: 'El campo que indica la clave no puede estar vacío', classes: 'rounded'});
                         return false;
                     } else {
                         var i;
@@ -487,7 +500,7 @@
                             igualdad = true;
                             return true;
                         } else {
-                            Materialize.toast('Los datos ingresados no coinciden', 4000);
+                            M.toast({html: 'Los datos ingresados no coinciden', classes: 'rounded'});
                             return false;
                         }
                     }
@@ -495,7 +508,7 @@
                 } else {
 
                     if (claveIngreso == null || claveIngreso.length == 0 || /^\s+$/.test(claveIngreso)) {
-                        Materialize.toast('El campo que indica la clave no puede estar vacíoDos', 4000);
+                        M.toast({html: 'El campo que indica la clave no puede estar vacío', classes: 'rounded'});
                         return false;
                     } else {
                         var i;
@@ -512,7 +525,7 @@
                             }
                             //alert(igualdad);
                         } else {
-                            Materialize.toast('Problema al cargar los datos de las sesiones', 4000);
+                            M.toast({html: 'Problema al cargar los datos de las sesiones', classes: 'rounded'});
                             return false;
                         }
 
@@ -520,7 +533,7 @@
                             redireccionEstudiante(id_sesion);
                             return true;
                         } else {
-                            Materialize.toast('Los datos ingresados no coinciden', 4000);
+                            M.toast({html: 'Los datos ingresados no coinciden', classes: 'rounded'});
                             return false;
                         }
                     }
@@ -530,10 +543,10 @@
 
             function agregarBotonSesionAzul(id_sesion) {
                 var contenedor = document.getElementById('sesionesDocentes');
-                contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect blue lighten-1 modal-trigger' onclick='enviarSesion(" + id_sesion + ")' href='#modal1'>Sesión " + id_sesion + "<i class='material-icons right'>perm_identity</i></button></div>";
+                contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2 modal-trigger' onclick='enviarSesion(" + id_sesion + ")' href='#modal1'>Sesión " + id_sesion + "<i class='material-icons right'>perm_identity</i></button></div>";
 
                 var contenedorDos = document.getElementById('sesionesEstudiantes');
-                contenedorDos.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect blue lighten-1 modal-trigger' onclick='enviarSesionDos(" + id_sesion + ")' href='#modal2'>Sesión " + id_sesion + "<i class='material-icons right'>people_outline</i></button></div>";
+                contenedorDos.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2 modal-trigger' onclick='enviarSesionDos(" + id_sesion + ")' href='#modal2'>Sesión " + id_sesion + "<i class='material-icons right'>people_outline</i></button></div>";
             }
 
             function agregarAsignaturas(id_asignatura, descripcion) {
@@ -556,10 +569,10 @@
 
             function noHaySesiones() {
                 var contenedor = document.getElementById('sesionesDocentes');
-                contenedor.innerHTML = "<p><b>Aún no se han creado sesiones</b></p>";
+                contenedor.innerHTML = "<p style='color: #1a237e;'><b>Aún no se han creado sesiones</b></p>";
 
                 var contenedorDos = document.getElementById('sesionesEstudiantes');
-                contenedorDos.innerHTML = "<p><b>Aún no se han creado sesiones</b></p>";
+                contenedorDos.innerHTML = "<p style='color: #1a237e;'><b>Aún no se han creado sesiones</b></p>";
             }
 
             function noHayAsignaturas() {

@@ -46,15 +46,17 @@
     <div class="container">
         <% if (admin != null) {%>
         <!-- Caja del menú de navegación -->
+        <!-- Caja del menú de navegación -->
         <div class="row">
             <nav>
                 <div class="nav-wrapper">
-                    <a href="index.jsp" class="brand-logo center">Cartografía de Artistas</a>
-                    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                    <img src="img/logo-mcap.jpg" class="responsive-img" style="height: 100%; margin-left: 5%;">
+                    <a href="index.jsp" class="brand-logo center"><img src="img/LOGO JUEGO.png" style="height: 30%; width: 30%; margin-top: 5px;" class="responsive-img"></a>
+                    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                     <ul class="right hide-on-med-and-down">
                         <li><a href="cerrar.jsp">Salir</a></li>
                     </ul>
-                    <ul class="side-nav" id="mobile-demo">
+                    <ul class="sidenav" id="mobile-demo">
                         <li><a href="cerrar.jsp">Salir</a></li>
                     </ul>
                 </div>
@@ -66,7 +68,7 @@
                 <h4 style="margin: 15px;">Lista de Sesiones Registradas en el Juego</h4>
                 <p style="margin: 15px;">Puede descargar el listado en un documento Excel.</p>
 
-                <a class="waves-effect waves-light btn-small" id="btnExportar" style="margin: 30px;"><i class="material-icons left">archive</i>Exportar</a>
+                <a class="waves-effect waves-light btn-small red lighten-2" id="btnExportar" style="margin: 30px;"><i class="material-icons left">archive</i>Exportar</a>
 
                 <table class="responsive-table bordered" id="tabla">
                     <thead>
@@ -88,8 +90,9 @@
             </div>
         </div>
 
-        <footer class="page-footer blue darken-3">
+        <footer class="page-footer red lighten-2">
             <div class="container">
+                <img src="img/logo-mcap.jpg" class="responsive-img" style="height: 20%; width: 20%;">
                 <div class="row">
                     <div class="col l6 s12">
                         <h5 class="white-text">Contáctanos</h5>
@@ -99,7 +102,7 @@
             </div>
             <div class="footer-copyright">
                 <div class="container">
-                    © 2018 Juego Premios Nacionales
+                    © 2019 Cartografía de Artistas
                 </div>
             </div>
         </footer>
@@ -129,7 +132,9 @@
     </script>
     <script>
         // Initialize collapse button
-        $(".button-collapse").sideNav();
+        $(document).ready(function () {
+            $('.sidenav').sidenav();
+        });
     </script>
     <script>
         const $btnExportar = document.querySelector("#btnExportar"),

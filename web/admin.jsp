@@ -59,13 +59,14 @@
             <div class="row">
                 <nav>
                     <div class="nav-wrapper">
-                        <a href="index.jsp" class="brand-logo center">Cartografía de Artistas</a>
-                        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                        <img src="img/logo-mcap.jpg" class="responsive-img" style="height: 100%; margin-left: 5%;">
+                        <a href="index.jsp" class="brand-logo center"><img src="img/LOGO JUEGO.png" style="height: 30%; width: 30%; margin-top: 5px;" class="responsive-img"></a>
+                        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                         <ul class="right hide-on-med-and-down">
                             <li><a href="index.jsp">Cartografía</a></li>
                             <li><a href="admin.jsp">Admin</a></li>
                         </ul>
-                        <ul class="side-nav" id="mobile-demo">
+                        <ul class="sidenav" id="mobile-demo">
                             <li><a href="index.jsp">Cartografía</a></li>
                             <li><a href="admin.jsp">Admin</a></li>
                         </ul>
@@ -79,15 +80,15 @@
 
             <div class="row">
                 <div class="col s10 offset-s1 card-panel z-depth-5">
-                    <h4 style="margin: 15px;">Datos de ingreso necesarios</h4>
-                    <p style="margin: 15px;">Ingrese su correo y la contraseña.</p>
+                    <h4 style="margin: 15px; color: #1a237e;">Datos de ingreso necesarios</h4>
+                    <p style="margin: 15px; color: #1a237e;">Ingrese el nombre de administrador y la contraseña.</p>
                     <form class="cols10" action="ingreso.do" style="margin: 30px;">
                         <input placeholder="Ingrese el nombre de admin" id="nombreIngreso" name="nombreIngreso" type="text" class="validate">
-                        <label for="nombreIngreso">Correo</label>
+                        <label for="nombreIngreso">Nombre de Administrador</label>
                         <input placeholder="Ingrese la contraseña" id="claveIngreso" name="claveIngreso" type="password" class="validate">
                         <label for="claveIngreso">Contraseña</label>
                         <div class="row" style="margin-top: 40px;">
-                            <button class="btn waves-effect blue lighten-1" type="submit" name="action" onclick="return validandoIngreso();">Ingresar
+                            <button class="btn waves-effect red lighten-2" type="submit" name="action" onclick="return validandoIngreso();">Ingresar
                                 <i class="material-icons right">send</i>
                             </button>
                         </div>
@@ -95,8 +96,9 @@
                 </div>
             </div>
 
-            <footer class="page-footer blue darken-3">
+            <footer class="page-footer red lighten-2">
                 <div class="container">
+                    <img src="img/logo-mcap.jpg" class="responsive-img" style="height: 20%; width: 20%;">
                     <div class="row">
                         <div class="col l6 s12">
                             <h5 class="white-text">Contáctanos</h5>
@@ -106,7 +108,7 @@
                 </div>
                 <div class="footer-copyright">
                     <div class="container">
-                        © 2018 Juego Premios Nacionales
+                        © 2019 Cartografía de Artistas
                     </div>
                 </div>
             </footer>
@@ -126,7 +128,9 @@
         </script>
         <script>
             // Initialize collapse button
-            $(".button-collapse").sideNav();
+            $(document).ready(function () {
+                $('.sidenav').sidenav();
+            });
         </script>
         <script type="text/javascript">
             function refrescar() {
@@ -139,16 +143,16 @@
                 var claveIngreso = document.getElementById("claveIngreso").value;
 
                 if (nombreIngreso == null || nombreIngreso.length == 0 || /^\s+$/.test(nombreIngreso)) {
-                    Materialize.toast('El campo que indica el correo no puede estar vacío', 4000);
+                    M.toast({html: 'El campo que indica el nombre de usuario no puede estar vacío', classes: 'rounded'});
                     return false;
                 } else if (nombreIngreso.length > 50) {
-                    Materialize.toast('El campo que indica el nombre de admin no puede tener más de 50 caracteres', 4000);
+                    M.toast({html: 'El campo que indica el nombre de admin no puede tener más de 50 caracteres', classes: 'rounded'});
                     return false;
                 } else if (claveIngreso == null || claveIngreso.length == 0 || /^\s+$/.test(claveIngreso)) {
-                    Materialize.toast('El campo que indica la clave no puede estar vacío', 4000);
+                    M.toast({html: 'El campo que indica la clave no puede estar vacío', classes: 'rounded'});
                     return false;
                 } else if (claveIngreso.length > 20) {
-                    Materialize.toast('El campo que indica la contraseña no puede tener más de 20 caracteres', 4000);
+                    M.toast({html: 'El campo que indica la contraseña no puede tener más de 20 caracteres', classes: 'rounded'});
                     return false;
                 }
                 return true;
