@@ -16,6 +16,10 @@
 
         <!--favicon -->
         <link rel="shortcut icon" type="image/x-icon" href="img/icono.ico" />
+        
+        <!-- Hoja propia-->
+        <link rel="STYLESHEET" type="text/css" href="css/estilos.css">
+        
         <!--Let browser know website is optimized for mobile-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>Cartografía de Artistas</title>
@@ -444,7 +448,7 @@
             </div>
 
             <div class="col s6 offset-s4">
-                <div id="divDesafio" class="blue-text" style="position:fixed; bottom:10%; margin-bottom: 50px; margin-left: 50px;">
+                <div id="divDesafio" class="blue-text" style="position:fixed; bottom:5%; margin-bottom: 50px; margin-left: 50px;">
                     <a id="botonDesafio" style="margin-top: 10px;" class="btn waves-effect red lighten-2 modal-trigger" type="submit" name="action" onclick="obtenerDesafio();" dismissible="true" href='#modal2'>Obtener Desafío
                         <i class="material-icons right">loop</i>
                     </a>

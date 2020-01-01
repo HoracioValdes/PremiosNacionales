@@ -16,6 +16,10 @@
 
         <!--favicon -->
         <link rel="shortcut icon" type="image/x-icon" href="img/icono.ico" />
+        
+        <!-- Hoja propia-->
+        <link rel="STYLESHEET" type="text/css" href="css/estilos.css">
+        
         <!--Let browser know website is optimized for mobile-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>Cartografía de Artistas</title>
@@ -1642,10 +1646,10 @@
 
             function desplegarMenu() {
                 var contenedor = document.getElementById('menu');
-                contenedor.innerHTML += "<div class='row' id='botonInstrucciones'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2 modal-trigger' onclick='' href='instrucciones.jsp' target='_blank'>INSTRUCCIONES<i class='material-icons right'>format_list_numbered</i></button></div>";
-                contenedor.innerHTML += "<div class='row' id='botonOpciones'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2 modal-trigger' onclick='habilitarOpciones()'>OPCIONES<i class='material-icons right'>settings</i></button></div>";
-                contenedor.innerHTML += "<div class='row' id='botonCreditos'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2 modal-trigger' onclick='' href='creditos.jsp' target='_blank'>CREDITOS<i class='material-icons right'>subject</i></button></div>";
-                contenedor.innerHTML += "<div class='row' id='botonJugar'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2 modal-trigger' onclick='habilitarPartida()'>JUGAR<i class='material-icons right'>play_circle_outline</i></button></div>";
+                contenedor.innerHTML += "<div class='row' id='botonInstrucciones'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2 modal-trigger' onclick='' href='instrucciones.jsp' target='_blank'><u>INSTRUCCIONES</u><i class='material-icons right'>format_list_numbered</i></button></div>";
+                contenedor.innerHTML += "<div class='row' id='botonOpciones'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2 modal-trigger' onclick='habilitarOpciones()'><u>OPCIONES</u><i class='material-icons right'>settings</i></button></div>";
+                contenedor.innerHTML += "<div class='row' id='botonCreditos'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2 modal-trigger' onclick='' href='creditos.jsp' target='_blank'><u>CREDITOS</u><i class='material-icons right'>subject</i></button></div>";
+                contenedor.innerHTML += "<div class='row' id='botonJugar'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2 modal-trigger' onclick='habilitarPartida()'><u>JUGAR</u><i class='material-icons right'>play_circle_outline</i></button></div>";
             }
 
             function desplegarMenuNivel() {
