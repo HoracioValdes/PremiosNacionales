@@ -19,9 +19,9 @@ public class Conectar {
     public static Connection getConexion() 
             throws ClassNotFoundException, SQLException{
         //Registro del Driver.
-        Class.forName("com.mysql.jdbc.Driver");
+        Class.forName("com.mysql.cj.jdbc.Driver");
         //Retornar al conexión
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/premios_nacionales", "jugador", "123456");
+        return DriverManager.getConnection("jdbc:mysql://localhost:3306/premios_nacionales?usSSL=false&useTimezone=true&serverTimezone=UTC", "root", "admin");
     }
     
     public void Desconectar(Connection cn){

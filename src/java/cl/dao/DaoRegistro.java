@@ -76,7 +76,7 @@ public class DaoRegistro extends Conectar{
     }
     
     public ArrayList<Sesion> listarSesiones() {
-        ArrayList<Sesion> lstSesiones = new ArrayList();
+        ArrayList<Sesion> lstSesiones = new ArrayList<>();
         Sesion sesion;
         try {
             //Recuperar una conexión.
@@ -109,7 +109,7 @@ public class DaoRegistro extends Conectar{
     }
     
     public ArrayList<Admin> listarAdmins() {
-        ArrayList<Admin> lstAdmins = new ArrayList();
+        ArrayList<Admin> lstAdmins = new ArrayList<>();
         Admin admin;
         try {
             //Recuperar una conexión.

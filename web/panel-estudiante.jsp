@@ -1174,8 +1174,9 @@
                                                                 document.getElementById("enlaces").innerHTML = "";
 
                                                                 for (i = 0; i < arrayDos.length; i++) {
-
-                                                                    var enlace = '<a href="' + arrayDos[i].TEXTO_ENLACE + '" target="_blank">' + arrayDos[i].TEXTO_ENLACE + '</a><br>';
+                                                                    
+                                                                    var numero_enlace = parseInt(i) + parseInt(1);
+                                                                    var enlace = '<a class="waves-effect indigo btn" href="' + arrayDos[i].TEXTO_ENLACE + '" target="_blank" style="margin: 5px;"><i class="material-icons left">insert_link</i>Enlace ' + numero_enlace + '</a><br>';
                                                                     document.getElementById("enlaces").innerHTML += enlace;
                                                                 }
                                                             }

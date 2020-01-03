@@ -114,14 +114,14 @@ public class ControladorJuegoEstudiantes extends HttpServlet {
                 request.getRequestDispatcher("panel-estudiante.jsp").forward(request, response);
 
             } else if (estado_sesion.equalsIgnoreCase("SEGUNDA")) {
-                
+
                 request.setAttribute("estado_sesion", estado_sesion);
                 request.setAttribute("id_sesion", id_sesion);
                 request.setAttribute("numero_equipo", numero_equipo_dos);
                 request.getRequestDispatcher("panel-estudiante.jsp").forward(request, response);
 
             } else if (estado_sesion.equalsIgnoreCase("TERCERA")) {
-                
+
                 request.setAttribute("estado_sesion", estado_sesion);
                 request.setAttribute("id_sesion", id_sesion);
                 request.setAttribute("numero_equipo", numero_equipo_dos);
@@ -162,16 +162,23 @@ public class ControladorJuegoEstudiantes extends HttpServlet {
             String estado_sesion = (request.getParameter("estado_sesion"));
             int nivel_sesion = Integer.parseInt(request.getParameter("nivel_sesion"));
 
-            // Obtener id de desafío
-            int id_desafio = dao.idDesafio(id_sesion);
+            // Contar número de desafíos (el 3, 6 y 9 no tienen cierre y reseteo de dados
+            int numero_desafios = dao.obtenerNumeroDesafios(id_sesion);
 
-            if (id_desafio != 0) {
+            if (numero_desafios != 3 && numero_desafios != 6 && numero_desafios != 9) {
 
-                // Cerrar desafio
-                if (dao.cerrarDesafio(id_desafio) > 0) {
+                // Obtener id de desafío
+                int id_desafio = dao.idDesafio(id_sesion);
 
-                    // Resetear dados
-                    dao.resetearDados(id_sesion);
+                if (id_desafio != 0) {
+
+                    // Cerrar desafio
+                    if (dao.cerrarDesafio(id_desafio) > 0) {
+
+                        // Resetear dados
+                        dao.resetearDados(id_sesion);
+
+                    }
 
                 }
 
@@ -188,7 +195,7 @@ public class ControladorJuegoEstudiantes extends HttpServlet {
             int id_sesion = Integer.parseInt(request.getParameter("id_sesion"));
             String estado_sesion = (request.getParameter("estado_sesion"));
             int numero_equipo_paso = Integer.parseInt(request.getParameter("numero_equipo"));
-            
+
             estado_sesion = dao.obtenerEstadoSesion(id_sesion);
 
             request.setAttribute("estado_sesion", estado_sesion);
@@ -202,7 +209,7 @@ public class ControladorJuegoEstudiantes extends HttpServlet {
             int id_sesion = Integer.parseInt(request.getParameter("id_sesion"));
             String estado_sesion = (request.getParameter("estado_sesion"));
             int nivel_sesion = Integer.parseInt(request.getParameter("nivel_sesion"));
-            
+
             // Obtener id de desafío
             int id_desafio = dao.idDesafio(id_sesion);
 
@@ -256,30 +263,29 @@ public class ControladorJuegoEstudiantes extends HttpServlet {
             request.setAttribute("estado_sesion", estado_sesion);
             request.setAttribute("id_sesion", id_sesion);
             request.getRequestDispatcher("cartografia-profesor.jsp").forward(request, response);
-            
+
         } else if (userPath.equals("/paso-docente-final-juego.do")) {
 
             // Recepción de datos de sesión
             int id_sesion = Integer.parseInt(request.getParameter("id_sesion"));
             String estado_sesion = (request.getParameter("estado_sesion"));
             int nivel_sesion = Integer.parseInt(request.getParameter("nivel_sesion"));
-            
+
             if (estado_sesion.equalsIgnoreCase("TERCERA")) {
                 // Terminar el juego
                 estado_sesion = "CIERRE";
                 dao.actualizarSesion(estado_sesion, id_sesion);
             }
-            
+
             // Eliminar datos
-            
             if (dao.eliminarCalificacion(id_sesion)) {
                 if (dao.eliminarRespuesta(id_sesion)) {
-                    if(dao.eliminarDesafio(id_sesion)) {
-                        if(dao.eliminarNivel(id_sesion)) {
-                            if(dao.eliminarJugar(id_sesion)) {
-                                if(dao.eliminarDados(id_sesion)) {
+                    if (dao.eliminarDesafio(id_sesion)) {
+                        if (dao.eliminarNivel(id_sesion)) {
+                            if (dao.eliminarJugar(id_sesion)) {
+                                if (dao.eliminarDados(id_sesion)) {
                                     // Envío al index
-                                    
+
                                     request.getRequestDispatcher("index.jsp").forward(request, response);
                                 }
                             }

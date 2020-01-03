@@ -1605,7 +1605,8 @@
 
                         for (i = 0; i < arrayDos.length; i++) {
 
-                            var enlace = '<a href="' + arrayDos[i].TEXTO_ENLACE + '" target="_blank">' + arrayDos[i].TEXTO_ENLACE + '</a><br>';
+                            var numero_enlace = parseInt(i) + parseInt(1);
+                            var enlace = '<a class="waves-effect indigo btn" href="' + arrayDos[i].TEXTO_ENLACE + '" target="_blank" style="margin: 5px;"><i class="material-icons left">insert_link</i>Enlace ' + numero_enlace + '</a><br>';
                             document.getElementById("enlaces").innerHTML += enlace;
                         }
                     }
@@ -1646,16 +1647,16 @@
 
             function desplegarMenu() {
                 var contenedor = document.getElementById('menu');
-                contenedor.innerHTML += "<div class='row' id='botonInstrucciones'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2 modal-trigger' onclick='' href='instrucciones.jsp' target='_blank'><u>INSTRUCCIONES</u><i class='material-icons right'>format_list_numbered</i></button></div>";
-                contenedor.innerHTML += "<div class='row' id='botonOpciones'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2 modal-trigger' onclick='habilitarOpciones()'><u>OPCIONES</u><i class='material-icons right'>settings</i></button></div>";
-                contenedor.innerHTML += "<div class='row' id='botonCreditos'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2 modal-trigger' onclick='' href='creditos.jsp' target='_blank'><u>CREDITOS</u><i class='material-icons right'>subject</i></button></div>";
-                contenedor.innerHTML += "<div class='row' id='botonJugar'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2 modal-trigger' onclick='habilitarPartida()'><u>JUGAR</u><i class='material-icons right'>play_circle_outline</i></button></div>";
+                contenedor.innerHTML += "<div class='row' id='botonInstrucciones'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2' href='instrucciones.jsp' target='_blank'><u>INSTRUCCIONES</u><i class='material-icons right'>format_list_numbered</i></button></div>";
+                contenedor.innerHTML += "<div class='row' id='botonOpciones'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2' onclick='habilitarOpciones()'><u>OPCIONES</u><i class='material-icons right'>settings</i></button></div>";
+                contenedor.innerHTML += "<div class='row' id='botonCreditos'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2' href='creditos.jsp' target='_blank'><u>CREDITOS</u><i class='material-icons right'>subject</i></button></div>";
+                contenedor.innerHTML += "<div class='row' id='botonJugar'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2' onclick='habilitarPartida()'><u>JUGAR</u><i class='material-icons right'>play_circle_outline</i></button></div>";
             }
 
             function desplegarMenuNivel() {
                 var contenedor = document.getElementById('menu');
                 contenedor.innerHTML += "<span style='color: white; background-color: #e57373; text-align: rigth; font-size: 200%;'><b>Nivel Actual: " + nivel_sesion + "</b></span><br>";
-                contenedor.innerHTML += "<div class='row' id='botonOpciones'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2 modal-trigger' onclick='habilitarOpcionesNivel()'>OPCIONES<i class='material-icons right'>settings</i></button></div>";
+                contenedor.innerHTML += "<div class='row' id='botonOpciones'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2' onclick='habilitarOpcionesNivel()'>OPCIONES<i class='material-icons right'>settings</i></button></div>";
             }
 
             function cerrar() {
