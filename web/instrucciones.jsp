@@ -92,6 +92,8 @@
                         <li>Al terminar un nivel completo de juego, el o la docente debe presionar el botón Cerrar Nivel. El sistema guardará todos los datos y automáticamente pasará al nivel siguiente.</li>
                         <br>
                         <li>Al terminar los tres niveles de juego, el o la docente debe presionar el botón Cerrar Juego.</li>
+                        <br>
+                        <li><a href="/recursos/Premios nacionales_web.pdf" download="Premios nacionales_web.pdf"><b>Puedes descargar el material educativo complementario clickeando acá.</b></a></li>
                     </ol>
                     <br>
                     <br>
@@ -103,7 +105,7 @@
 
             <footer class="page-footer red lighten-2">
                 <div class="container">
-                    <img src="img/logo-mcap.jpg" class="responsive-img" style="height: 20%; width: 20%;">
+                    <img src="img/monocromo Blanco_MCAP.png" class="responsive-img" style="height: 20%; width: 20%;">
                     <div class="row">
                         <div class="col l6 s12">
                             <h5 class="white-text">Contáctanos</h5>

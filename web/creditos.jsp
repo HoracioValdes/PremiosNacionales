@@ -97,7 +97,7 @@
 
             <footer class="page-footer red lighten-2">
                 <div class="container">
-                    <img src="img/logo-mcap.jpg" class="responsive-img" style="height: 20%; width: 20%;">
+                    <img src="img/monocromo Blanco_MCAP.png" class="responsive-img" style="height: 20%; width: 20%;">
                     <div class="row">
                         <div class="col l6 s12">
                             <h5 class="white-text">Contáctanos</h5>
