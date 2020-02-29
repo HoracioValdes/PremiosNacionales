@@ -30,6 +30,7 @@
 
         <!--Let browser know website is optimized for mobile-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>  
         <script>
             var array = '';
@@ -54,10 +55,10 @@
 
             function agregarBotonSesionRojo(id_sesion) {
                 var contenedor = document.getElementById('sesionesDocentes');
-                contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect indigo modal-trigger' onclick='enviarSesion(" + id_sesion + ")' href='#modal1'>Sesión " + id_sesion + "<i class='material-icons right'>perm_identity</i></button></div>";
+                contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn-flat waves-effect indigo modal-trigger' onclick='enviarSesion(" + id_sesion + ")' href='#modal1'>Sesión " + id_sesion + "<i class='material-icons right'>perm_identity</i></button></div>";
 
                 var contenedorDos = document.getElementById('sesionesEstudiantes');
-                contenedorDos.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect indigo modal-trigger' onclick='enviarSesionDos(" + id_sesion + ")' href='#modal2'>Sesión " + id_sesion + "<i class='material-icons right'>people_outline</i></button></div>";
+                contenedorDos.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn-flat waves-effect indigo modal-trigger' onclick='enviarSesionDos(" + id_sesion + ")' href='#modal2'>Sesión " + id_sesion + "<i class='material-icons right'>people_outline</i></button></div>";
             }
 
 
@@ -164,10 +165,7 @@
             </div>
 
             <div class="row">
-                <div class="col s10 offset-s1">
-                    <div class="center">
-                        <!--<h2 style="color: #1a237e;"><b>Como jugar</b></h2>-->
-                    </div>  
+                <div class="col s10 offset-s1"> 
                     <p style="color: #1a237e;" class="flow-text" align="justify">Bienvenido a la “Cartografía de Artistas”, un juego didáctico sobre los premios nacionales de Literatura, Artes Plásticas, Artes Musicales, y Artes de la Representación y Audiovisuales.</p>
                 </div>
             </div>
@@ -240,7 +238,7 @@
                             </div>
                             <div class="row">
                                 <div class="center" style="position: relative; margin: 10px;">    
-                                    <button style="margin-top: 10px;" class="btn waves-effect red lighten-2" type="submit" name="action" onclick="return validandoRegistro()">Crear
+                                    <button style="margin-top: 10px; color: #fa7d7d" class="btn-flat waves-effect waves-#ccc0a" type="submit" name="action" onclick="return validandoRegistro()">Crear
                                         <i class="material-icons right">send</i>
                                     </button>
                                 </div>  
@@ -269,7 +267,7 @@
                     Presiona el botón refrescar para verificar la sesión que se encuentra disponible.
                 </blockquote>
                 <div class='center'>
-                    <button style="margin-top: 10px; margin-bottom: 10px;" class="btn waves-effect red lighten-2" type="submit" name="action" onclick="refrescar();">Refrescar
+                    <button style="margin-top: 10px; margin-bottom: 10px;" class="btn-flat waves-effect red lighten-2" type="submit" name="action" onclick="refrescar();">Refrescar
                         <i class="material-icons right">autorenew</i>
                     </button>
                 </div>
@@ -296,7 +294,7 @@
                         <input placeholder="Ingrese su clave" id="claveIngreso" type="text" class="validate">
                         <label for="claveIngreso">Clave</label>
                         <div class="row" style="margin-top: 40px;">
-                            <button class="btn waves-effect  red lighten-2" type="submit" name="action" onclick="return validandoIngreso();">Ingresar
+                            <button class="btn-flat waves-effect  red lighten-2" type="submit" name="action" onclick="return validandoIngreso();">Ingresar
                                 <i class="material-icons right">send</i>
                             </button>
                         </div>
@@ -317,7 +315,7 @@
                         <input placeholder="Ingrese la clave de la sesion" id="claveIngresoDos" type="text" class="validate">
                         <label for="claveIngresoDos">Clave</label>
                         <div class="row" style="margin-top: 40px;">
-                            <button class="btn waves-effect  red lighten-2" type="submit" name="action" onclick="return validandoIngresoDos();">Ingresar
+                            <button class="btn-flat waves-effect  red lighten-2" type="submit" name="action" onclick="return validandoIngresoDos();">Ingresar
                                 <i class="material-icons right">send</i>
                             </button>
                         </div>

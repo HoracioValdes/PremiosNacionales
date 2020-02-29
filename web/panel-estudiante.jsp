@@ -16,12 +16,13 @@
 
         <!--favicon -->
         <link rel="shortcut icon" type="image/x-icon" href="img/icono.ico" />
-        
+
         <!-- Hoja propia-->
         <link rel="STYLESHEET" type="text/css" href="css/estilos.css">
-        
+
         <!--Let browser know website is optimized for mobile-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <title>Cartografía de Artistas</title>
     </head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -356,7 +357,8 @@
 
             <nav>
                 <div class="nav-wrapper red lighten-2">
-                    <a href="#" class="brand-logo" style="margin-left: 10px;">Cartografía</a>
+                    <img src="img/logo-mcap.jpg" class="responsive-img" style="height: 100%; margin-left: 5%;">
+                    <a href="index.jsp" class="brand-logo center"><img src="img/LOGO JUEGO.png" style="height: 30%; width: 30%; margin-top: 5px;" class="responsive-img"></a>
                 </div>
             </nav>
 
@@ -467,6 +469,7 @@
             <div id="modal2" class="modal dismissible">
                 <div class="modal-content">
                     <p id="nombreArtista" style="color: #1a237e;">.</p>
+                    <p id="premioArtista" style="color: #1a237e;">.</p>
                     <p id="biografiaArtista" style="color: #1a237e;">.</p>
                     <p style="font-size: 30px; color: #1a237e;"><b>Desafío</b></p>
                     <p id="desafioArtista" style="font-size: 30px; color: #1a237e;">.</p>
@@ -978,15 +981,92 @@
 
                             }
 
+                            function mostrarFalse() {
+                                console.log('Es falso');
+                            }
+
+                            function mostrarTrue() {
+                                console.log('Es verdadero');
+                            }
+
+                            var posicion = 0;
+                            function azar() {
+                                // Escoger Premio al Azar
+                                posicion = Math.floor((Math.random() * (5 - 1)) + 1);
+                            }
+
+                            var lanzarAhora = true;
                             var premio = 0;
                             function cargarDado() {
+
                                 document.getElementById("dadoDos").style.height = "0px";
                                 document.getElementById("botonLanzar").style.height = "0px";
                                 console.log(numero_equipo);
 
+                                // Fijar lanzamiento 
+                                azar();
+                                console.log('Azar: ' + posicion);
+
+                                while (consultarRespuestasPremio()) {
+                                    azar();
+                                }
+
+                                mostrarLanzamientos(posicion);
+
+                            }
+
+                            function consultarRespuestasPremio() {
+                                // Filtro de artistas por NIVEL y PREMIO
+                                var nivel = 0;
+                                var numero_desafios = 0;
+
+                                // Consultar nivel según id de sesión y estado de sesion
+                                console.log(estado_sesion)
+                                console.log(id_sesion);
+
+                                var xmlhttp = new XMLHttpRequest();
+                                var url = 'http://localhost/juego/registroJuego.php/?opcion=46&id_sesion=' + id_sesion + '&estado=' + estado_sesion;
+
+                                xmlhttp.onreadystatechange = function () {
+                                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                                        nivel = JSON.parse(xmlhttp.responseText);
+
+                                        console.log('Nivel: ' + nivel[0].NIVEL);
+
+                                        // Consultar número de artistas del nivel y del premio (no pueden ser más de 7)
+                                        var xmlhttpDos = new XMLHttpRequest();
+                                        var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=47&nivel=' + nivel[0].NIVEL + '&id_premio=' + posicion + '&id_sesion=' + id_sesion;
+
+                                        xmlhttpDos.onreadystatechange = function () {
+                                            if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
+                                                numero_desafios = JSON.parse(xmlhttpDos.responseText);
+
+                                                console.log('Número de desafíos del nivel y del premio: ' + numero_desafios[0].NUMERO_DESAFIO);
+
+                                                // Revisión de condición; menor a 7
+                                                if (numero_desafios[0].NUMERO_DESAFIO < 7) {
+                                                    // Pasar del método
+                                                    console.log('El número de desafíos del premio y del nivel es menor a 7');
+                                                    return false;
+                                                } else {
+                                                    console.log('El número de desafíos del premio y del nivel es mayor o igual a 7');
+                                                    return true;
+                                                }
+                                            }
+                                        }
+                                        xmlhttpDos.open("GET", urlDos, true);
+                                        xmlhttpDos.send();
+                                    }
+                                }
+                                xmlhttp.open("GET", url, true);
+                                xmlhttp.send();
+                            }
+
+                            function mostrarLanzamientos(posicion) {
+
                                 if (numero_equipo == 1 || numero_equipo == 3 || numero_equipo == 5) {
                                     console.log('paso primera condición');
-                                    var posicion = Math.floor((Math.random() * (5 - 1)) + 1);
+
                                     console.log(posicion);
 
                                     if (posicion == 1) {
@@ -1009,7 +1089,9 @@
 
                                     // Carga a la base
                                     insertarPrimerDado(numero_equipo, id_sesion, posicion);
+
                                 } else {
+
                                     console.log('pasó a segunda condición');
                                     numero_equipo_anterior = numero_equipo - 1;
                                     console.log('Equipo anterior: ' + numero_equipo_anterior);
@@ -1038,6 +1120,7 @@
                                     xmlhttp.send();
 
                                 }
+
                             }
 
                             function obtenerLanzamientoAnterior(id_sesion, numero_equipo) {
@@ -1083,26 +1166,92 @@
                                 console.log('obteniendo subtemáticas');
                                 console.log('premio: ' + premio);
 
+                                // Obtención del nivel de la sesion
+                                var nivel = 0;
+
+                                // Consultar nivel según id de sesión y estado de sesion
+                                console.log(estado_sesion)
+                                console.log(id_sesion);
+
                                 var xmlhttp = new XMLHttpRequest();
-                                var url = 'http://localhost/juego/registroJuego.php/?opcion=2&id_premio=' + premio;
+                                var url = 'http://localhost/juego/registroJuego.php/?opcion=46&id_sesion=' + id_sesion + '&estado=' + estado_sesion;
 
                                 xmlhttp.onreadystatechange = function () {
                                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                                        var array = JSON.parse(xmlhttp.responseText);
-                                        //console.log(array);
+                                        nivel = JSON.parse(xmlhttp.responseText);
 
-                                        //Elección aleatoria de subtemática
-                                        var subtematicaAzar = Math.floor((Math.random() * (array.length - 1)) + 1);
-                                        //console.log(subtematicaAzar);
-                                        //console.log(array[subtematicaAzar - 1].DESCRIPCION_SUBTEMATICA);
-                                        subtematica = array[subtematicaAzar - 1].DESCRIPCION_SUBTEMATICA;
-                                        id_subtematica = array[subtematicaAzar - 1].ID_SUBTEMATICA;
-                                        console.log('id_subtematica: ' + id_subtematica);
-                                        console.log('subtematica: ' + subtematica);
-                                        document.getElementById('texto_resultado').innerHTML = 'El dado seleccionó la subtemática ' + subtematica;
-                                        M.toast({html: 'La subtemática seleccionada es ' + subtematica, classes: 'rounded'});
+                                        console.log('Nivel de la sesion: ' + nivel[0].NIVEL);
 
-                                        insertarSegundoDado(numero_equipo, id_sesion, id_subtematica);
+                                        // Obteniendo subtemáticas
+                                        var xmlhttpDos = new XMLHttpRequest();
+                                        var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=2&id_premio=' + premio + '&nivel=' + nivel[0].NIVEL;
+
+                                        xmlhttpDos.onreadystatechange = function () {
+                                            if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
+                                                var array = JSON.parse(xmlhttpDos.responseText);
+
+                                                //Elección aleatoria de subtemática
+                                                var subtematicaAzar = Math.floor((Math.random() * (array.length - 1)) + 1);
+
+                                                subtematica = array[subtematicaAzar - 1].DESCRIPCION_SUBTEMATICA;
+                                                id_subtematica = array[subtematicaAzar - 1].ID_SUBTEMATICA;
+
+                                                //Filtro de subtemática repetida
+                                                var xmlhttpTres = new XMLHttpRequest();
+                                                var urlTres = 'http://localhost/juego/registroJuego.php/?opcion=48&id_subtematica=' + id_subtematica + '&id_sesion=' + id_sesion;
+
+                                                xmlhttpTres.onreadystatechange = function () {
+                                                    if (xmlhttpTres.readyState == 4 && xmlhttpTres.status == 200) {
+                                                        var subs = JSON.parse(xmlhttpTres.responseText);
+
+                                                        if (subs.length > 0) {
+                                                            if (subs[0].DESAFIOS_COINCIDENTES > 0) {
+                                                                var repetir = true;
+
+                                                                while (repetir) {
+
+                                                                    // Nueva selección de índice de subtemática
+                                                                    var subtematicaAzarDos = Math.floor((Math.random() * (array.length - 1)) + 1);
+
+                                                                    if (subtematicaAzar != subtematicaAzarDos) {
+
+                                                                        subtematica = array[subtematicaAzarDos - 1].DESCRIPCION_SUBTEMATICA;
+                                                                        id_subtematica = array[subtematicaAzarDos - 1].ID_SUBTEMATICA;
+
+                                                                        repetir = false;
+
+                                                                    }
+
+                                                                }
+
+                                                                // Cargar la nueva subtemática
+                                                                console.log('id_subtematica: ' + id_subtematica);
+                                                                console.log('subtematica: ' + subtematica);
+                                                                document.getElementById('texto_resultado').innerHTML = 'El dado seleccionó la subtemática ' + subtematica;
+                                                                M.toast({html: 'La subtemática seleccionada es ' + subtematica, classes: 'rounded'});
+
+                                                                insertarSegundoDado(numero_equipo, id_sesion, id_subtematica);
+
+                                                            } else {
+
+                                                                // Cargar todo normal
+                                                                console.log('id_subtematica: ' + id_subtematica);
+                                                                console.log('subtematica: ' + subtematica);
+                                                                document.getElementById('texto_resultado').innerHTML = 'El dado seleccionó la subtemática ' + subtematica;
+                                                                M.toast({html: 'La subtemática seleccionada es ' + subtematica, classes: 'rounded'});
+
+                                                                insertarSegundoDado(numero_equipo, id_sesion, id_subtematica);
+
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                xmlhttpTres.open("GET", urlTres, true);
+                                                xmlhttpTres.send();
+                                            }
+                                        }
+                                        xmlhttpDos.open("GET", urlDos, true);
+                                        xmlhttpDos.send();
                                     }
                                 }
                                 xmlhttp.open("GET", url, true);
@@ -1156,6 +1305,7 @@
                                                                 var array = JSON.parse(xmlhttp.responseText);
 
                                                                 document.getElementById('nombreArtista').innerHTML = array[0].NOMBRE_ARTISTA;
+                                                                document.getElementById('premioArtista').innerHTML = array[0].PREMIO_DE_ARTISTA;
                                                                 document.getElementById('biografiaArtista').innerHTML = array[0].BIOGRAFIA_ARTISTA;
                                                                 document.getElementById('desafioArtista').innerHTML = array[0].DESAFIO;
                                                             }
@@ -1174,7 +1324,7 @@
                                                                 document.getElementById("enlaces").innerHTML = "";
 
                                                                 for (i = 0; i < arrayDos.length; i++) {
-                                                                    
+
                                                                     var numero_enlace = parseInt(i) + parseInt(1);
                                                                     var enlace = '<a class="waves-effect indigo btn" href="' + arrayDos[i].TEXTO_ENLACE + '" target="_blank" style="margin: 5px;"><i class="material-icons left">insert_link</i>Enlace ' + numero_enlace + '</a><br>';
                                                                     document.getElementById("enlaces").innerHTML += enlace;
@@ -1183,7 +1333,7 @@
                                                         }
                                                         xmlhttpDos.open("GET", urlDos, true);
                                                         xmlhttpDos.send();
-                                                        
+
                                                         desafio = true;
 
                                                     } else {

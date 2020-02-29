@@ -16,12 +16,13 @@
 
         <!--favicon -->
         <link rel="shortcut icon" type="image/x-icon" href="img/icono.ico" />
-        
+
         <!-- Hoja propia-->
         <link rel="STYLESHEET" type="text/css" href="css/estilos.css">
-        
+
         <!--Let browser know website is optimized for mobile-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <title>Cartografía de Artistas</title>
     </head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -30,6 +31,8 @@
           -moz-transition:background-position .20s ease-in;  
           -o-transition:background-position .20s ease-in;  
           transition:background-position .20s ease-in; ">
+
+
         <div class="container">
 
             <div class="row">
@@ -45,7 +48,7 @@
 
             <div class="row">
                 <div class="col s10 offset-s1">
-                    
+
                     <div class="center" hidden ="true" id="artistas" style="margin-top: 45px; margin-bottom: 45px;">
 
                     </div>
@@ -151,7 +154,7 @@
 
             <div class="row">
                 <div class="col s10 offset-s1"  id="menuGeneral">
-                    <div class="right" id="menu" style="margin-top: 45px; margin-bottom: 45px; text-align: right; width: 50%;">
+                    <div class="right" id="menu" style="margin-bottom: 45px; text-align: right; width: 50%;">
 
                     </div>
                 </div>
@@ -159,7 +162,7 @@
 
             <div class="row">
                 <div class="col s10 offset-s1" >
-                    <div class="center card-panel" id="menuOpciones" style="margin-top: 45px; margin-bottom: 45px;" hidden="true">
+                    <div class="center card-panel" id="menuOpciones" style="margin-bottom: 45px;" hidden="true">
                         <h4 style="color: #1a237e;">Opciones</h4>
                         <p style="color: #1a237e;"><b>Seleccione el nivel del juego</b></p>
                         <select name="cboNivel" id="nivel" class="browser-default">
@@ -218,6 +221,7 @@
         <div id="modal2" class="modal dismissible">
             <div class="modal-content">
                 <p id="nombreArtista" style="color: #1a237e;">.</p>
+                <p id="premioArtista" style="color: #1a237e;">.</p>
                 <p id="biografiaArtista" style="color: #1a237e;">.</p>
                 <p style="font-size: 30px; color: #1a237e;"><b>Desafío</b></p>
                 <p id="desafioArtista" style="font-size: 30px; color: #1a237e;">.</p>
@@ -256,6 +260,16 @@
 
                 <div class="modal-footer">
                     <a href="#!" onclick="comprobacionValoracion()" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Structure -->
+        <div id="modal4" class="modal dismissible">
+            <div class="modal-content">
+                <img src='img/MAPA_INICIO.png' class="responsive-img">
+                <div class="modal-footer">
+                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
                 </div>
             </div>
         </div>
@@ -919,6 +933,8 @@
                                     if (xmlhttpW.readyState == 4 && xmlhttpW.status == 200) {
                                         var array = JSON.parse(xmlhttpW.responseText);
 
+                                        console.log('Primer dado: ' + array[0].VALOR);
+
                                         // Filtro de carga de la bbdd
                                         if (array.length > 0) {
 
@@ -936,13 +952,15 @@
                                                         var array = JSON.parse(xmlhttpDos.responseText);
                                                         subtematica = array[0].VALOR;
 
+                                                        console.log('Valor del segundo dado: ' + subtematica);
+
                                                         if (array.length > 0 && subtematica > 0) {
 
                                                             document.getElementById("botonLanzar").style.height = "0px";
 
                                                             // Cargando el primer dado (PREMIO)
                                                             cargarMapa(premio);
-                                                            id_subtematica = array[0].VALOR;
+                                                            id_subtematica = subtematica;
 
                                                             // Obteniendo Subtematicas
                                                             obtenerSubtematicas(id_subtematica);
@@ -1472,7 +1490,7 @@
             function obtenerSubtematicas(id_subtematica) {
                 //console.log('obteniendo subtemáticas');
                 //console.log('premio: ' + premio);
-                console.log(id_subtematica);
+                console.log('id de subtematica en obtención de subtemática: ' + id_subtematica);
 
                 var xmlhttp = new XMLHttpRequest();
                 var url = 'http://localhost/juego/registroJuego.php/?opcion=24&id_subtematica=' + id_subtematica;
@@ -1494,8 +1512,6 @@
             }
 
             function obtenerArtistas(id_subtematica) {
-                //console.log('obteniendo artistas');
-                //console.log('id subtematica: ' + id_subtematica);
 
                 // Identificación de desafíos pendientes
                 var xmlhttpX = new XMLHttpRequest();
@@ -1511,53 +1527,76 @@
 
                         } else {
 
-                            // Limpieza de desafíos ya generados en el juego, correspondientes al nivel
-                            var xmlhttpSiete = new XMLHttpRequest();
-                            var url = 'http://localhost/juego/registroJuego.php/?opcion=3&id_subtematica=' + id_subtematica + '&nivel=' + nivel_sesion;
+                            console.log('Id subtemática para obtener listado de artistas: ' + id_subtematica);
 
-                            xmlhttpSiete.onreadystatechange = function () {
-                                if (xmlhttpSiete.readyState == 4 && xmlhttpSiete.status == 200) {
-                                    var artistas_disponibles = JSON.parse(xmlhttpSiete.responseText);
+                            // Obtener nivel cargado en la base de datos
+                            // Consultar nivel según id de sesión y estado de sesion
+                            console.log('Estado de sesión para obtener listado de artistas: ' + estado_sesion);
+                            console.log('Id de sesión para obtener listado de artistas: ' + id_sesion);
 
-                                    if (artistas_disponibles.length > 0) {
+                            var nivel = 0;
+                            var xmlhttp = new XMLHttpRequest();
+                            var url = 'http://localhost/juego/registroJuego.php/?opcion=46&id_sesion=' + id_sesion + '&estado=' + estado_sesion;
 
-                                        var xmlhttpDos = new XMLHttpRequest();
-                                        var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=10&id_sesion=' + id_sesion + '&nivel=' + nivel_sesion;
+                            xmlhttp.onreadystatechange = function () {
+                                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                                    nivel = JSON.parse(xmlhttp.responseText);
 
-                                        xmlhttpDos.onreadystatechange = function () {
-                                            if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
-                                                var arrayPasado = JSON.parse(xmlhttpDos.responseText);
-                                                //console.log(array);
+                                    console.log('Nivel de ciclo para obtener listado de artistas: ' + nivel[0].NIVEL);
 
-                                                if (arrayPasado.length > 0) {
-                                                    for (i = 0; i < arrayPasado.length; i++) {
+                                    // Limpieza de desafíos ya generados en el juego, correspondientes al nivel
+                                    var xmlhttpSiete = new XMLHttpRequest();
+                                    var url = 'http://localhost/juego/registroJuego.php/?opcion=3&id_subtematica=' + id_subtematica + '&nivel=' + nivel[0].NIVEL;
 
-                                                        for (x = 0; x < artistas_disponibles.length; x++) {
+                                    xmlhttpSiete.onreadystatechange = function () {
+                                        if (xmlhttpSiete.readyState == 4 && xmlhttpSiete.status == 200) {
+                                            var artistas_disponibles = JSON.parse(xmlhttpSiete.responseText);
+                                            console.log('Artistas disponibles antes de limpieza de repetidos: ' + artistas_disponibles);
 
-                                                            if (arrayPasado[i].ID_ARTISTA == artistas_disponibles[x].ID_ARTISTA) {
-                                                                console.log('eliminando repetidos!');
-                                                                console.log(artistas_disponibles.length);
-                                                                artistas_disponibles.splice(x, 1);
-                                                                console.log(artistas_disponibles.length);
+                                            if (artistas_disponibles.length > 0) {
+
+                                                var xmlhttpDos = new XMLHttpRequest();
+                                                var urlDos = 'http://localhost/juego/registroJuego.php/?opcion=10&id_sesion=' + id_sesion + '&nivel=' + nivel_sesion;
+
+                                                xmlhttpDos.onreadystatechange = function () {
+                                                    if (xmlhttpDos.readyState == 4 && xmlhttpDos.status == 200) {
+                                                        var arrayPasado = JSON.parse(xmlhttpDos.responseText);
+                                                        //console.log(array);
+
+                                                        if (arrayPasado.length > 0) {
+                                                            for (i = 0; i < arrayPasado.length; i++) {
+
+                                                                for (x = 0; x < artistas_disponibles.length; x++) {
+
+                                                                    if (arrayPasado[i].ID_ARTISTA == artistas_disponibles[x].ID_ARTISTA) {
+                                                                        console.log('eliminando repetidos!');
+                                                                        console.log(artistas_disponibles.length);
+                                                                        artistas_disponibles.splice(x, 1);
+                                                                        console.log(artistas_disponibles.length);
+                                                                    }
+                                                                }
                                                             }
                                                         }
+                                                        for (z = 0; z < artistas_disponibles.length; z++) {
+                                                            agregarBotonArtista(artistas_disponibles[z].ID_ARTISTA, artistas_disponibles[z].NOMBRE_ARTISTA);
+                                                        }
+                                                        document.getElementById("divBotonArtistas").hidden = false;
+                                                        M.toast({html: '¿Cuál artista escogerán?', classes: 'rounded'});
                                                     }
                                                 }
-                                                for (z = 0; z < artistas_disponibles.length; z++) {
-                                                    agregarBotonArtista(artistas_disponibles[z].ID_ARTISTA, artistas_disponibles[z].NOMBRE_ARTISTA);
-                                                }
-                                                document.getElementById("divBotonArtistas").hidden = false;
-                                                M.toast({html: '¿Cuál artista escogerán?', classes: 'rounded'});
+                                                xmlhttpDos.open("GET", urlDos, true);
+                                                xmlhttpDos.send();
                                             }
                                         }
-                                        xmlhttpDos.open("GET", urlDos, true);
-                                        xmlhttpDos.send();
+                                        console.log('Listado de artistas disponibles' + artistas_disponibles);
                                     }
+                                    xmlhttpSiete.open("GET", url, true);
+                                    xmlhttpSiete.send();
+
                                 }
-                                console.log(artistas_disponibles);
                             }
-                            xmlhttpSiete.open("GET", url, true);
-                            xmlhttpSiete.send();
+                            xmlhttp.open("GET", url, true);
+                            xmlhttp.send();
 
                         }
 
@@ -1588,6 +1627,7 @@
                         //console.log(array);
 
                         document.getElementById('nombreArtista').innerHTML = array[0].NOMBRE_ARTISTA;
+                        document.getElementById('premioArtista').innerHTML = array[0].PREMIO_DE_ARTISTA;
                         document.getElementById('biografiaArtista').innerHTML = array[0].BIOGRAFIA_ARTISTA;
                         document.getElementById('desafioArtista').innerHTML = array[0].DESAFIO;
                     }
