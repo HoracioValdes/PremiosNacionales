@@ -101,7 +101,7 @@
                     <div class="row">
                         <div class="col l6 s12">
                             <h5 class="white-text">Contáctanos</h5>
-                            <p class="grey-text text-lighten-4">Envíanos tus sugerencias o comentarios a <a href="mailto:horacio_valdes@hotmail.com" style="color: #ffff00">horacio_valdes@hotmail.com</a></p>
+                            <p class="grey-text text-lighten-4">Envíanos tus sugerencias o comentarios a <a href="mailto:contacto@cartografiadeartistas.gob.cl" style="color: #ffff00">contacto@cartografiadeartistas.gob.cl</a></p>
                         </div>
                     </div>
                 </div>
