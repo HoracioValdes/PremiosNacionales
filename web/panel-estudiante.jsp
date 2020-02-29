@@ -476,7 +476,7 @@
                     <div id="enlaces">
                     </div>
                     <p style="color: #1a237e;"><b>Respuesta de Equipo</b></p>
-                    <textarea style="color: #1a237e;" id="respuesta" class="materialize-textarea" maxlength="1000" placeholder="Escriban acá su respuesta al desafío"></textarea>
+                    <textarea style="color: #1a237e;" id="respuesta" class="materialize-textarea" maxlength="800" placeholder="Escriban acá su respuesta al desafío"></textarea>
                     <div class="row" style="margin-top: 40px;">
                         <button class="btn waves-effect red lighten-2" id="botonRespuesta" type="submit" name="action" onclick="responder()">Responder
                             <i class="material-icons right">send</i>

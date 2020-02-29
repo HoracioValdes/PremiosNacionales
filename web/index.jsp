@@ -153,12 +153,14 @@
                         <a href="index.jsp" class="brand-logo center"><img src="img/LOGO JUEGO.png" style="height: 30%; width: 30%; margin-top: 5px;" class="responsive-img"></a>
                         <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                         <ul class="right hide-on-med-and-down">
-                            <li><a href="index.jsp">Cartografía</a></li>
-                            <li><a href="admin.jsp">Admin</a></li>
+                            <li><a href="index.jsp">Juego</a></li>
+                            <li><a href="instrucciones.jsp">Instrucciones</a></li>
+                            <li><a href="creditos.jsp">Creditos</a></li>
                         </ul>
                         <ul class="sidenav" id="mobile-demo">
-                            <li><a href="index.jsp">Cartografía</a></li>
-                            <li><a href="admin.jsp">Admin</a></li>
+                            <li><a href="index.jsp">Juego</a></li>
+                            <li><a href="instrucciones.jsp">Instrucciones</a></li>
+                            <li><a href="creditos.jsp">Creditos</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -182,7 +184,7 @@
             </div>
 
             <div class="col s12">
-                <h4 class="center-align" style="color: #1a237e;"><b>Crear Sesión/ solo docentes</b></h4>
+                <h4 class="center-align" style="color: #1a237e;"><b>Docentes: Crear Sesión</b></h4>
             </div>
             <div class="col s6 offset-s4">
                 <div class="blue-text center-align">

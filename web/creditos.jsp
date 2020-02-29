@@ -42,6 +42,17 @@
                     <div class="nav-wrapper">
                         <img src="img/logo-mcap.jpg" class="responsive-img" style="height: 100%; margin-left: 5%;">
                         <a href="index.jsp" class="brand-logo center"><img src="img/LOGO JUEGO.png" style="height: 30%; width: 30%; margin-top: 5px;" class="responsive-img"></a>
+                        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                        <ul class="right hide-on-med-and-down">
+                            <li><a href="index.jsp">Juego</a></li>
+                            <li><a href="instrucciones.jsp">Instrucciones</a></li>
+                            <li><a href="creditos.jsp">Creditos</a></li>
+                        </ul>
+                        <ul class="sidenav" id="mobile-demo">
+                            <li><a href="index.jsp">Juego</a></li>
+                            <li><a href="instrucciones.jsp">Instrucciones</a></li>
+                            <li><a href="creditos.jsp">Creditos</a></li>
+                        </ul>
                     </div>
                 </nav>
             </div>
@@ -49,22 +60,35 @@
             <div class="row">
                 <div class="col s10 offset-s1 card-panel z-depth-5">
                     <h4 style="margin: 15px; color: #1a237e;">CRÉDITOS</h4>
+                    <br>
+                    <br>
                     <p style="margin: 15px; color: #1a237e;">Publicación a cargo de</p>                                       
                     <p style="margin: 15px; color: #1a237e;"><b>Beatriz González Fulle (Ministerio de las Culturas)</b></p> 
+                    <br>
                     <p style="margin: 15px; color: #1a237e;">Dirección y producción editorial</p>                                       
                     <p style="margin: 15px; color: #1a237e;"><b>Alejandra Claro Eyzaguirre (Ministerio de las Culturas)</b></p>
+                    <br>
                     <p style="margin: 15px; color: #1a237e;">Desarrollo de propuesta didáctica, guión de interacción y contenidos</p>                                       
                     <p style="margin: 15px; color: #1a237e;"><b>Alex Meza Cárdenas</b></p>
+                    <br>
                     <p style="margin: 15px; color: #1a237e;">Investigación y contenidos biográficos</p>                                       
                     <p style="margin: 15px; color: #1a237e;"><b>Valeska Navea Castro</b></p>    
                     <p style="margin: 15px; color: #1a237e;"><b>Daniela Antivilo Frutos</b></p>    
                     <p style="margin: 15px; color: #1a237e;"><b>Patricio González Ríos</b></p>
+                    <br>
                     <p style="margin: 15px; color: #1a237e;">Desarrollo informático</p>                                       
                     <p style="margin: 15px; color: #1a237e;"><b>Horacio Valdés Galaz</b></p>
+                    <br>
                     <p style="margin: 15px; color: #1a237e;">Edición y corrección de estilo</p>                                       
                     <p style="margin: 15px; color: #1a237e;"><b>Patricio González Ríos</b></p>
+                    <br>
                     <p style="margin: 15px; color: #1a237e;">Diseño y diagramación</p>                                       
-                    <p style="margin: 15px; color: #1a237e;"><b>María de los Ángeles Vargas Torres</b></p>  
+                    <p style="margin: 15px; color: #1a237e;"><b>María de los Ángeles Vargas Torres</b></p> 
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
                 </div>
             </div>
 

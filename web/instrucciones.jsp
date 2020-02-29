@@ -42,6 +42,17 @@
                     <div class="nav-wrapper">
                         <img src="img/logo-mcap.jpg" class="responsive-img" style="height: 100%; margin-left: 5%;">
                         <a href="index.jsp" class="brand-logo center"><img src="img/LOGO JUEGO.png" style="height: 30%; width: 30%; margin-top: 5px;" class="responsive-img"></a>
+                        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                        <ul class="right hide-on-med-and-down">
+                            <li><a href="index.jsp">Juego</a></li>
+                            <li><a href="instrucciones.jsp">Instrucciones</a></li>
+                            <li><a href="creditos.jsp">Creditos</a></li>
+                        </ul>
+                        <ul class="sidenav" id="mobile-demo">
+                            <li><a href="index.jsp">Juego</a></li>
+                            <li><a href="instrucciones.jsp">Instrucciones</a></li>
+                            <li><a href="creditos.jsp">Creditos</a></li>
+                        </ul>
                     </div>
                 </nav>
             </div>
@@ -49,22 +60,40 @@
             <div class="row">
                 <div class="col s10 offset-s1 card-panel z-depth-5">
                     <h4 style="margin: 15px; color: #1a237e;">INSTRUCCIONES</h4>
+                    <br>
+                    <br>
                     <p style="margin: 15px; color: #1a237e;"><b>Cómo jugar paso a paso.</b></p>
+                    <br>
                     <ol style='text-align: justify;text-justify: inter-word; margin: 10px;'>
-                        <li value='1'>Los/as estudiantes deberán contar con un dispositivo conectado a la misma plataforma de juego www.cartografiadeartistas.gob.cl e ingresar la clave creada por el o la docente. El sistema le asignará aleatoriamente un número de grupo.</li>
+                        <li value='1'>Los/as estudiantes deberán contar con un dispositivo conectado a la misma plataforma de juego <b>www.cartografiadeartistas.gob.cl</b> e ingresar la clave creada por el o la docente. El sistema le asignará aleatoriamente un número de grupo.</li>
+                        <br>
                         <li>El equipo que inicia el juego debe presionar el dado animado que se visualiza en la pantalla. Por azar será redirigido aleatoriamente a una de las categorías de los premios nacionales: Artes Plásticas, Artes Musicales, Literatura o Artes de la Representación y Audiovisuales.</li>
+                        <br>
                         <li>Una vez en la categoría asignada, el equipo siguiente deberá presionar el dado en su dispositivo, siendo redirigido aleatoriamente a una subcategoría temática: Sociedad y Política, Medioambiente, Emociones, Género, Arte y Patrimonio, Derechos Humanos, Vida cotidiana, Diversidad cultural y Creatividad.</li>
+                        <br>
                         <li>De los/as artistas disponibles en la subcategoría, se deberá escoger una opción, la que será activada por el o la docente presionando sobre el nombre seleccionado.</li>
+                        <br>
                         <li>Se desplegará una pregunta o desafío vinculado al artista, acompañado de una breve contextualización. Esta pregunta o desafío debe ser resuelta por todos los equipos a la vez, los que tienen que utilizar su dispositivo para escribir las respuestas y luego presionar el botón Enviar.</li>
+                        <br>
                         <li>Una vez enviadas las respuestas, estas podrán visualizarse en la proyección central. Para esto, el o la docente debe presionar el botón Obtener respuesta.</li>
+                        <br>
                         <li>El o la docente debe presionar el botón Evaluar para que cada grupo evalúe con un puntaje a los demás grupos.</li>
+                        <br>
                         <li>Los/as estudiantes podrán visualizar en sus dispositivos una pantalla de evaluación, donde deberán evaluar de 1 a 10 las respuestas de sus compañeros/as. Asimismo, el o la docente debe evaluar cada una de las respuestas.</li>
+                        <br>
                         <li>Realizadas las evaluaciones, el o la docente debe presionar nuevamente el botón Ver resultados de la aplicación. En ese momento, la proyección central mostrará los puntajes de cada grupo.</li>
+                        <br>
                         <li>Al finalizar la evaluación, el o la docente debe presionar el botón Cerrar Desafío. Se reiniciará el juego en la selección aleatoria de categoría (punto 3), dando la alternativa de interactuar al grupo siguiente.</li>
+                        <br>
                         <li>Al terminar un nivel completo de juego, el o la docente debe presionar el botón Cerrar Nivel. El sistema guardará todos los datos y automáticamente pasará al nivel siguiente.</li>
+                        <br>
                         <li>Al terminar los tres niveles de juego, el o la docente debe presionar el botón Cerrar Juego.</li>
                     </ol>
-                    
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
                 </div>
             </div>
 
