@@ -352,6 +352,9 @@
             xmlhttpTres.send();
         }
     </script>
+    <%
+        java.util.Calendar fecha = java.util.Calendar.getInstance();
+    %>
     <body onload="recibirData();" style="background-color: #408077;">
         <div class="container">
 

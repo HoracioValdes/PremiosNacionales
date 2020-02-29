@@ -24,7 +24,7 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <!--Import materialize.css-->
         <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
-        
+
         <!-- Hoja propia-->
         <link rel="STYLESHEET" type="text/css" href="css/estilos.css">
 
@@ -138,6 +138,9 @@
             }
         </script>
     </head>
+    <%
+        java.util.Calendar fecha = java.util.Calendar.getInstance();
+    %>
     <body onload="cargarSesiones();
             recibirData();
             cargarAsignatura();
@@ -340,7 +343,7 @@
                 </div>
                 <div class="footer-copyright">
                     <div class="container">
-                        © 2019 Cartografía de Artistas
+                        © <%=fecha.get(java.util.Calendar.YEAR)%> Cartografía de Artistas
                     </div>
                 </div>
             </footer>
