@@ -358,17 +358,15 @@
     <body onload="recibirData();" style="background-color: #408077;">
         <div class="container">
 
-            <nav>
-                <div class="nav-wrapper red lighten-2">
-                    <img src="img/logo-mcap.jpg" class="responsive-img" style="height: 100%; margin-left: 5%;">
-                    <a href="index.jsp" class="brand-logo center"><img src="img/LOGO JUEGO.png" style="height: 30%; width: 30%; margin-top: 5px;" class="responsive-img"></a>
+            <nav style="height: 230px;">
+                <div class="nav-wrapper teal">
                 </div>
             </nav>
 
             <div class="row">
                 <div class="col s10 offset-s1">
                     <div class="center">
-                        <h2 style="color: #FFFFFF;"><b>Equipo ${requestScope.numero_equipo}</b></h2>
+                        <h4 style="color: #FFFFFF;"><b>Equipo ${requestScope.numero_equipo}</b></h4>
                     </div>  
                 </div>
             </div>
@@ -376,8 +374,8 @@
             <div class="row">
                 <div class="col s10 offset-s1">
                     <div id="eleccionTerritorio" hidden="true;">
-                        <h4 class="center" style="color: #FFFFFF;"><b>Selección de Categoría</b></h4>
-                        <ul class="left collection">
+                        <p class="center" style="color: #FFFFFF;"><b>Selección de Categoría</b></p>
+                        <ol style="text-align: center; color: #FFFFFF;">
                             <li class="collection-item">Premio Nacional de Literatura</li>
                             <li class="collection-item">Premios Nacionales de la Representación y Audiovisuales</li>
                             <li class="collection-item">Premio Nacional de Artes Musicales</li>
@@ -390,7 +388,7 @@
             <div class="row">
                 <div class="col s10 offset-s1">
                     <div class="center" id="eleccionSubcategoria" hidden="true;">
-                        <h4 style="color: #FFFFFF;"><b>Selección de Subcategoría</b></h4>
+                        <p style="color: #FFFFFF;"><b>Selección de Subcategoría</b></p>
                         <p style="color: #FFFFFF;">Las categorías pueden ser Sociedad y política.  Medioambiente, Emociones, Género, Arte y Patrimonio, Derechos Humanos, Vida cotidiana, Diversidad cultural y Creatividad.</p>
                     </div>
                 </div>
@@ -410,7 +408,7 @@
 
             <div class="row">
                 <div class="col s10 offset-s1">
-                    <div class="center" id="dado" style="margin-top: 0px; margin-bottom: 10px;">
+                    <div class="center" id="dado" style="margin-bottom: 10px; text-align: right;">
 
                     </div>
                 </div>

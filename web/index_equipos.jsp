@@ -50,22 +50,20 @@
     <body onload="recibirData();">
         <div class="container">
 
-            <nav>
-                <div class="nav-wrapper red lighten-2">
-                    <img src="img/logo-mcap.jpg" class="responsive-img" style="height: 100%; margin-left: 5%;">
-                    <a href="index.jsp" class="brand-logo center"><img src="img/LOGO JUEGO.png" style="height: 30%; width: 30%; margin-top: 5px;" class="responsive-img"></a>
+            <nav style="height: 230px;">
+                <div class="nav-wrapper teal">
                 </div>
             </nav>
 
             <div class="col s12">
-                <h4 class="center-align" style="color: #1a237e;"><b>Crear Sesión</b></h4>
+                <h4 class="center-align" style="color: #1a237e; margin-top: 50px;"><b>Crear Sesión</b></h4>
             </div>
             <div class="col s6 offset-s4">
                 <div class="blue-text center-align">
                     <p class="flow-text" style="color: #1a237e;"><b>${requestScope.msg}</b></p>
                 </div>
                 <div class="row">
-                    <form class="col s10 offset-s1 card-panel z-depth-5" action="entrar_dos.do" method="post">
+                    <form class="col s10 offset-s1 card-panel z-depth-5" action="entrar_dos.do" method="post" style="margin-bottom: 100px;">
                         <input type="hidden" id="id_sesion_estudiante" name="id_sesion_estudiante"/>
                         <input type="hidden" id="estadoSesion" name="estadoSesion"/>
                         <input type="hidden" id="numeroEquipo" name="numeroEquipo"/>

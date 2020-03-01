@@ -66,3 +66,57 @@ select {
     font-family: roboto, verdana, helvetica;
 }
 
+@media screen and (min-width: 400px) and (max-width: 600px) {
+    div.nav-wrapper.teal {
+        background-image: url(../img/LOGO_JUEGO.png);
+        background-size: 50%;
+        background-attachment: fixed;
+        background-position: center top;
+        background-repeat: no-repeat;
+        margin-top: 10PX;
+    }  
+} 
+
+@media screen and (min-width: 600px) and (max-width: 640px) {
+    div.nav-wrapper.teal {
+        background-image: url(../img/LOGO_JUEGO.png);
+        background-size: 50%;
+        background-attachment: fixed;
+        background-position: center top;
+        background-repeat: no-repeat;
+        margin-top: 10PX;
+    }  
+}
+
+
+@media screen and (min-width: 640px) and (max-width: 700px) {
+    div.nav-wrapper.teal {
+        background-image: url(../img/LOGO_JUEGO.png);
+        background-size: 48%;
+        background-attachment: fixed;
+        background-position: center top;
+        background-repeat: no-repeat;
+        margin-top: 10PX;
+    }  
+}
+
+@media screen and (min-width: 700px) and (max-width: 1050px) {
+    div.nav-wrapper.teal {
+        background-image: url(../img/CABECERA.png);
+        background-size: 85%;
+        background-repeat: no-repeat; 
+        background-attachment: fixed;
+        background-position: center top;
+    }  
+}
+
+@media screen and (min-width: 1050px) {
+    div.nav-wrapper.teal {
+        background-image: url(../img/CABECERA.png);
+        background-size: 56%;
+        background-repeat: no-repeat; 
+        background-attachment: fixed;
+        background-position: center top;
+    }  
+}
+

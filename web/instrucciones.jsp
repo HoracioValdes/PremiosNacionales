@@ -42,12 +42,10 @@
         <div class="container">
             <!-- Caja del menú de navegación -->
             <div class="row">
-                <nav>
-                    <div class="nav-wrapper">
-                        <img src="img/logo-mcap.jpg" class="responsive-img" style="height: 100%; margin-left: 5%;">
-                        <a href="index.jsp" class="brand-logo center"><img src="img/LOGO JUEGO.png" style="height: 30%; width: 30%; margin-top: 5px;" class="responsive-img"></a>
+                <nav style="height: 230px;">
+                    <div class="nav-wrapper teal">
                         <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-                        <ul class="right hide-on-med-and-down">
+                        <ul class="right hide-on-med-and-down" style="margin-top: 15%; margin-right: 10px;">
                             <li><a href="index.jsp">Juego</a></li>
                             <li><a href="instrucciones.jsp">Instrucciones</a></li>
                             <li><a href="creditos.jsp">Creditos</a></li>
@@ -62,7 +60,7 @@
             </div>
 
             <div class="row">
-                <div class="col s10 offset-s1 card-panel z-depth-5">
+                <div class="col s10 offset-s1 card-panel z-depth-5" style="margin-top: 50px; margin-bottom: 100px;">
                     <h4 style="margin: 15px; color: #1a237e;">INSTRUCCIONES</h4>
                     <br>
                     <br>
@@ -93,7 +91,7 @@
                         <br>
                         <li>Al terminar los tres niveles de juego, el o la docente debe presionar el botón Cerrar Juego.</li>
                         <br>
-                        <li><a href="/recursos/Premios nacionales_web.pdf" download="Premios nacionales_web.pdf"><b>Puedes descargar el material educativo complementario clickeando acá.</b></a></li>
+                        <li><a href="recursos/Premios_nacionales_web.pdf" target="_blank"><b>Puedes descargar el material educativo complementario clickeando acá.</b></a></li>
                     </ol>
                     <br>
                     <br>
@@ -103,7 +101,7 @@
                 </div>
             </div>
 
-            <footer class="page-footer red lighten-2">
+            <footer class="page-footer teal">
                 <div class="container">
                     <img src="img/monocromo Blanco_MCAP.png" class="responsive-img" style="height: 20%; width: 20%;">
                     <div class="row">

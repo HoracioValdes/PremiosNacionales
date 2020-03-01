@@ -54,12 +54,10 @@
         <% if (admin != null) {%>
         <!-- Caja del menú de navegación -->
         <div class="row">
-            <nav>
-                <div class="nav-wrapper">
-                    <img src="img/logo-mcap.jpg" class="responsive-img" style="height: 100%; margin-left: 5%;">
-                    <a href="index.jsp" class="brand-logo center"><img src="img/LOGO JUEGO.png" style="height: 30%; width: 30%; margin-top: 5px;" class="responsive-img"></a>
+            <nav style="height: 230px;">
+                <div class="nav-wrapper teal">
                     <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-                    <ul class="right hide-on-med-and-down">
+                    <ul class="right hide-on-med-and-down" style="margin-top: 15%; margin-right: 10px;">
                         <li><a href="cerrar.jsp">Salir</a></li>
                     </ul>
                     <ul class="sidenav" id="mobile-demo">
@@ -70,7 +68,7 @@
         </div>
 
         <div class="row">
-            <div class="card-panel z-depth-5">
+            <div class="card-panel z-depth-5" style="margin-top: 50px; margin-bottom: 100px;">
                 <h4 style="margin: 15px;">Lista de Sesiones Registradas en el Juego</h4>
                 <p style="margin: 15px;">Puede descargar el listado en un documento Excel.</p>
 
@@ -96,7 +94,7 @@
             </div>
         </div>
 
-        <footer class="page-footer red lighten-2">
+        <footer class="page-footer teal">
             <div class="container">
                 <img src="img/monocromo Blanco_MCAP.png" class="responsive-img" style="height: 20%; width: 20%;">
                 <div class="row">

@@ -267,16 +267,6 @@
             </div>
         </div>
 
-        <!-- Modal Structure -->
-        <div id="modal4" class="modal dismissible">
-            <div class="modal-content">
-                <img src='img/MAPA_INICIO.png' class="responsive-img">
-                <div class="modal-footer">
-                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
-                </div>
-            </div>
-        </div>
-
         <!--Import jQuery before materialize.js-->
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="js/materialize.min.js"></script>
