@@ -57,7 +57,7 @@
             <nav style="height: 230px;">
                 <div class="nav-wrapper teal">
                     <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-                    <ul class="right hide-on-med-and-down" style="margin-top: 15%; margin-right: 10px;">
+                    <ul class="right hide-on-med-and-down" style="margin-top: 14%; margin-right: 10px;">
                         <li><a href="cerrar.jsp">Salir</a></li>
                     </ul>
                     <ul class="sidenav" id="mobile-demo">

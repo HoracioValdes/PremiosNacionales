@@ -460,7 +460,7 @@
 
             <div class="col s6 offset-s4">
                 <div class="blue-text center-align" style="position:fixed; bottom:0%; margin-bottom: 50px; margin-left: 50px;">
-                    <a id="botonSalir" style="margin-top: 10px;" class="btn waves-effect red lighten-2" href="index.jsp">Salir
+                    <a id="botonSalir" style="margin-top: 10px;" class="btn waves-effect teal" href="index.jsp">Salir
                         <i class="material-icons right">cancel</i>
                     </a>
                 </div>
@@ -469,23 +469,23 @@
             <!-- Modal Structure -->
             <div id="modal2" class="modal dismissible">
                 <div class="modal-content">
-                    <p id="nombreArtista" style="color: #1a237e;">.</p>
-                    <p id="premioArtista" style="color: #1a237e;">.</p>
-                    <p id="biografiaArtista" style="color: #1a237e;">.</p>
-                    <p style="font-size: 30px; color: #1a237e;"><b>Desafío</b></p>
-                    <p id="desafioArtista" style="font-size: 30px; color: #1a237e;">.</p>
+                    <p id="nombreArtista" style="color: #3b6e80;">.</p>
+                    <p id="premioArtista" style="color: #3b6e80;">.</p>
+                    <p id="biografiaArtista" style="color: #3b6e80;">.</p>
+                    <p style="font-size: 30px; color: #3b6e80;"><b>Desafío</b></p>
+                    <p id="desafioArtista" style="font-size: 30px; color: #3b6e80;">.</p>
                     <div id="enlaces">
                     </div>
-                    <p style="color: #1a237e;"><b>Respuesta de Equipo</b></p>
-                    <textarea style="color: #1a237e;" id="respuesta" class="materialize-textarea" maxlength="800" placeholder="Escriban acá su respuesta al desafío"></textarea>
+                    <p style="color: #3b6e80;"><b>Respuesta de Equipo</b></p>
+                    <textarea style="color: #3b6e80;" id="respuesta" class="materialize-textarea" maxlength="800" placeholder="Escriban acá su respuesta al desafío"></textarea>
                     <div class="row" style="margin-top: 40px;">
-                        <button class="btn waves-effect red lighten-2" id="botonRespuesta" type="submit" name="action" onclick="responder()">Responder
+                        <button class="btn-flat waves-effect waves-#ccc0a" style="color: #fa7d7d;" id="botonRespuesta" type="submit" name="action" onclick="responder()">Responder
                             <i class="material-icons right">send</i>
                         </button>
                     </div>
 
                     <div class="modal-footer">
-                        <a href="#!" onclick="comprobacionRespuesta()" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+                        <a href="#!" onclick="comprobacionRespuesta()" class="modal-close waves-effect waves-#ccc0a btn-flat">Cerrar</a>
                     </div>
                 </div>
             </div>
@@ -496,12 +496,12 @@
 
                     <h4 align="center" id="tituloRespuesta" style="margin-bottom: 30px; color: #1a237e;"></h4>
 
-                    <p id="nombreArtistaDesafio" style="color: #1a237e;">.</p>
+                    <p id="nombreArtistaDesafio" style="color: #3b6e80;">.</p>
                     <!--<p><b>Desafío</b></p>
                     <p id="desafioPregunta">.</p>-->
-                    <p style="color: #1a237e;"><b>Respuesta</b></p>
-                    <p id="respuestaPregunta" style="color: #1a237e;">.</p>
-                    <p style="color: #1a237e;"><b>Calificación</b></p>
+                    <p style="color: #3b6e80;"><b>Respuesta</b></p>
+                    <p id="respuestaPregunta" style="color: #3b6e80;">.</p>
+                    <p style="color: #3b6e80;"><b>Calificación</b></p>
 
                     <form>
                         <input type="hidden" id="id_respuesta">
@@ -511,7 +511,7 @@
                         </p>
 
                         <div class="row" style="margin-top: 40px;">
-                            <a class="btn waves-effect red lighten-2" id="botonCalificacion" onclick="calificar(document.getElementById('id_respuesta').value, document.getElementById('rango').value)">Calificar
+                            <a class="btn-flat waves-effect waves-#ccc0a" style="color: #fa7d7d;" id="botonCalificacion" onclick="calificar(document.getElementById('id_respuesta').value, document.getElementById('rango').value)">Calificar
                                 <i class="material-icons right">send</i>
                             </a>
                         </div>
@@ -1327,7 +1327,7 @@
                                                                 for (i = 0; i < arrayDos.length; i++) {
 
                                                                     var numero_enlace = parseInt(i) + parseInt(1);
-                                                                    var enlace = '<a class="waves-effect indigo btn" href="' + arrayDos[i].TEXTO_ENLACE + '" target="_blank" style="margin: 5px;"><i class="material-icons left">insert_link</i>Enlace ' + numero_enlace + '</a><br>';
+                                                                    var enlace = '<a class="waves-effect  cyan darken-3 btn" href="' + arrayDos[i].TEXTO_ENLACE + '" target="_blank" style="margin: 5px;"><i class="material-icons left">insert_link</i>Enlace ' + numero_enlace + '</a><br>';
                                                                     document.getElementById("enlaces").innerHTML += enlace;
                                                                 }
                                                             }

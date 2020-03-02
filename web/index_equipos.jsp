@@ -56,11 +56,11 @@
             </nav>
 
             <div class="col s12">
-                <h4 class="center-align" style="color: #1a237e; margin-top: 50px;"><b>Crear Sesión</b></h4>
+                <h4 class="center-align" style="color: #3b6e80; margin-top: 50px;">Crear Sesión</h4>
             </div>
             <div class="col s6 offset-s4">
                 <div class="blue-text center-align">
-                    <p class="flow-text" style="color: #1a237e;"><b>${requestScope.msg}</b></p>
+                    <p class="flow-text" style="color: #3b6e80;">${requestScope.msg}</p>
                 </div>
                 <div class="row">
                     <form class="col s10 offset-s1 card-panel z-depth-5" action="entrar_dos.do" method="post" style="margin-bottom: 100px;">
@@ -70,42 +70,42 @@
                         <div class="col s8 offset-s2">
                             <div class="row">
                                 <div class="center" style="position: relative; margin: 10px;">    
-                                    <button style="margin-top: 10px;" class="btn waves-effect red lighten-2" type="submit" name="action" onclick="primero();">Equipo 1
+                                    <button style="margin-top: 10px; color: #fa7d7d;" class="btn-flat waves-effect waves-#ccc0a" type="submit" name="action" onclick="primero();">Equipo 1
                                         <i class="material-icons right">send</i>
                                     </button>
                                 </div>  
                             </div>
                             <div class="row">
                                 <div class="center" style="position: relative; margin: 10px;">    
-                                    <button style="margin-top: 10px;" class="btn waves-effect red lighten-2" type="submit" name="action" onclick="segundo();">Equipo 2
+                                    <button style="margin-top: 10px; color: #fa7d7d;" class="btn-flat waves-effect waves-#ccc0a" type="submit" name="action" onclick="segundo();">Equipo 2
                                         <i class="material-icons right">send</i>
                                     </button>
                                 </div>  
                             </div>
                             <div class="row">
                                 <div class="center" style="position: relative; margin: 10px;">    
-                                    <button style="margin-top: 10px;" class="btn waves-effect red lighten-2" type="submit" name="action" onclick="tercero();">Equipo 3
+                                    <button style="margin-top: 10px; color: #fa7d7d;" class="btn-flat waves-effect waves-#ccc0a" type="submit" name="action" onclick="tercero();">Equipo 3
                                         <i class="material-icons right">send</i>
                                     </button>
                                 </div>  
                             </div>
                             <div class="row">
                                 <div class="center" style="position: relative; margin: 10px;">    
-                                    <button style="margin-top: 10px;" class="btn waves-effect red lighten-2" type="submit" name="action" onclick="cuarto();">Equipo 4
+                                    <button style="margin-top: 10px; color: #fa7d7d;" class="btn-flat waves-effect waves-#ccc0a" type="submit" name="action" onclick="cuarto();">Equipo 4
                                         <i class="material-icons right">send</i>
                                     </button>
                                 </div>  
                             </div>
                             <div class="row">
                                 <div class="center" style="position: relative; margin: 10px;">    
-                                    <button style="margin-top: 10px;" class="btn waves-effect red lighten-2" type="submit" name="action" onclick="quinto();">Equipo 5
+                                    <button style="margin-top: 10px; color: #fa7d7d;" class="btn-flat waves-effect waves-#ccc0a" type="submit" name="action" onclick="quinto();">Equipo 5
                                         <i class="material-icons right">send</i>
                                     </button>
                                 </div>  
                             </div>
                             <div class="row">
                                 <div class="center" style="position: relative; margin: 10px;">    
-                                    <button style="margin-top: 10px;" class="btn waves-effect red lighten-2" type="submit" name="action" onclick="sexto();">Equipo 6
+                                    <button style="margin-top: 10px; color: #fa7d7d;" class="btn-flat waves-effect waves-#ccc0a" type="submit" name="action" onclick="sexto();">Equipo 6
                                         <i class="material-icons right">send</i>
                                     </button>
                                 </div>  

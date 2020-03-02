@@ -39,13 +39,24 @@
         <div class="container">
 
             <div class="row">
-                <div class="col s6 offset-s3 card-panel red lighten-2" id='divSubtematica' hidden ="true"> 
+                <div class="col s6 offset-s3 card-panel red lighten-2" id='divSubtematica' hidden ="true" style="border-radius: 10px;"> 
                     <h5 id="subtematica" align="center" style="color: #ffffff"></h5>
                     <div hidden="true" id="divBotonArtistas" class="right-align" style="margin: 5px;">
-                        <a id="botonArtistas" style="margin-top: 10px" class="btn waves-effect indigo" hidden="true" onclick="ocultarMostrarArtistas()">Ver Artistas
+                        <a id="botonArtistas" style="margin-top: 10px" class="btn waves-effect teal" hidden="true" onclick="ocultarMostrarArtistas()">Ver Artistas
                             <i class="material-icons right">bookmark_border</i>
                         </a>
                     </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="card-panel col s6 offset-s3" hidden="true" id="divResultados" style="margin-bottom: 100px; border-radius: 10px; position: relative;">
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="card-panel col s10 offset-s1" style="border-radius: 10px; position: relative;" hidden="true" id="divCalificaciones">
+
                 </div>
             </div>
 
@@ -75,12 +86,6 @@
                             <i class="material-icons right">check_circle</i>
                         </button>
                     </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="card-panel col s10 offset-s1" style="border-radius: 10px; border: #408077; border-style: solid;" hidden="true" id="divCalificaciones">
-
                 </div>
             </div>
 
@@ -151,11 +156,6 @@
             </div>
 
             <div class="row">
-                <div class="card-panel col s6 offset-s3" hidden="true" id="divResultados" style="margin-bottom: 100px;">
-                </div>
-            </div>
-
-            <div class="row">
                 <div class="col s10 offset-s1"  id="menuGeneral">
                     <div class="right" id="menu" style="margin-bottom: 45px; text-align: right; width: 50%;">
 
@@ -165,16 +165,16 @@
 
             <div class="row">
                 <div class="col s10 offset-s1" >
-                    <div class="center card-panel" id="menuOpciones" style="margin-bottom: 45px;" hidden="true">
-                        <h4 style="color: #1a237e;">Opciones</h4>
-                        <p style="color: #1a237e;"><b>Seleccione el nivel del juego</b></p>
+                    <div class="center card-panel" id="menuOpciones" style="margin-bottom: 45px; border-radius: 10px;" hidden="true">
+                        <h4 style="color: #3b6e80;">Opciones</h4>
+                        <p style="color: #3b6e80;"><b>Seleccione el nivel del juego</b></p>
                         <select name="cboNivel" id="nivel" class="browser-default">
                             <option  value="NULO" disabled selected>SELECCIONE EL NIVEL DEL JUEGO</option>
                             <option  value="1">1</option>
                             <option  value="2">2</option>
                             <option  value="3">3</option>
                         </select>
-                        <button id="botonNivel" style="margin-top: 10px;" class="btn waves-effect red lighten-2" type="submit" name="action" onclick="fijarNivel();">Fijar Nivel
+                        <button id="botonNivel" style="margin-top: 10px; color: #fa7d7d;" class="btn-flat waves-effect waves-#ccc0a" type="submit" name="action" onclick="fijarNivel();">Fijar Nivel
                             <i class="material-icons right">assignment_turned_in</i>
                         </button>
                     </div>
@@ -183,10 +183,10 @@
 
             <div class="row">
                 <div class="col s10 offset-s1" >
-                    <div class="center card-panel" id="menuOpcionesNivel" style="margin-top: 45px; margin-bottom: 300px;" hidden="true">
-                        <h4 style="color: #1a237e;">Opciones</h4>
-                        <p style="color: #1a237e;"><b>Si desea modificar el nivel actual, seleccione una de las siguientes opciones y presiones el botón 'Fijar Nivel'.</b></p>
-                        <p style="color: #1a237e;"><b>Si desea mantener el nivel actual, presione cerrar.</b></p>
+                    <div class="center card-panel" id="menuOpcionesNivel" style="margin-top: 45px; margin-bottom: 300px; border-radius: 10px;" hidden="true">
+                        <h4 style="color: #3b6e80;">Opciones</h4>
+                        <p style="color: #3b6e80;"><b>Si desea modificar el nivel actual, seleccione una de las siguientes opciones y presiones el botón 'Fijar Nivel'.</b></p>
+                        <p style="color: #3b6e80;"><b>Si desea mantener el nivel actual, presione cerrar.</b></p>
                         <select name="cboNivel" id="nivelDos" class="browser-default">
                             <option  value="NULO" disabled selected>SELECCIONE EL NIVEL DEL JUEGO</option>
                             <option  value="1">1</option>
@@ -204,18 +204,13 @@
             </div>
 
             <div class="col s6 offset-s4">
-                <div class="blue-text center-align" style="position:fixed; bottom:10%; margin-bottom: 50px; margin-left: 50px;">
-                    <button id="botonLanzar" style="margin-top: 10px;" class="btn waves-effect red lighten-2" type="submit" name="action" onclick="return obtenerLanzamiento();" disabled="true">Obtener Lanzamientos
-                        <i class="material-icons right">loop</i>
-                    </button>
-                </div>
-            </div>
-
-            <div class="col s6 offset-s4">
                 <div class="blue-text center-align" style="position:fixed; bottom:0%; margin-bottom: 50px; margin-left: 50px;">
-                    <a id="botonSalir" style="margin-top: 10px;" class="btn waves-effect red lighten-2" href="index.jsp">Salir
+                    <a id="botonSalir" style="margin-top: 10px;" class="btn waves-effect teal" href="index.jsp">Salir
                         <i class="material-icons right">cancel</i>
                     </a>
+                    <button id="botonLanzar" style="margin-top: 10px; margin-left: 10px;" class="btn waves-effect red lighten-2" type="submit" name="action" onclick="return obtenerLanzamiento();" disabled="true">Obtener Lanzamientos
+                        <i class="material-icons right">loop</i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -223,11 +218,11 @@
         <!-- Modal Structure -->
         <div id="modal2" class="modal dismissible">
             <div class="modal-content">
-                <p id="nombreArtista" style="color: #1a237e;">.</p>
-                <p id="premioArtista" style="color: #1a237e;">.</p>
-                <p id="biografiaArtista" style="color: #1a237e;">.</p>
-                <p style="font-size: 30px; color: #1a237e;"><b>Desafío</b></p>
-                <p id="desafioArtista" style="font-size: 30px; color: #1a237e;">.</p>
+                <p id="nombreArtista" style="color: #3b6e80;">.</p>
+                <p id="premioArtista" style="color: #3b6e80;">.</p>
+                <p id="biografiaArtista" style="color: #3b6e80;">.</p>
+                <p style="font-size: 30px; color: #3b6e80;"><b>Desafío</b></p>
+                <p id="desafioArtista" style="font-size: 30px; color: #3b6e80;">.</p>
                 <div id="enlaces">
                 </div>
             </div>
@@ -240,12 +235,12 @@
         <div id="modal3" class="modal dismissible">
             <div class="modal-content">
 
-                <h4 align="center" id="tituloRespuesta" style="color: #1a237e;"></h4>
+                <h4 align="center" id="tituloRespuesta" style="color: #3b6e80;"></h4>
 
-                <p id="nombreArtistaDesafio" style="color: #1a237e;">.</p>
-                <p style="color: #1a237e;"><b>Respuesta</b></p>
-                <p id="respuestaPregunta" style="color: #1a237e;">.</p>
-                <p style="color: #1a237e;"><b>Calificación</b></p>
+                <p id="nombreArtistaDesafio" style="color: #3b6e80;">.</p>
+                <p style="color: #3b6e80;"><b>Respuesta</b></p>
+                <p id="respuestaPregunta" style="color: #3b6e80;">.</p>
+                <p style="color: #3b6e80;"><b>Calificación</b></p>
 
                 <form>
                     <input type="hidden" id="id_respuesta">
@@ -255,7 +250,7 @@
                     </p>
 
                     <div class="row" style="margin-top: 40px;">
-                        <a class="btn waves-effect red lighten-2" id="botonCalificacion" onclick="calificar(document.getElementById('id_respuesta').value, document.getElementById('rango').value)">Calificar
+                        <a style="color: #fa7d7d;" class="btn-flat waves-effect waves-#ccc0a" id="botonCalificacion" onclick="calificar(document.getElementById('id_respuesta').value, document.getElementById('rango').value)">Calificar
                             <i class="material-icons right">send</i>
                         </a>
                     </div>
@@ -729,7 +724,7 @@
 
                                                                             contenedor.innerHTML = "";
 
-                                                                            contenedor.innerHTML = "<h4 style='text-align: center; margin-bottom: 50px;'>Califique a los equipos</h4>";
+                                                                            contenedor.innerHTML = "<h4 style='text-align: center; margin-bottom: 50px; color: #3b6e80;'>Califique a los equipos</h4>";
 
                                                                             document.getElementById("divResultados").hidden = false;
 
@@ -738,7 +733,7 @@
                                                                                     <form style='margin-top: 10px; margin-bottom: 10px;'>\n\
                                                                                         <div class='center'>\n\
                                                                                             <input hidden='true' id='equipoEvaluadoForm' value=" + array[i].NUMERO_EQUIPO + ">\n\
-                                                                                            <a style='float: none; text-align: center;' class='waves-effect waves-light btn red lighten-2 modal-trigger' href='#modal3' onclick='cargarRespuesta(" + array[i].NUMERO_EQUIPO + ")'><i class='material-icons right'>add</i>Equipo " + array[i].NUMERO_EQUIPO + "</a>\n\
+                                                                                            <a style='float: none; text-align: center; color: #fa7d7d;' class='waves-effect waves-light btn-flat waves-#ccc0a modal-trigger' href='#modal3' onclick='cargarRespuesta(" + array[i].NUMERO_EQUIPO + ")'><i class='material-icons right'>add</i>Equipo " + array[i].NUMERO_EQUIPO + "</a>\n\
                                                                                         </div>\n\
                                                                                     </form>";
                                                                             }
@@ -1639,7 +1634,7 @@
                         for (i = 0; i < arrayDos.length; i++) {
 
                             var numero_enlace = parseInt(i) + parseInt(1);
-                            var enlace = '<a class="waves-effect indigo btn" href="' + arrayDos[i].TEXTO_ENLACE + '" target="_blank" style="margin: 5px;"><i class="material-icons left">insert_link</i>Enlace ' + numero_enlace + '</a><br>';
+                            var enlace = '<a class="waves-effect  cyan darken-3 btn" href="' + arrayDos[i].TEXTO_ENLACE + '" target="_blank" style="margin: 5px;"><i class="material-icons left">insert_link</i>Enlace ' + numero_enlace + '</a><br>';
                             document.getElementById("enlaces").innerHTML += enlace;
                         }
                     }
@@ -1680,9 +1675,7 @@
 
             function desplegarMenu() {
                 var contenedor = document.getElementById('menu');
-                contenedor.innerHTML += "<div class='row' id='botonInstrucciones'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2' href='instrucciones.jsp' target='_blank'><u>INSTRUCCIONES</u><i class='material-icons right'>format_list_numbered</i></button></div>";
                 contenedor.innerHTML += "<div class='row' id='botonOpciones'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2' onclick='habilitarOpciones()'><u>OPCIONES</u><i class='material-icons right'>settings</i></button></div>";
-                contenedor.innerHTML += "<div class='row' id='botonCreditos'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2' href='creditos.jsp' target='_blank'><u>CREDITOS</u><i class='material-icons right'>subject</i></button></div>";
                 contenedor.innerHTML += "<div class='row' id='botonJugar'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2' onclick='habilitarPartida()'><u>JUGAR</u><i class='material-icons right'>play_circle_outline</i></button></div>";
             }
 
@@ -1743,9 +1736,7 @@
             }
 
             function deshabilitarMenu() {
-                document.getElementById('botonInstrucciones').hidden = true;
                 document.getElementById('botonOpciones').hidden = true;
-                document.getElementById('botonCreditos').hidden = true;
                 document.getElementById('botonJugar').hidden = true;
             }
 
@@ -1754,9 +1745,7 @@
             }
 
             function habilitarMenu() {
-                document.getElementById('botonInstrucciones').hidden = false;
                 document.getElementById('botonOpciones').hidden = false;
-                document.getElementById('botonCreditos').hidden = false;
                 document.getElementById('botonJugar').hidden = false;
             }
 

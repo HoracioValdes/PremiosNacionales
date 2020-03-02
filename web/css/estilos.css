@@ -66,10 +66,10 @@ select {
     font-family: roboto, verdana, helvetica;
 }
 
-@media screen and (min-width: 400px) and (max-width: 600px) {
+@media screen and (min-width: 100px) and (max-width: 600px) {
     div.nav-wrapper.teal {
         background-image: url(../img/LOGO_JUEGO.png);
-        background-size: 50%;
+        background-size: 55%;
         background-attachment: fixed;
         background-position: center top;
         background-repeat: no-repeat;
@@ -119,4 +119,5 @@ select {
         background-position: center top;
     }  
 }
+
 

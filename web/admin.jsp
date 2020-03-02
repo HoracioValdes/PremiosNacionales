@@ -66,7 +66,7 @@
                 <nav style="height: 230px;">
                     <div class="nav-wrapper teal">
                         <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-                        <ul class="right hide-on-med-and-down" style="margin-top: 15%; margin-right: 10px;">
+                        <ul class="right hide-on-med-and-down" style="margin-top: 14%; margin-right: 10px;">
                             <li><a href="index.jsp">Juego</a></li>
                         </ul>
                         <ul class="sidenav" id="mobile-demo">
@@ -82,8 +82,8 @@
 
             <div class="row">
                 <div class="col s10 offset-s1 card-panel z-depth-5" style="margin-top: 50px; margin-bottom: 100px;">
-                    <h4 style="margin: 15px; color: #1a237e;">Datos de ingreso necesarios</h4>
-                    <p style="margin: 15px; color: #1a237e;">Ingrese el nombre de administrador y la contraseña.</p>
+                    <h4 style="margin: 15px; color: #3b6e80;">Datos de ingreso necesarios</h4>
+                    <p style="margin: 15px; color: #3b6e80;">Ingrese el nombre de administrador y la contraseña.</p>
                     <form class="cols10" action="ingreso.do" style="margin: 30px;">
                         <input placeholder="Ingrese el nombre de admin" id="nombreIngreso" name="nombreIngreso" type="text" class="validate">
                         <label for="nombreIngreso">Nombre de Administrador</label>

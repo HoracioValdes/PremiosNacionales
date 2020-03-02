@@ -55,10 +55,10 @@
 
             function agregarBotonSesionRojo(id_sesion) {
                 var contenedor = document.getElementById('sesionesDocentes');
-                contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn-flat waves-effect indigo modal-trigger' onclick='enviarSesion(" + id_sesion + ")' href='#modal1'>Sesión " + id_sesion + "<i class='material-icons right'>perm_identity</i></button></div>";
+                contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto; color: #1a237e;' class='btn-flat waves-effect waves-#ccc0a modal-trigger' onclick='enviarSesion(" + id_sesion + ")' href='#modal1'>Sesión " + id_sesion + "<i class='material-icons right'>perm_identity</i></button></div>";
 
                 var contenedorDos = document.getElementById('sesionesEstudiantes');
-                contenedorDos.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn-flat waves-effect indigo modal-trigger' onclick='enviarSesionDos(" + id_sesion + ")' href='#modal2'>Sesión " + id_sesion + "<i class='material-icons right'>people_outline</i></button></div>";
+                contenedorDos.innerHTML += "<div class='row'><a style='margin: 10px auto; color: #1a237e;' class='btn-flat waves-effect waves-#ccc0a modal-trigger' onclick='enviarSesionDos(" + id_sesion + ")' href='#modal2'>Sesión " + id_sesion + "<i class='material-icons right'>people_outline</i></button></div>";
             }
 
 
@@ -153,7 +153,7 @@
                 <nav style="height: 230px;">
                     <div class="nav-wrapper teal">
                         <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-                        <ul class="right hide-on-med-and-down" style="margin-top: 15%; margin-right: 10px;">
+                        <ul class="right hide-on-med-and-down" style="margin-top: 14%; margin-right: 10px;">
                             <li><a href="index.jsp">Juego</a></li>
                             <li><a href="instrucciones.jsp">Instrucciones</a></li>
                             <li><a href="creditos.jsp">Creditos</a></li>
@@ -169,30 +169,30 @@
 
             <div class="row">
                 <div class="col s10 offset-s1"> 
-                    <p style="color: #1a237e;" class="flow-text" align="justify">Bienvenido a la “Cartografía de Artistas”, un juego didáctico sobre los premios nacionales de Literatura, Artes Plásticas, Artes Musicales, y Artes de la Representación y Audiovisuales.</p>
+                    <p style="color: #3b6e80;" class="flow-text" align="justify">Bienvenido a la “Cartografía de Artistas”, un juego didáctico sobre los premios nacionales de Literatura, Artes Plásticas, Artes Musicales, y Artes de la Representación y Audiovisuales.</p>
                 </div>
             </div>
 
             <div class="center" id="paso_resultado" style="">
-                <a id="botonPasoResultado" style="margin-top: 10px;" class="btn waves-effect red lighten-2" href="#textoDocentes">Ir a sesiones de docentes
+                <a id="botonPasoResultado" style="margin-top: 10px; color: #fa7d7d;" class="btn-flat waves-effect waves-#ccc0a" href="#textoDocentes">Ir a sesiones de docentes
                     <i class="material-icons right">arrow_downward</i>
                 </a>
             </div>
             <div class="center" id="paso_resultado" style="margin-bottom: 100px;">
-                <a id="botonPasoResultado" style="margin-top: 10px;" class="btn waves-effect red lighten-2" href="#textoEstudiantes">Ir a sesiones de estudiantes
+                <a id="botonPasoResultado" style="margin-top: 10px; color: #fa7d7d;" class="btn-flat waves-effect waves-#ccc0a" href="#textoEstudiantes">Ir a sesiones de estudiantes
                     <i class="material-icons right">arrow_downward</i>
                 </a>
             </div>
 
             <div class="col s12">
-                <h4 class="center-align" style="color: #1a237e; margin-bottom: 70px;"><b>Docentes: Crear Sesión</b></h4>
+                <h4 class="center-align" style="color: #3b6e80; margin-bottom: 70px;">Docentes: Crear Sesión</h4>
             </div>
             <div class="col s6 offset-s4">
                 <div class="blue-text center-align">
                     <p class="flow-text" style="color: #1a237e;"><b>${requestScope.msg}</b></p>
                 </div>
                 <div class="row">
-                    <form class="col s10 offset-s1 card-panel z-depth-5" action="registro.do" method="post">
+                    <form class="col s10 offset-s1 card-panel z-depth-5" action="registro.do" method="post" style="color: #fa7d7d;">
                         <div class="col s8 offset-s2" style="margin-top: 50px;">
                             <div class="row" style="margin-top: 15px;">          
                                 <div class="input-field">
@@ -252,7 +252,7 @@
             </div>
 
             <div class="col s12">
-                <h4 class="center-align" style="color: #1a237e; margin-top: 100px; margin-bottom: 70px;" id="textoDocentes"><b>Lista de Sesiones Disponibles de Juego (Docentes)</b></h4>
+                <h4 class="center-align" style="color: #3b6e80; margin-top: 100px; margin-bottom: 70px;" id="textoDocentes">Lista de Sesiones Disponibles de Juego (Docentes)</h4>
             </div>
             <div class="col s6 offset-s4">
                 <div class="row">
@@ -265,12 +265,12 @@
             </div>
 
             <div class="col s12">
-                <h4 class="center-align" style="color: #1a237e; margin-top: 100px;" id="textoEstudiantes"><b>Lista de Sesiones Disponibles de Juego (Estudiantes)</b></h4>
-                <p style="color: #1a237e; text-align: center;">
+                <h4 class="center-align" style="color: #3b6e80; margin-top: 100px;" id="textoEstudiantes">Lista de Sesiones Disponibles de Juego (Estudiantes)</h4>
+                <p style="color: #3b6e80; text-align: center;">
                     Presiona el botón refrescar para verificar la sesión que se encuentra disponible.
                 </p>
                 <div class='center'>
-                    <button style="margin-top: 10px; margin-bottom: 70px;" class="btn-flat waves-effect red lighten-2" type="submit" name="action" onclick="refrescar();">Refrescar
+                    <button style="margin-top: 10px; color: #fa7d7d; margin-bottom: 70px;" class="btn-flat waves-effect waves-#ccc0a" type="submit" name="action" onclick="refrescar();">Refrescar
                         <i class="material-icons right">autorenew</i>
                     </button>
                 </div>
@@ -297,14 +297,14 @@
                         <input placeholder="Ingrese su clave" id="claveIngreso" type="text" class="validate">
                         <label for="claveIngreso">Clave</label>
                         <div class="row" style="margin-top: 40px;">
-                            <button class="btn-flat waves-effect  red lighten-2" type="submit" name="action" onclick="return validandoIngreso();">Ingresar
+                            <button style="color: #fa7d7d;" class="btn-flat waves-effect  waves-#ccc0a" type="submit" name="action" onclick="return validandoIngreso();">Ingresar
                                 <i class="material-icons right">send</i>
                             </button>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+                    <a href="#!" style="color:  #fa7d7d;" class="modal-close waves-#ccc0a btn-flat">Cerrar</a>
                 </div>
             </div>
 
@@ -318,14 +318,14 @@
                         <input placeholder="Ingrese la clave de la sesion" id="claveIngresoDos" type="text" class="validate">
                         <label for="claveIngresoDos">Clave</label>
                         <div class="row" style="margin-top: 40px;">
-                            <button class="btn-flat waves-effect  red lighten-2" type="submit" name="action" onclick="return validandoIngresoDos();">Ingresar
+                            <button style="color: #fa7d7d" class="btn-flat waves-effect  waves-#ccc0a" type="submit" name="action" onclick="return validandoIngresoDos();">Ingresar
                                 <i class="material-icons right">send</i>
                             </button>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+                    <a href="#!" style="color:  #fa7d7d;" class="modal-close waves-effect waves-#ccc0a btn-flat">Cerrar</a>
                 </div>
             </div>
 
@@ -544,10 +544,10 @@
 
             function agregarBotonSesionAzul(id_sesion) {
                 var contenedor = document.getElementById('sesionesDocentes');
-                contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2 modal-trigger' onclick='enviarSesion(" + id_sesion + ")' href='#modal1'>Sesión " + id_sesion + "<i class='material-icons right'>perm_identity</i></button></div>";
+                contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto;  color: #fa7d7d;' class='btn-flat waves-effect waves-#ccc0a modal-trigger' onclick='enviarSesion(" + id_sesion + ")' href='#modal1'>Sesión " + id_sesion + "<i class='material-icons right'>perm_identity</i></button></div>";
 
                 var contenedorDos = document.getElementById('sesionesEstudiantes');
-                contenedorDos.innerHTML += "<div class='row'><a style='margin: 10px auto;' class='btn waves-effect red lighten-2 modal-trigger' onclick='enviarSesionDos(" + id_sesion + ")' href='#modal2'>Sesión " + id_sesion + "<i class='material-icons right'>people_outline</i></button></div>";
+                contenedorDos.innerHTML += "<div class='row'><a style='margin: 10px auto;  color: #fa7d7d;' class='btn-flat waves-effect waves-#ccc0a modal-trigger' onclick='enviarSesionDos(" + id_sesion + ")' href='#modal2'>Sesión " + id_sesion + "<i class='material-icons right'>people_outline</i></button></div>";
             }
 
             function agregarAsignaturas(id_asignatura, descripcion) {
