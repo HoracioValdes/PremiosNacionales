@@ -55,10 +55,10 @@
 
             function agregarBotonSesionRojo(id_sesion) {
                 var contenedor = document.getElementById('sesionesDocentes');
-                contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto; color: #1a237e;' class='btn-flat waves-effect waves-#ccc0a modal-trigger' onclick='enviarSesion(" + id_sesion + ")' href='#modal1'>Sesión " + id_sesion + "<i class='material-icons right'>perm_identity</i></button></div>";
+                contenedor.innerHTML += "<div class='row'><a style='margin: 10px auto; color: #3b6e80;' class='btn-flat waves-effect waves-#ccc0a modal-trigger' onclick='enviarSesion(" + id_sesion + ")' href='#modal1'>Sesión " + id_sesion + "<i class='material-icons right'>perm_identity</i></button></div>";
 
                 var contenedorDos = document.getElementById('sesionesEstudiantes');
-                contenedorDos.innerHTML += "<div class='row'><a style='margin: 10px auto; color: #1a237e;' class='btn-flat waves-effect waves-#ccc0a modal-trigger' onclick='enviarSesionDos(" + id_sesion + ")' href='#modal2'>Sesión " + id_sesion + "<i class='material-icons right'>people_outline</i></button></div>";
+                contenedorDos.innerHTML += "<div class='row'><a style='margin: 10px auto; color: #3b6e80;' class='btn-flat waves-effect waves-#ccc0a modal-trigger' onclick='enviarSesionDos(" + id_sesion + ")' href='#modal2'>Sesión " + id_sesion + "<i class='material-icons right'>people_outline</i></button></div>";
             }
 
 
@@ -156,12 +156,12 @@
                         <ul class="right hide-on-med-and-down" style="margin-top: 14%; margin-right: 10px;">
                             <li><a href="index.jsp">Juego</a></li>
                             <li><a href="instrucciones.jsp">Instrucciones</a></li>
-                            <li><a href="creditos.jsp">Creditos</a></li>
+                            <li><a href="informacion.jsp">Información</a></li>
                         </ul>
                         <ul class="sidenav" id="mobile-demo">
                             <li><a href="index.jsp">Juego</a></li>
                             <li><a href="instrucciones.jsp">Instrucciones</a></li>
-                            <li><a href="creditos.jsp">Creditos</a></li>
+                            <li><a href="informacion.jsp">Información</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -174,12 +174,12 @@
             </div>
 
             <div class="center" id="paso_resultado" style="">
-                <a id="botonPasoResultado" style="margin-top: 10px; color: #fa7d7d;" class="btn-flat waves-effect waves-#ccc0a" href="#textoDocentes">Ir a sesiones de docentes
+                <a id="botonPasoResultado" style="margin-top: 10px; color: #fa7d7d;" class="btn-flat waves-effect waves-#ccc0a" href="#textoDocentes"><b>Ir a sesiones de docentes</b>
                     <i class="material-icons right">arrow_downward</i>
                 </a>
             </div>
             <div class="center" id="paso_resultado" style="margin-bottom: 100px;">
-                <a id="botonPasoResultado" style="margin-top: 10px; color: #fa7d7d;" class="btn-flat waves-effect waves-#ccc0a" href="#textoEstudiantes">Ir a sesiones de estudiantes
+                <a id="botonPasoResultado" style="margin-top: 10px; color: #fa7d7d;" class="btn-flat waves-effect waves-#ccc0a" href="#textoEstudiantes"><b>Ir a sesiones de estudiantes</b>
                     <i class="material-icons right">arrow_downward</i>
                 </a>
             </div>
@@ -189,27 +189,28 @@
             </div>
             <div class="col s6 offset-s4">
                 <div class="blue-text center-align">
-                    <p class="flow-text" style="color: #1a237e;"><b>${requestScope.msg}</b></p>
+                    <p class="flow-text" style="color: #3b6e80;"><b>${requestScope.msg}</b></p>
                 </div>
                 <div class="row">
                     <form class="col s10 offset-s1 card-panel z-depth-5" action="registro.do" method="post" style="color: #fa7d7d;">
                         <div class="col s8 offset-s2" style="margin-top: 50px;">
-                            <div class="row" style="margin-top: 15px;">          
+                            <p style="margin-left: 33px; font-size: 13px;"><b>Nombre</b></p>
+                            <div class="row" style="margin-top: 15px;">
                                 <div class="input-field">
                                     <i class="material-icons prefix">assignment_ind</i>
                                     <input id="nombre" type="text" class="validate" maxlength="200" placeholder="Ingrese su nombre"
                                            name="txtNombre"/>
-                                    <label for="nombre">Nombre</label>
                                 </div>  
                             </div>
+                            <p style="margin-left: 33px; font-size: 13px;"><b>Correo</b></p>
                             <div class="row" style="margin-top: 15px;">          
                                 <div class="input-field">
                                     <i class="material-icons prefix">contact_mail</i>
                                     <input id="mail" type="text" class="validate" maxlength="200" placeholder="Ingrese un correo de contacto"
                                            name="txtCorreo"/>
-                                    <label for="mail">Correo</label>
                                 </div>  
                             </div>
+                            <p style="margin-left: 33px; font-size: 13px;"><b>Asignatura</b></p>
                             <div class="row" style="margin-top: 15px; margin-bottom: 15px;">
                                 <div class="input-field col s12">
                                     <select name="cboAsignatura" id="asignatura" class="browser-default">
@@ -217,14 +218,15 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="row" style="margin-top: 50px;">          
+                            <p style="margin-left: 33px; font-size: 13px;"><b>Institución</b></p>
+                            <div class="row" style="margin-top: 15px;">          
                                 <div class="input-field">
                                     <i class="material-icons prefix">account_balance</i>
                                     <input id="institucion" type="text" class="validate" maxlength="500" placeholder="Ingrese el nombre de la institución donde trabaja"
                                            name="txtInstitucion"/>
-                                    <label for="institucion">Institución</label>
                                 </div>  
                             </div>
+                            <p style="margin-left: 33px; font-size: 13px;"><b>Comuna</b></p>
                             <div class="row" style="margin-top: 15px; margin-bottom: 15px;">
                                 <div class="input-field col s12">
                                     <select name="cboComuna" id="comuna" class="browser-default">
@@ -232,11 +234,11 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="row" style="margin-top: 50px;">
+                            <p style="margin-left: 33px; font-size: 13px;"><b>Clave</b></p>
+                            <div class="row" style="margin-top: 15px;">
                                 <div class="input-field">
                                     <i class="material-icons prefix">lock_outline</i>
                                     <input id="clave" type="text" class="validate" maxlength="50" placeholder="Ingrese una clave para abrir a la sesión" name="txtClave"/>
-                                    <label for="clave">Clave</label>
                                 </div>
                             </div>
                             <div class="row">
@@ -270,7 +272,7 @@
                     Presiona el botón refrescar para verificar la sesión que se encuentra disponible.
                 </p>
                 <div class='center'>
-                    <button style="margin-top: 10px; color: #fa7d7d; margin-bottom: 70px;" class="btn-flat waves-effect waves-#ccc0a" type="submit" name="action" onclick="refrescar();">Refrescar
+                    <button style="margin-top: 10px; color: #fa7d7d; margin-bottom: 70px;" class="btn-flat waves-effect waves-#ccc0a" type="submit" name="action" onclick="refrescar();"><b>Refrescar</b>
                         <i class="material-icons right">autorenew</i>
                     </button>
                 </div>
@@ -288,8 +290,8 @@
             <!-- Modal Structure -->
             <div id="modal1" class="modal dismissible">
                 <div class="modal-content">
-                    <h4 style="color: #1a237e;">Datos de ingreso necesarios</h4>
-                    <p style="color: #1a237e;">Ingrese su correo y la contraseña.</p>
+                    <h4 style="color: #3b6e80;">Datos de ingreso necesarios</h4>
+                    <p style="color: #3b6e80;">Ingrese su correo y la contraseña.</p>
                     <form class="cols10" action="entrar_profesor.do">
                         <input type="hidden" id="id_sesion_profesor" name="id_sesion_profesor"/> 
                         <input placeholder="Ingrese su correo" id="correoIngreso" type="text" class="validate">
@@ -311,8 +313,8 @@
             <!-- Modal Structure -->
             <div id="modal2" class="modal dismissible">
                 <div class="modal-content">
-                    <h4 style="color: #1a237e;">Datos de ingreso necesarios</h4>
-                    <p style="color: #1a237e;">Ingrese la contraseña de la sesión.</p>
+                    <h4 style="color: #3b6e80;">Datos de ingreso necesarios</h4>
+                    <p style="color: #3b6e80;">Ingrese la contraseña de la sesión.</p>
                     <form class="cols10" action="entrar.do">
                         <input type="hidden" id="id_sesion_estudiante" name="id_sesion_estudiante"/> 
                         <input placeholder="Ingrese la clave de la sesion" id="claveIngresoDos" type="text" class="validate">
@@ -331,11 +333,18 @@
 
             <footer class="page-footer teal">
                 <div class="container">
-                    <img src="img/monocromo Blanco_MCAP.png" class="responsive-img" style="height: 20%; width: 20%;">
+                    <img src="img/LOGO_MINCAP.png" class="responsive-img" style="height: 20%; width: 20%;">
                     <div class="row">
-                        <div class="col l6 s12">
-                            <h5 class="white-text">Contáctanos</h5>
-                            <p class="grey-text text-lighten-4">Envíanos tus sugerencias o comentarios a <a href="mailto:contacto@cartografiadeartistas.gob.cl" style="color: #ffff00">contacto@cartografiadeartistas.gob.cl</a></p>
+                        <div>
+                            <br/>
+                            <h5 class="white-text">Créditos</h5>
+                            <p class="grey-text text-lighten-4"><b>© Ministerio de las Culturas, las Artes y el Patrimonio</b></p>
+                            <p class="grey-text text-lighten-4"><b>Dirección y coordinación del proyecto:</b> Alejandra Claro Eyzaguirre</p>
+                            <p class="grey-text text-lighten-4"><b>Desarrollo de propuesta didáctica, guion de interacción y contenidos:</b> Alex Meza Cárdenas</p>
+                            <p class="grey-text text-lighten-4"><b>Edición de textos y apoyo al desarrollo de contenidos:</b> Patricio González Ríos</p>
+                            <p class="grey-text text-lighten-4"><b>Desarrollo informático:</b> Horacio Valdés Galaz</p>
+                            <p class="grey-text text-lighten-4"><b>Diseño gráfico:</b> María de los Ángeles Vargas Torres</p>
+                            <br/>
                         </div>
                     </div>
                 </div>
@@ -570,10 +579,10 @@
 
             function noHaySesiones() {
                 var contenedor = document.getElementById('sesionesDocentes');
-                contenedor.innerHTML = "<p style='color: #1a237e;'><b>Aún no se han creado sesiones</b></p>";
+                contenedor.innerHTML = "<p style='color: #3b6e80;'><b>Aún no se han creado sesiones</b></p>";
 
                 var contenedorDos = document.getElementById('sesionesEstudiantes');
-                contenedorDos.innerHTML = "<p style='color: #1a237e;'><b>Aún no se han creado sesiones</b></p>";
+                contenedorDos.innerHTML = "<p style='color: #3b6e80;'><b>Aún no se han creado sesiones</b></p>";
             }
 
             function noHayAsignaturas() {

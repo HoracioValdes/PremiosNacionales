@@ -36,7 +36,6 @@
         java.util.Calendar fecha = java.util.Calendar.getInstance();
     %>
     <body>
-
         <script type="text/javascript" src="js/materialize.min.js"></script>
 
         <div class="container">
@@ -61,38 +60,16 @@
 
             <div class="row">
                 <div class="col s10 offset-s1 card-panel z-depth-5" style="margin-top: 50px; margin-bottom: 100px;">
-                    <h4 style="margin: 15px; color: #3b6e80;">INSTRUCCIONES</h4>
+                    <h4 style="margin: 15px; color: #3b6e80;">INFORMACIÓN</h4>
                     <br>
                     <br>
-                    <p style="margin: 15px; color: #3b6e80;"><b>Cómo jugar paso a paso.</b></p>
-                    <br>
-                    <ol style='text-align: justify;text-justify: inter-word; margin: 10px;'>
-                        <li value='1' style="color: #3b6e80;">Los/as estudiantes deberán contar con un dispositivo conectado a la misma plataforma de juego <b>www.cartografiadeartistas.gob.cl</b> e ingresar la clave creada por el o la docente. El sistema le asignará aleatoriamente un número de grupo.</li>
-                        <br>
-                        <li style="color: #3b6e80;">El equipo que inicia el juego debe presionar el dado animado que se visualiza en la pantalla. Por azar será redirigido aleatoriamente a una de las categorías de los premios nacionales: Artes Plásticas, Artes Musicales, Literatura o Artes de la Representación y Audiovisuales.</li>
-                        <br>
-                        <li style="color: #3b6e80;">Una vez en la categoría asignada, el equipo siguiente deberá presionar el dado en su dispositivo, siendo redirigido aleatoriamente a una subcategoría temática: Sociedad y Política, Medioambiente, Emociones, Género, Arte y Patrimonio, Derechos Humanos, Vida cotidiana, Diversidad cultural y Creatividad.</li>
-                        <br>
-                        <li style="color: #3b6e80;">De los/as artistas disponibles en la subcategoría, se deberá escoger una opción, la que será activada por el o la docente presionando sobre el nombre seleccionado.</li>
-                        <br>
-                        <li style="color: #3b6e80;">Se desplegará una pregunta o desafío vinculado al artista, acompañado de una breve contextualización. Esta pregunta o desafío debe ser resuelta por todos los equipos a la vez, los que tienen que utilizar su dispositivo para escribir las respuestas y luego presionar el botón Enviar.</li>
-                        <br>
-                        <li style="color: #3b6e80;">Una vez enviadas las respuestas, estas podrán visualizarse en la proyección central. Para esto, el o la docente debe presionar el botón Obtener respuesta.</li>
-                        <br>
-                        <li style="color: #3b6e80;">El o la docente debe presionar el botón Evaluar para que cada grupo evalúe con un puntaje a los demás grupos.</li>
-                        <br>
-                        <li style="color: #3b6e80;">Los/as estudiantes podrán visualizar en sus dispositivos una pantalla de evaluación, donde deberán evaluar de 1 a 10 las respuestas de sus compañeros/as. Asimismo, el o la docente debe evaluar cada una de las respuestas.</li>
-                        <br>
-                        <li style="color: #3b6e80;">Realizadas las evaluaciones, el o la docente debe presionar nuevamente el botón Ver resultados de la aplicación. En ese momento, la proyección central mostrará los puntajes de cada grupo.</li>
-                        <br>
-                        <li style="color: #3b6e80;">Al finalizar la evaluación, el o la docente debe presionar el botón Cerrar Desafío. Se reiniciará el juego en la selección aleatoria de categoría (punto 3), dando la alternativa de interactuar al grupo siguiente.</li>
-                        <br>
-                        <li style="color: #3b6e80;">Al terminar un nivel completo de juego, el o la docente debe presionar el botón Cerrar Nivel. El sistema guardará todos los datos y automáticamente pasará al nivel siguiente.</li>
-                        <br>
-                        <li style="color: #3b6e80;">Al terminar los tres niveles de juego, el o la docente debe presionar el botón Cerrar Juego.</li>
-                        <br>
-                        <li style="color: #3b6e80;"><a href="recursos/Premios_nacionales_web.pdf" target="_blank"><b>Puedes descargar el material educativo complementario clickeando acá.</b></a></li>
-                    </ol>
+                    <p style="margin: 15px; color: #3b6e80; text-align: justify;">Cartografía de artistas es un juego didáctico elaborado a partir de información sobre los premios nacionales de Literatura, Artes Plásticas, Artes Musicales, y Artes de la Representación y Audiovisuales. Fue diseñado para ser usado con un grupo-curso en sesiones consecutivas y consiste en responder colectivamente preguntas abiertas que abordan aspectos socioculturales vinculados con la obra de los/as artistas representados/as. El juego avanza a medida que los/as estudiantes responden las preguntas, cuyas respuestas son coevaluadas por todo el curso y por el o la docente a cargo.</p>
+                    <p style="margin: 15px; color: #3b6e80; text-align: justify;">El juego opera sobre la base de una gráfica digital interactiva que es posible recorrer de acuerdo con una programación que combina el azar, la selección y la interacción. Este "tablero" digital permite el acceso a preguntas en torno a los/as 136 artistas de las cuatro disciplinas premiadas. Estas preguntas han sido clasificadas por categorías que permiten abordar distintas áreas de interés cultural: sociedad y política, medioambiente, emociones, género, arte y patrimonio, derechos humanos, vida cotidiana, diversidad cultural y creatividad.</p>
+                    <p style="margin: 15px; color: #3b6e80; text-align: justify;">El recurso está diseñado para que el o la docente genere una sesión de juego grupal que permite la interacción de todo el curso, organizado en grupos. Cada sesión, con un código único, es activada con una clave asignada por el o la docente, que permite dar acceso a todos/as los/as jugadores/as y mantener un juego único, con su propio historial de avance.</p>
+                    <p style="margin: 15px; color: #3b6e80; text-align: justify;">La administración de cada juego es llevada por el o la docente mediante el uso de un computador estacionario, conectado a internet y a un sistema de proyección, que permita la visualización y el acceso por parte de todos/as los/as participantes a la información que ofrece el juego. Por su parte, los/as estudiantes pueden interactuar grupalmente mediante el uso de un tablet, smartphone o un computador.</p>
+                    <p style="margin: 15px; color: #3b6e80; text-align: justify;">El juego ha sido diseñando para la interacción conjunta de seis grupos como máximo, los cuales, siguiendo los desafíos planteados en las preguntas desplegadas en el recurso, podrán formular y organizar sus respuestas, las que serán coevaluadas por su carácter original, su consistencia, su carga de humor, su aporte valórico u otro pará- metro propuesto de manera consensuada entre los/as estudiantes y el o la docente. La coevaluación corresponde a un puntaje acumulativo, que al final de cada sesión arrojará los resultados sobre la posición de los grupos. Cabe destacar que el proceso de coevaluación es netamente cualitativo y solo busca dinamizar de forma lúdica el avance en el proceso del juego. En este sentido, el grupo ganador es la expresión de un proceso participativo, cuyo valor mayor está en las discusiones previas que establecen los/as estudiantes antes de compartir sus respuestas.</p>
+                    <p style="margin: 15px; color: #3b6e80; text-align: justify;">El juego propone niveles de complejidad en el tipo de pregunta o desafío. Por defecto, el juego se inicia en el Nivel 1 y avanza a medida que se superan las etapas; sin embargo, el o la docente puede determinar este avance, decidiendo mantener, adelantar o postergar cada nivel.</p>
+                    <p style="margin: 15px; color: #3b6e80; text-align: justify;">Este recurso didáctico se propone como complemento al desarrollo de las clases de Artes Visuales, Música, Lenguaje y Comunicación e Historia, Geografía y Ciencias Sociales, correspondientes a los niveles de entre 7° básico y 2° medio (ver cruces curriculares), a la vez que constituye una posibilidad de uso del tiempo académico libre para la vinculación con contenidos de arte y literatura.</p>
                     <br>
                     <br>
                     <br>

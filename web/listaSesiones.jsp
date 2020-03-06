@@ -96,11 +96,18 @@
 
         <footer class="page-footer teal">
             <div class="container">
-                <img src="img/monocromo Blanco_MCAP.png" class="responsive-img" style="height: 20%; width: 20%;">
+                <img src="img/LOGO_MINCAP.png" class="responsive-img" style="height: 20%; width: 20%;">
                 <div class="row">
-                    <div class="col l6 s12">
-                        <h5 class="white-text">Contáctanos</h5>
-                        <p class="grey-text text-lighten-4">Envíanos tus sugerencias o comentarios a <a href="mailto:contacto@cartografiadeartistas.gob.cl" style="color: #ffff00">contacto@cartografiadeartistas.gob.cl</a></p>
+                    <div>
+                        <br/>
+                        <h5 class="white-text">Créditos</h5>
+                        <p class="grey-text text-lighten-4"><b>© Ministerio de las Culturas, las Artes y el Patrimonio</b></p>
+                        <p class="grey-text text-lighten-4"><b>Dirección y coordinación del proyecto:</b> Alejandra Claro Eyzaguirre</p>
+                        <p class="grey-text text-lighten-4"><b>Desarrollo de propuesta didáctica, guion de interacción y contenidos:</b> Alex Meza Cárdenas</p>
+                        <p class="grey-text text-lighten-4"><b>Edición de textos y apoyo al desarrollo de contenidos:</b> Patricio González Ríos</p>
+                        <p class="grey-text text-lighten-4"><b>Desarrollo informático:</b> Horacio Valdés Galaz</p>
+                        <p class="grey-text text-lighten-4"><b>Diseño gráfico:</b> María de los Ángeles Vargas Torres</p>
+                        <br/>
                     </div>
                 </div>
             </div>

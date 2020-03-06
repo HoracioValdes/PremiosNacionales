@@ -308,7 +308,7 @@
 
                                                     if (array[0].VALOR != 0) {
                                                         document.getElementById("dado").hidden = true;
-                                                        document.getElementById("dadoDos").style.height = "150px";
+                                                        document.getElementById("dadoDos").style.height = "90px";
 
                                                         document.getElementById("eleccionSubcategoria").hidden = true;
 
@@ -328,7 +328,7 @@
                                     } else if (numero_equipo == 1 || numero_equipo == 3 || numero_equipo == 5) {
 
                                         document.getElementById("dado").hidden = true;
-                                        document.getElementById("dadoDos").style.height = "150px";
+                                        document.getElementById("dadoDos").style.height = "90px";
 
                                         document.getElementById("eleccionTerritorio").hidden = true;
 
@@ -375,7 +375,7 @@
                 <div class="col s10 offset-s1">
                     <div id="eleccionTerritorio" hidden="true;">
                         <p class="center" style="color: #FFFFFF;"><b>Selección de Categoría</b></p>
-                        <ol style="text-align: center; color: #FFFFFF;">
+                        <ol style="text-align: left; color: #FFFFFF;">
                             <li class="collection-item">Premio Nacional de Literatura</li>
                             <li class="collection-item">Premios Nacionales de la Representación y Audiovisuales</li>
                             <li class="collection-item">Premio Nacional de Artes Musicales</li>
@@ -469,11 +469,11 @@
             <!-- Modal Structure -->
             <div id="modal2" class="modal dismissible">
                 <div class="modal-content">
-                    <p id="nombreArtista" style="color: #3b6e80;">.</p>
-                    <p id="premioArtista" style="color: #3b6e80;">.</p>
-                    <p id="biografiaArtista" style="color: #3b6e80;">.</p>
-                    <p style="font-size: 30px; color: #3b6e80;"><b>Desafío</b></p>
-                    <p id="desafioArtista" style="font-size: 30px; color: #3b6e80;">.</p>
+                    <p id="nombreArtista" style="color: #3b6e80; font-size: 24px;"><b>.</b></p>
+                    <p id="premioArtista" style="color: #3b6e80; font-size: 22px;">.</p>
+                    <p id="biografiaArtista" style="color: #3b6e80; font-size: 20px;">.</p>
+                    <p style="font-size: 20px; color: #3b6e80;"><b>Desafío</b></p>
+                    <p id="desafioArtista" style="font-size: 20px; color: #3b6e80;">.</p>
                     <div id="enlaces">
                     </div>
                     <p style="color: #3b6e80;"><b>Respuesta de Equipo</b></p>
@@ -494,13 +494,15 @@
             <div id="modal3" class="modal dismissible">
                 <div class="modal-content">
 
-                    <h4 align="center" id="tituloRespuesta" style="margin-bottom: 30px; color: #1a237e;"></h4>
+                    <h4 align="center" id="tituloRespuesta" style="margin-bottom: 30px; color: #3b6e80;"></h4>
 
-                    <p id="nombreArtistaDesafio" style="color: #3b6e80;">.</p>
+                    <p id="nombreArtistaDesafio" style="color: #3b6e80; font-size: 18px;"><b>.</b></p>
+                    <br/>
                     <!--<p><b>Desafío</b></p>
                     <p id="desafioPregunta">.</p>-->
-                    <p style="color: #3b6e80;"><b>Respuesta</b></p>
-                    <p id="respuestaPregunta" style="color: #3b6e80;">.</p>
+                    <p style="color: #3b6e80; font-size: 16px;"><b>Respuesta</b></p>
+                    <p id="respuestaPregunta" style="color: #3b6e80; font-size: 16;"></p>
+                    <br/>
                     <p style="color: #3b6e80;"><b>Calificación</b></p>
 
                     <form>
