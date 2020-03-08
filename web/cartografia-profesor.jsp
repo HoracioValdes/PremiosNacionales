@@ -1473,13 +1473,13 @@
             function cargarMapa(premio) {
                 // console.log(posicion);
                 if (premio === 4) {
-                    document.getElementById("myDiv").style.backgroundPosition = "right 65%";
+                    document.getElementById("myDiv").style.backgroundPosition = "right 56%";
                 } else if (premio === 3) {
-                    document.getElementById("myDiv").style.backgroundPosition = "left 65%";
+                    document.getElementById("myDiv").style.backgroundPosition = "left 56%";
                 } else if (premio === 2) {
                     document.getElementById("myDiv").style.backgroundPosition = "right top";
                 } else if (premio == 1) {
-                    document.getElementById("myDiv").style.backgroundPosition = "center 20%";
+                    document.getElementById("myDiv").style.backgroundPosition = "center 28%";
                 }
             }
 
